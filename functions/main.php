@@ -5,6 +5,14 @@ function loadConfig($file){
 	return $conf;
 }
 
+function loadLang($Conf){
+	$file = 'config'.DIRECTORY_SEPARATOR.'lang_' . $Conf['defaultLang'] . '.php';
+	
+	
+	$lang = include_once ($file);
+	return $lang;
+}
+
 function parseQueryUrl($queryString){
 	if(!empty($queryString)){
 		$queryString = urldecode($queryString);
