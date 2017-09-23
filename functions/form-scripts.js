@@ -24,6 +24,7 @@ function submitForm(){
     var passw = $("#password").val();
 	var uri1 = $("#uri1").val();
 	var uri2 = $("#uri2").val();
+	
     //var message = $("#message").val();
     $.ajax({
         type: "POST",
@@ -32,7 +33,7 @@ function submitForm(){
         success : function(text){
             if (text == "success"){
                 formSuccess();
-				setTimeout('window.location.href = "/' + uri1 + '/' + uri2 + '/";', 1500);
+				setTimeout('window.location.href = "/' + uri1 + '/' + uri2 + '/";', 1000);
             } else {
                 formError();
                 submitMSG(false,text);

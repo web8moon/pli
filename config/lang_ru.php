@@ -13,4 +13,7 @@ return [
 	'siteLoginTitle' => 'Авторизация на Parts-Link',
 	'siteLoginCloseBtn' => 'Закрыть',
 	'siteLoginLoginBtn' => 'Войти',
+	'siteLoginNameLbl' => 'Логин',
+	'siteLoginPasswLbl' => 'Пароль',
+	
 ];

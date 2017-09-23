@@ -1,6 +1,8 @@
 <?php
 //if (isset($_REQUEST[session_name()])) session_start();
-var_dump($allowLanguages);
+
+if (isset($allowLanguages) and is_array($allowLanguages)) {
+
 ?>
 <!DOCTYPE HTML>
 <html lang="ru-RU">
@@ -23,26 +25,24 @@ var_dump($allowLanguages);
             <nav>
 			<div class="btn-group">
                 <ul class="nav nav-tabs">
-                    <li><a href="<?php echo isset($aboutLink)?'/'.$aboutLink.'/':'/'; echo isset($defaultLang)?$defaultLang:'/';?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a></li>
+                    <li><a href="<?php echo isset($aboutLink)?'/'.$aboutLink.'/':'/'; echo isset($currentLang)?$currentLang:'/';?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a></li>
                     <li><a href=""><?php echo isset($siteMenuContact) ? $siteMenuContact : ''; ?></a></li>
 					<?php if (isset($_SESSION['start'])) { ?>
-						<li><a href="/logout/<?php echo isset($defaultLang)?$defaultLang:'/';?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a></li>
+						<li><a href="/logout/<?php echo isset($currentLang)?$currentLang:'/';?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a></li>
 					<?php } else { ?>
-                    <li><a href="<?php echo isset($loginLink)?'/'.$loginLink.'/':'/'; echo isset($defaultLang)?$defaultLang:'/';?>">Войти</a></li>
+                    <li><a href="<?php echo isset($loginLink)?'/'.$loginLink.'/':'/'; echo isset($currentLang)?$currentLang:'/';?>">Войти</a></li>
 					<li><a href="" class="loginbtn" data-toggle="modal"><?php echo isset($siteMenuLogin) ? $siteMenuLogin : ''; ?></a></li>
 					<?php } ?>
                 
 				
 					
 					<li class="dropdown open">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo isset($defaultLang)?$defaultLang:''; ?> <span class="caret"></span></a>
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo isset($currentLang)?$currentLang:''; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
 							<?php
-							if (is_array($allowLanguages)) {
-								sort($allowLanguages);
-								foreach( $allowLanguages as $l ) {
-									echo '<li><a href="#"> ' . $l . ' </a></li>';
-								}
+							sort($allowLanguages);
+							foreach( $allowLanguages as $l ) {
+								echo '<li><a href="/' . $currentAction . '/' . $l . '"> ' . $l . ' </a></li>';
 							}
 							?>
       
@@ -94,18 +94,18 @@ var_dump($allowLanguages);
 <form role="form" id="contactForm" data-toggle="validator" class="shake">
         <div class="row">
             <div class="form-group col-sm-6">
-                <label for="name" class="h4">Name</label>
+                <label for="name" class="h4"><?php echo $siteLoginNameLbl; ?></label>
                 <input type="text" class="form-control" id="name" placeholder="Enter name" required data-error="NEW ERROR MESSAGE">
                 <div class="help-block with-errors"></div>
             </div>
             <div class="form-group col-sm-6">
-                <label for="email" class="h4">Email</label>
+                <label for="password" class="h4"><?php echo $siteLoginPasswLbl; ?></label>
                 <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
                 <div class="help-block with-errors"></div>
             </div>
         </div>
-		<input type="hidden" id="uri1" value="<?php echo $defaultAction; ?>">
-		<input type="hidden" id="uri2" value="<?php echo $defaultLang; ?>">
+		<input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
+		<input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
         <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right "><?php echo isset($siteLoginLoginBtn) ? $siteLoginLoginBtn : ''; ?></button>
         <div id="msgSubmit" class="h3 text-center hidden"></div>
         <div class="clearfix"></div>
@@ -127,3 +127,5 @@ var_dump($allowLanguages);
 <script type="text/javascript" src="../functions/form-scripts.js"></script>
 
 </html>
+<?php
+}

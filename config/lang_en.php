@@ -13,4 +13,6 @@ return [
 	'siteLoginTitle' => 'Parts-Link Authorization',
 	'siteLoginCloseBtn' => 'Dismiss',
 	'siteLoginLoginBtn' => 'Login',
+	'siteLoginNameLbl' => 'Your login',
+	'siteLoginPasswLbl' => 'Your password',
 ];
