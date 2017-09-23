@@ -23,7 +23,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
         <div class="container">
             <a href="/" class="logo"><?php echo isset($siteLogo) ? $siteLogo : ''; ?></a>
             <nav>
-			<div class="btn-group">
+
                 <ul class="nav nav-tabs">
                     <li><a href="<?php echo isset($aboutLink)?'/'.$aboutLink.'/':'/'; echo isset($currentLang)?$currentLang:'/';?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a></li>
                     <li><a href=""><?php echo isset($siteMenuContact) ? $siteMenuContact : ''; ?></a></li>
@@ -31,11 +31,11 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 						<li><a href="/logout/<?php echo isset($currentLang)?$currentLang:'/';?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a></li>
 					<?php } else { ?>
                     <li><a href="<?php echo isset($loginLink)?'/'.$loginLink.'/':'/'; echo isset($currentLang)?$currentLang:'/';?>">Войти</a></li>
-					<li><a href="" class="loginbtn" data-toggle="modal"><?php echo isset($siteMenuLogin) ? $siteMenuLogin : ''; ?></a></li>
+					<li><a href="" id="loginbtn" data-toggle="modal"><?php echo isset($siteMenuLogin) ? $siteMenuLogin : ''; ?></a></li>
 					<?php } ?>
-                
-				
-					
+
+
+                    <div class="btn-group btn-toolbar">
 					<li class="dropdown open">
 						<a class="dropdown-toggle" data-toggle="dropdown" href="#"><?php echo isset($currentLang)?$currentLang:''; ?> <span class="caret"></span></a>
 						<ul class="dropdown-menu" role="menu">
@@ -48,11 +48,11 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
       
 						</ul>
 					</li>
-						
+                    </div>
 				</ul>
 					
 
-			</div>	
+
             </nav>
         </div>
     </header>
@@ -106,7 +106,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
         </div>
 		<input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
 		<input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
-        <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right "><?php echo isset($siteLoginLoginBtn) ? $siteLoginLoginBtn : ''; ?></button>
+        <button type="submit" id="form-submit" class="btn btn-success btn-lg pull-right "><?php echo isset($siteLoginLoginBtn) ? $siteLoginLoginBtn : 'Login'; ?></button>
         <div id="msgSubmit" class="h3 text-center hidden"></div>
         <div class="clearfix"></div>
     </form>
@@ -114,7 +114,8 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
       </div>
       <!-- Футер модального окна -->
       <div class="modal-footer">
-		<button type="button" class="btn btn-default" data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : ''; ?></button>
+		<button type="button" class="btn" data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
+        <button type="button" class="btn btn-success" id="registerme"><?php echo isset($siteLoginRegisterBtn) ? $siteLoginRegisterBtn : 'Register'; ?></button>
       </div>
     </div>
   </div>

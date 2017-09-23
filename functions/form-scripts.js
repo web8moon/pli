@@ -1,7 +1,11 @@
 $(document).ready(function(){
-  $(".loginbtn").click(function() {
+  $("#loginbtn").click(function() {
 	//открыть модальное окно с id="myModal"
 	$("#loginModal").modal('show');
+  });
+
+  $("#registerme").click(function () {
+      alert("Reg");
   });
 });
 
@@ -33,7 +37,7 @@ function submitForm(){
         success : function(text){
             if (text == "success"){
                 formSuccess();
-				setTimeout('window.location.href = "/' + uri1 + '/' + uri2 + '/";', 1000);
+				void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
             } else {
                 formError();
                 submitMSG(false,text);

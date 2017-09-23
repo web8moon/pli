@@ -12,7 +12,7 @@ function loadLang($Conf){
 		$lang = include_once ($file);
 	} else {
 		$file = 'config'.DIRECTORY_SEPARATOR.'lang_' . $Conf['defaultLang'] . '.php';
-		$lang = include_once ($file);
+        if(file_exists($file)) $lang = include_once ($file);
 	}
 	
 	return $lang;

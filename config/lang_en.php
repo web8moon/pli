@@ -15,4 +15,5 @@ return [
 	'siteLoginLoginBtn' => 'Login',
 	'siteLoginNameLbl' => 'Your login',
 	'siteLoginPasswLbl' => 'Your password',
+    'siteLoginRegisterBtn' => 'I have no accaunt yet, register me!',
 ];

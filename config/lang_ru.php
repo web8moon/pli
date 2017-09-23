@@ -15,5 +15,5 @@ return [
 	'siteLoginLoginBtn' => 'Войти',
 	'siteLoginNameLbl' => 'Логин',
 	'siteLoginPasswLbl' => 'Пароль',
-	
+    'siteLoginRegisterBtn' => 'У меня еще нет акаунта, зарегистрируте',
 ];
