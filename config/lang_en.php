@@ -13,7 +13,12 @@ return [
 	'siteLoginTitle' => 'Parts-Link Authorization',
 	'siteLoginCloseBtn' => 'Dismiss',
 	'siteLoginLoginBtn' => 'Login',
-	'siteLoginNameLbl' => 'Your login',
+	'siteLoginNameLbl' => 'Your email',
 	'siteLoginPasswLbl' => 'Your password',
     'siteLoginRegisterBtn' => 'I have no accaunt yet, register me!',
+
+    // Модальная форма Регистрации
+    'siteRegisterTitle' => 'Register at Parts-Link',
+    'siteRegisterRegisterBtn' => 'Register',
+    'siteRegisterLoginBtn' => 'I have accaunt. Login!',
 ];

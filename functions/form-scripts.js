@@ -5,11 +5,19 @@ $(document).ready(function(){
   });
 
   $("#registerme").click(function () {
-      alert("Reg");
+      $("#loginForm")[0].reset();
+      $("#loginModal").modal('hide');
+      $("#registerModal").modal('show');
   });
+
+    $("#loginme").click(function () {
+        $("#registerForm")[0].reset();
+        $("#registerModal").modal('hide');
+        $("#loginModal").modal('show');
+    });
 });
 
-$("#contactForm").validator().on("submit", function (event) {
+$("#loginForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
         //formError();
@@ -17,12 +25,24 @@ $("#contactForm").validator().on("submit", function (event) {
     } else {
         // everything looks good!
         event.preventDefault();
-        submitForm();
+        submitLoginForm();
     }
 });
 
 
-function submitForm(){
+$("#registerForm").validator().on("submit", function (event) {
+    if (event.isDefaultPrevented()) {
+        // handle the invalid form...
+        //formError();
+        submitMSG(false, "Did you fill in the form properly?");
+    } else {
+        // everything looks good!
+        event.preventDefault();
+        submitRegForm();
+    }
+});
+
+function submitLoginForm(){
     // Initiate Variables With Form Content
     var name = $("#name").val();
     var passw = $("#password").val();
@@ -36,7 +56,7 @@ function submitForm(){
         data: "name=" + name + "&passw=" + passw,
         success : function(text){
             if (text == "success"){
-                formSuccess();
+                loginFormSuccess();
 				void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
             } else {
                 formError();
@@ -46,13 +66,42 @@ function submitForm(){
     });
 }
 
-function formSuccess(){
-    $("#contactForm")[0].reset();
+function submitRegForm(){
+    // Initiate Variables With Form Content
+    var name = $("#regname").val();
+    var passw = $("#regpassword").val();
+    var uri1 = $("#uri1").val();
+    var uri2 = $("#uri2").val();
+
+    //var message = $("#message").val();
+    $.ajax({
+        type: "POST",
+        url: "/functions/register-process.php",
+        data: "name=" + name + "&passw=" + passw,
+        success : function(text){
+            if (text == "success"){
+                regFormSuccess();
+                void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+            } else {
+                formError();
+                submitMSG(false,text);
+            }
+        }
+    });
+}
+
+function loginFormSuccess(){
+    $("#loginForm")[0].reset();
+    submitMSG(true, "Message Submitted!")
+}
+
+function regFormSuccess(){
+    $("#registerForm")[0].reset();
     submitMSG(true, "Message Submitted!")
 }
 
 function formError(){
-    //$("#contactForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+    //$("#loginForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
     //    $(this).removeClass();
     //});
 }
@@ -64,4 +113,5 @@ function submitMSG(valid, msg){
         var msgClasses = "h3 text-center text-danger";
     }
     $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
+    $("#regSubmit").removeClass().addClass(msgClasses).text(msg);
 }

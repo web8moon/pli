@@ -13,7 +13,12 @@ return [
 	'siteLoginTitle' => 'Авторизация на Parts-Link',
 	'siteLoginCloseBtn' => 'Закрыть',
 	'siteLoginLoginBtn' => 'Войти',
-	'siteLoginNameLbl' => 'Логин',
+	'siteLoginNameLbl' => 'Е-мейл',
 	'siteLoginPasswLbl' => 'Пароль',
-    'siteLoginRegisterBtn' => 'У меня еще нет акаунта, зарегистрируте',
+    'siteLoginRegisterBtn' => 'У меня еще нет акаунта, зарегистрируйте!',
+
+    // Модальная форма Регистрации
+    'siteRegisterTitle' => 'Быстрая регисрация в Parts-Link',
+    'siteRegisterRegisterBtn' => 'Зарегистрироваться',
+    'siteRegisterLoginBtn' => 'У меня есть акаунт. Войти!',
 ];

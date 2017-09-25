@@ -4,7 +4,7 @@ $errorMSG = "";
 
 // NAME
 if (empty($_POST["name"])) {
-    $errorMSG = "Name is required ";
+    $errorMSG = "Login is required ";
 } else {
     $name = $_POST["name"];
 }
@@ -55,5 +55,3 @@ if ($success && $errorMSG == ""){
         echo $errorMSG;
     }
 }
-
-?>
