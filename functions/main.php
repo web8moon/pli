@@ -52,4 +52,8 @@ function controler($conf) {
 		$path = $conf['defaultAction'] . '/' . $conf['currentLang'];
 		header('Location: /' . $path);
 	}
+
+    if ($conf['currentAction'] == 'register') {
+        echo 'Hi!';
+    }
 }

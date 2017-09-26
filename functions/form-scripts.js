@@ -76,7 +76,7 @@ function submitRegForm(){
     //var message = $("#message").val();
     $.ajax({
         type: "POST",
-        url: "/functions/register-process.php",
+        url: "/register/" + uri2,
         data: "name=" + name + "&passw=" + passw,
         success : function(text){
             if (text == "success"){
