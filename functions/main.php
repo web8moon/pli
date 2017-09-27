@@ -46,6 +46,8 @@ function setLang($oldLang, $newLang, $allowLang){
 }
 
 function controler($conf) {
+
+// LOGOUT
 	if ($conf['currentAction'] == 'logout') {
 		$_SESSION = array();
 		session_destroy();
@@ -53,10 +55,10 @@ function controler($conf) {
 		header('Location: /' . $path);
 	}
 
+// REGISTER
     if ($conf['currentAction'] == 'register') {
-        
-		$success = true;
-		$errorMSG = 'Data connection Error 1';
+		$success = false;
+		$errorMSG = 'Data connection Error';
 		if (is_array($conf)) {
 			$link = mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname']);
 			if ($link) {
@@ -75,13 +77,20 @@ function controler($conf) {
 				}
 
 				if ($errorMSG == ''){
-					$select = 'SELECT UserEmail from users WHERE `UserEmail` like `' .  mysqli_real_escape_string ($link, $name) . '` LIMIT 1';
-					if ($result = mysqli_query($link, $select)){
-						if (mysqli_num_rows($result) > 0) {
-							$errorMSG .= 'Entered Email is already registred';
-							mysqli_free_result($result);
-						}
-					}
+					$select = 'SELECT `UserEmail` FROM `users` WHERE `UserEmail` like \'' .  mysqli_real_escape_string ($link, $name) . '\' LIMIT 1';
+					if($result = mysqli_query($link, $select)) {
+                        if (mysqli_num_rows($result) > 0) {
+                            $errorMSG .= 'Entered Email is already registred';
+                        } else {
+                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' .  mysqli_real_escape_string ($link, $name) . '\', `UserPsw`=\'' . mysqli_real_escape_string ($link, $password) . '\', `Active`=0 ';
+                            if (mysqli_query($link, $select)) {
+                                $success = true;
+                            } else {
+                                $errorMSG .= 'Error adding new user';
+                            }
+                        }
+                        mysqli_free_result($result);
+                    }
 				}
 
 				mysqli_close($link);
@@ -92,17 +101,17 @@ function controler($conf) {
 		// redirect to success page
 		if ($success && $errorMSG == '') {
 			//session_start();
-			$_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']);
+			//$_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']);
 			echo "success";
 		} else {
-			if ($errorMSG == "") {
-			echo "Something went wrong :(";
+			if ($errorMSG == '') {
+			echo 'Something went wrong :(';
 			} else {
 				echo $errorMSG;
 			}
 		}
 		
-		
+
 		
 		
 		
