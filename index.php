@@ -17,8 +17,9 @@ $Lang = loadLang($Conf);
 
 if (isset($QueqryUrl[0]) and (strlen($QueqryUrl[0]) > 1 and strlen($QueqryUrl[0]) < 30)) $Conf['currentAction'] = $QueqryUrl[0];
 
-if (isset($Conf['currentAction'])) controler($Conf);
+controler($Conf);
 
+/*
 echo 'CONF:';
 var_dump($Conf);
 echo '<br>';
@@ -30,4 +31,7 @@ echo '<br>';
 echo 'QUEQRY:';
 var_dump($QueqryUrl);
 echo '<br>';
-print render('views/newTemplate.php', ($Conf+$Lang));
+*/
+if($Conf['currentAction'] != 'login' and $Conf['currentAction'] != 'register'){
+	print render('views/newTemplate.php', ($Conf+$Lang));
+}
