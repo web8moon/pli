@@ -1,20 +1,30 @@
 $(document).ready(function(){
   $("#loginbtn").click(function() {
-	//открыть модальное окно с id="myModal"
+	$("#loginForm")[0].reset();
+	$("#registerForm")[0].reset();
+    $("#msgSubmit").text('');
+	$("#regSubmit").text('');
 	$("#loginModal").modal('show');
   });
 
   $("#registerme").click(function () {
-      $("#loginForm")[0].reset();
+      $("#registerForm")[0].reset();
+	  $("#loginForm")[0].reset();
       $("#loginModal").modal('hide');
-      $("#registerModal").modal('show');
+      $("#msgSubmit").text('');
+	  $("#regSubmit").text('');
+	  $("#registerModal").modal('show');
   });
 
     $("#loginme").click(function () {
         $("#registerForm")[0].reset();
-        $("#registerModal").modal('hide');
+        $("#loginForm")[0].reset();
+		$("#registerModal").modal('hide');
+		$("#msgSubmit").text('');
+		$("#regSubmit").text('');
         $("#loginModal").modal('show');
     });
+	
 });
 
 $("#loginForm").validator().on("submit", function (event) {
@@ -33,7 +43,7 @@ $("#loginForm").validator().on("submit", function (event) {
 $("#registerForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
-        //formError();
+        formError();
         submitMSG(false, "Did you fill in the form properly?");
     } else {
         // everything looks good!
@@ -48,7 +58,6 @@ function submitLoginForm(){
     var passw = $("#password").val();
 	var uri1 = $("#uri1").val();
 	var uri2 = $("#uri2").val();
-	
     //var message = $("#message").val();
     $.ajax({
         type: "POST",
@@ -72,8 +81,6 @@ function submitRegForm(){
     var passw = $("#regpassword").val();
     var uri1 = $("#uri1").val();
     var uri2 = $("#uri2").val();
-
-    //var message = $("#message").val();
     $.ajax({
         type: "POST",
         url: "/register/" + uri2,
@@ -97,13 +104,17 @@ function loginFormSuccess(){
 
 function regFormSuccess(){
     $("#registerForm")[0].reset();
-    submitMSG(true, "Message Submitted!")
+    submitMSG(true, "Ok!")
 }
 
 function formError(){
-    //$("#loginForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
-    //    $(this).removeClass();
-    //});
+    $("#loginForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+        $(this).removeClass();
+    });
+	
+	$("#registerForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+        $(this).removeClass();
+    });
 }
 
 function submitMSG(valid, msg){

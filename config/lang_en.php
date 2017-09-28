@@ -20,5 +20,13 @@ return [
     // Модальная форма Регистрации
     'siteRegisterTitle' => 'Register at Parts-Link',
     'siteRegisterRegisterBtn' => 'Register',
-    'siteRegisterLoginBtn' => 'I have accaunt. Login!',
+    'siteRegisterLoginBtn' => 'I have an accaunt. Login me!',
+	'siteRegisterConnErr' => 'Data connection Error',
+	'siteRegisterLoginErr' => 'Email is needed for further logins by you',
+	'siteRegisterPasswErr' => 'Password is required',
+	'siteRegisterDublicateErr' => 'Entered Email is already registred by smb.',
+	'siteRegisterAddErr' => 'Error adding new user',
+	'siteRegisterWrongErr' => 'Something went wrong :(',
+	'siteRegisterLoginPlace' => 'Enter your registration email here',
+	'siteRegisterPasswPlace' => 'Enter your password',
 ];

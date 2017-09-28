@@ -13,7 +13,8 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
         <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
         <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
+		
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"
                 integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4"
                 crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
@@ -97,7 +98,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
 
     <?php if (!isset($_SESSION['start'])) { ?>
-        <!-- Логин -->
+<!-- Логин -->
         <div id="loginModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -138,14 +139,14 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                     <div class="modal-footer">
                         <button type="button" class="btn"
                                 data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
-                        <button type="button" class="btn btn-success"
+                        <button type="button" class="btn btn-warning"
                                 id="registerme"><?php echo isset($siteLoginRegisterBtn) ? $siteLoginRegisterBtn : 'Register'; ?></button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Регистрация -->
+<!-- Регистрация -->
         <div id="registerModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -162,14 +163,14 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label for="regname" class="h4"><?php echo $siteLoginNameLbl; ?></label>
-                                    <input type="email" class="form-control" id="regname" placeholder="Enter your email"
-                                           required data-error="NEW ERROR MESSAGE">
+                                    <input type="email" class="form-control" id="regname" placeholder="<?php echo isset($siteRegisterLoginPlace) ? $siteRegisterLoginPlace : ''; ?>"
+                                           required data-error="<?php echo isset($siteRegisterLoginErr) ? $siteRegisterLoginErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="regpassword" class="h4"><?php echo $siteLoginPasswLbl; ?></label>
                                     <input type="password" class="form-control" id="regpassword"
-                                           placeholder="Enter your password" required>
+                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -186,7 +187,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                     <div class="modal-footer">
                         <button type="button" class="btn"
                                 data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
-                        <button type="button" class="btn btn-success"
+                        <button type="button" class="btn btn-info"
                                 id="loginme"><?php echo isset($siteRegisterLoginBtn) ? $siteRegisterLoginBtn : 'Login'; ?></button>
                     </div>
                 </div>
@@ -199,6 +200,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
     <script type="text/javascript" src="../functions/validator.min.js"></script>
     <script type="text/javascript" src="../functions/form-scripts.js"></script>
+	
 
     </html>
     <?php

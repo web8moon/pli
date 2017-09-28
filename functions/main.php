@@ -24,7 +24,7 @@ function parseQueryUrl($queryString){
 		$query_params = explode("/",$queryString);
 		foreach ($query_params as $query_param)
 		if ($query_param != "")
-			$query[] = $query_param;
+			$query[] = strtolower($query_param);
 		return $query;
 	}
 }
@@ -45,7 +45,7 @@ function setLang($oldLang, $newLang, $allowLang){
     }
 }
 
-function controler($conf) {
+function controler($conf, $lang) {
 
 // LOGOUT
 	if ($conf['currentAction'] == 'logout') {
@@ -58,35 +58,35 @@ function controler($conf) {
 // REGISTER
     if ($conf['currentAction'] == 'register') {
 		$success = false;
-		$errorMSG = 'Data connection Error';
+		$errorMSG = $lang['siteRegisterConnErr'];
 		if (is_array($conf)) {
 			$link = mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname']);
 			if ($link) {
 				$errorMSG = '';
 				// NAME
 				if (empty($_POST["name"])) {
-					$errorMSG = 'Login is required ';
+					$errorMSG = $lang['siteRegisterLoginErr'];
 				} else {
-					$name = $_POST["name"];
+					$name = mysqli_real_escape_string ($link, $_POST["name"]);
 				}
 				// EMAIL
 				if (empty($_POST["passw"])) {
-					$errorMSG .= 'Password is required ';
+					$errorMSG .= $lang['siteRegisterPasswErr'];
 				} else {
-					$password = $_POST["passw"];
+					$password = mysqli_real_escape_string ($link, $_POST["passw"]);
 				}
 
 				if ($errorMSG == ''){
-					$select = 'SELECT `UserEmail` FROM `users` WHERE `UserEmail` like \'' .  mysqli_real_escape_string ($link, $name) . '\' LIMIT 1';
+					$select = 'SELECT `UserEmail` FROM `users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
 					if($result = mysqli_query($link, $select)) {
                         if (mysqli_num_rows($result) > 0) {
-                            $errorMSG .= 'Entered Email is already registred';
+                            $errorMSG .= $lang['siteRegisterDublicateErr'];
                         } else {
-                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' .  mysqli_real_escape_string ($link, $name) . '\', `UserPsw`=\'' . mysqli_real_escape_string ($link, $password) . '\', `Active`=0 ';
+                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . md5($password) . '\', `Active`=0 ';
                             if (mysqli_query($link, $select)) {
                                 $success = true;
                             } else {
-                                $errorMSG .= 'Error adding new user';
+                                $errorMSG .= $lang['siteRegisterAddErr'];
                             }
                         }
                         mysqli_free_result($result);
@@ -97,27 +97,26 @@ function controler($conf) {
 			}
 		}
 
-
 		// redirect to success page
 		if ($success && $errorMSG == '') {
-			//session_start();
-			//$_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']);
 			echo "success";
 		} else {
 			if ($errorMSG == '') {
-			echo 'Something went wrong :(';
+			echo $lang['siteRegisterWrongErr'];
 			} else {
 				echo $errorMSG;
 			}
 		}
 		
 
-		
-		
-		
-		
-		
-		
-		
     }
+	
+	
+	
+	
+// LOGIN
+    if ($conf['currentAction'] == 'login') {
+		$success = false;
+		
+	}
 }

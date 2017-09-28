@@ -17,7 +17,7 @@ $Lang = loadLang($Conf);
 
 if (isset($QueqryUrl[0]) and (strlen($QueqryUrl[0]) > 1 and strlen($QueqryUrl[0]) < 30)) $Conf['currentAction'] = $QueqryUrl[0];
 
-controler($Conf);
+controler($Conf, $Lang);
 
 /*
 echo 'CONF:';
