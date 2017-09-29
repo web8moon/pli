@@ -46,7 +46,7 @@ $errorMSG = "";
 // redirect to success page
 if ($success && $errorMSG == ""){
    session_start();
-   $_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']);
+   $_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']+date("z"));
    echo "success";
 }else{
     if($errorMSG == ""){

@@ -15,6 +15,7 @@ return [
 	'siteLoginLoginBtn' => 'Login',
 	'siteLoginNameLbl' => 'Your email',
 	'siteLoginPasswLbl' => 'Your password',
+	'siteLoginPassw2Lbl' => 'Repeate your password',
     'siteLoginRegisterBtn' => 'I have no accaunt yet, register me!',
 
     // Модальная форма Регистрации
@@ -29,4 +30,5 @@ return [
 	'siteRegisterWrongErr' => 'Something went wrong :(',
 	'siteRegisterLoginPlace' => 'Enter your registration email here',
 	'siteRegisterPasswPlace' => 'Enter your password',
+	'siteRegisterPassw2Err' => 'Passwords are different',
 ];

@@ -45,6 +45,10 @@ function setLang($oldLang, $newLang, $allowLang){
     }
 }
 
+function startUserSession(){
+	$_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']+date("z"));
+}
+
 function controler($conf, $lang) {
 
 // LOGOUT
@@ -63,17 +67,21 @@ function controler($conf, $lang) {
 			$link = mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname']);
 			if ($link) {
 				$errorMSG = '';
-				// NAME
+				// EMAIL
 				if (empty($_POST["name"])) {
 					$errorMSG = $lang['siteRegisterLoginErr'];
 				} else {
 					$name = mysqli_real_escape_string ($link, $_POST["name"]);
 				}
-				// EMAIL
-				if (empty($_POST["passw"])) {
+				// PASWORD
+				if (empty($_POST["passw"]) or empty($_POST["passw2"])) {
 					$errorMSG .= $lang['siteRegisterPasswErr'];
 				} else {
-					$password = mysqli_real_escape_string ($link, $_POST["passw"]);
+					if($_POST["passw"] == $_POST["passw2"]) {
+						$password = mysqli_real_escape_string ($link, $_POST["passw"]);
+					} else {
+						$errorMSG .= $lang['siteRegisterPassw2Err'];
+					}
 				}
 
 				if ($errorMSG == ''){
@@ -82,7 +90,7 @@ function controler($conf, $lang) {
                         if (mysqli_num_rows($result) > 0) {
                             $errorMSG .= $lang['siteRegisterDublicateErr'];
                         } else {
-                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . md5($password) . '\', `Active`=0 ';
+                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . md5($password) . '\', `Active`=0, `UserPlan`=1';
                             if (mysqli_query($link, $select)) {
                                 $success = true;
                             } else {
@@ -99,6 +107,7 @@ function controler($conf, $lang) {
 
 		// redirect to success page
 		if ($success && $errorMSG == '') {
+			startUserSession();
 			echo "success";
 		} else {
 			if ($errorMSG == '') {

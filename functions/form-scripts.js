@@ -79,12 +79,14 @@ function submitRegForm(){
     // Initiate Variables With Form Content
     var name = $("#regname").val();
     var passw = $("#regpassword").val();
-    var uri1 = $("#uri1").val();
+	var passw2 = $("#regpassword2").val();
+    // var uri1 = $("#uri1").val();
+	var uri1 = "user";
     var uri2 = $("#uri2").val();
     $.ajax({
         type: "POST",
         url: "/register/" + uri2,
-        data: "name=" + name + "&passw=" + passw,
+        data: "name=" + name + "&passw=" + passw + "&passw2=" + passw2,
         success : function(text){
             if (text == "success"){
                 regFormSuccess();
