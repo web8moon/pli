@@ -1,70 +1,89 @@
 <?php
 //if (isset($_REQUEST[session_name()])) session_start();
-
 if (isset($allowLanguages) and is_array($allowLanguages)) {
-
-    ?>
+?>
     <!DOCTYPE HTML>
     <html lang="ru-RU">
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
-        <link rel="stylesheet" href="/views/baseCSS.css">
 
-        <!-- <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script> -->
-        <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
-		
-		<script src="../functions/popper.min.js" type="text/javascript"></script>
         <link rel="stylesheet" href="/views/bootstrap.min.css">
+
+        <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+		<script type="text/javascript" src="../functions/popper.min.js" ></script>
         <script type="text/javascript" src="../functions/bootstrap.min.js"></script>
 
     </head>
     <body>
     <header>
+        <!-- <div class="container"> -->
+           <!--  <a href="/" class="logo"><?php //echo isset($siteLogo) ? $siteLogo : ''; ?></a> -->
         <div class="container">
-            <a href="/" class="logo"><?php echo isset($siteLogo) ? $siteLogo : ''; ?></a>
-            <nav>
+        <nav class="navbar navbar-toggleable-md navbar-light">
 
-                <ul class="nav nav-tabs">
-                    <li><a href="<?php echo isset($aboutLink) ? '/' . $aboutLink . '/' : '/';
+
+                    <div class="navbar-header">
+                    <a class="navbar-brand" href="/"><?php echo isset($siteLogo) ? $siteLogo : ''; ?></a>
+                    </div>
+            <!-- <div class="nav justify-content-end"> -->
+                <div class="nav justify-content-end text-right">
+                    <li class="nav-item"><a class="nav-link" href="<?php echo isset($aboutLink) ? '/' . $aboutLink . '/' : '/';
                         echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a>
                     </li>
-                    <li><a href="<?php echo isset($siteMenuContact) ? '/' . $siteMenuContact . '/' : '/';
+                    <li class="nav-item"><a class="nav-link" href="<?php echo isset($siteMenuContact) ? '/' . $siteMenuContact . '/' : '/';
                         echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuContact) ? $siteMenuContact : ''; ?></a>
                     </li>
                     <?php if (isset($_SESSION['start'])) { ?>
-                        <li>
-                            <a href="/logout/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a>
-                        </li>
+
+
+
+
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                                   href="#"><?php echo isset($siteMenuUser) ? $siteMenuUser : 'User'; ?> </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                    <?php
+                                    echo '<a class="dropdown-item" href="/' . $profileLink . '/' . $currentLang . '"> ' . $siteTabProfile . ' </a>';
+                                    ?>
+                                    <a class="dropdown-item" href="/logout/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a>
+                                </div>
+                            </li>
                     <?php } else { ?>
-                        <li><a href="<?php echo isset($loginLink) ? '/' . $loginLink . '/' : '/';
-                            echo isset($currentLang) ? $currentLang : '/'; ?>">Войти</a></li>
-                        <li><a href="" id="loginbtn"
+
+                        <li class="nav-item"><a class="nav-link" href="" id="loginbtn"
                                data-toggle="modal"><?php echo isset($siteMenuLogin) ? $siteMenuLogin : ''; ?></a></li>
                     <?php } ?>
 
-
-                    <div class="btn-group btn-toolbar">
-                        <li class="dropdown open">
-                            <a class="dropdown-toggle" data-toggle="dropdown"
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
                                href="#"><?php echo isset($currentLang) ? $currentLang : ''; ?> <span
                                         class="caret"></span></a>
-                            <ul class="dropdown-menu" role="menu">
+                            <div class="dropdown-menu">
                                 <?php
                                 sort($allowLanguages);
                                 foreach ($allowLanguages as $l) {
-                                    echo '<li><a href="/' . $currentAction . '/' . $l . '"> ' . $l . ' </a></li>';
+                                    echo '<a class="dropdown-item" href="/' . $currentAction . '/' . $l . '"> ' . $l . ' </a>';
                                 }
                                 ?>
 
-                            </ul>
+                            </div>
                         </li>
-                    </div>
-                </ul>
+
+                </div>
 
 
             </nav>
         </div>
+
+
+
+
+
+
+
+
+        <!-- </div> -->
     </header>
     <div class="main">
         <div class="container">
@@ -92,7 +111,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
 
     <?php if (!isset($_SESSION['start'])) { ?>
-<!-- Логин -->
+<!-- Логин -> ToDo -->
         <div id="loginModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -109,14 +128,14 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label for="name" class="h4"><?php echo $siteLoginNameLbl; ?></label>
-                                    <input type="email" class="form-control" id="name" placeholder="Enter your email"
-                                           required data-error="NEW ERROR MESSAGE">
+                                    <input type="email" class="form-control" id="name" placeholder="<?php echo isset($siteRegisterLoginPlace) ? $siteRegisterLoginPlace : ''; ?>"
+                                           required data-error="<?php echo isset($siteRegisterLoginErr) ? $siteRegisterLoginErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="password" class="h4"><?php echo $siteLoginPasswLbl; ?></label>
                                     <input type="password" class="form-control" id="password"
-                                           placeholder="Enter your password" required>
+                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -200,9 +219,12 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <?php } ?>
     </body>
 
-
-    <script type="text/javascript" src="../functions/validator.min.js"></script>
-    <script type="text/javascript" src="../functions/form-scripts.js"></script>
+    <?php if (!isset($_SESSION['start'])) { ?>
+        <script type="text/javascript" src="../functions/validator.min.js"></script>
+        <script type="text/javascript" src="../functions/form-scripts.js"></script>
+    <?php } else { ?>
+        <script type="text/javascript" src="../functions/profile-script.js"></script>
+    <?php } ?>
 	
 
     </html>

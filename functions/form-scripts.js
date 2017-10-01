@@ -30,8 +30,10 @@ $(document).ready(function(){
 $("#loginForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
-        //formError();
-        submitMSG(false, "Did you fill in the form properly?");
+        var errmsg = "Did you fill in the form properly?";
+        formError();
+        if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
+        submitMSG(false, errmsg);
     } else {
         // everything looks good!
         event.preventDefault();
@@ -43,8 +45,10 @@ $("#loginForm").validator().on("submit", function (event) {
 $("#registerForm").validator().on("submit", function (event) {
     if (event.isDefaultPrevented()) {
         // handle the invalid form...
+        var errmsg = "Did you fill in the form properly?";
         formError();
-        submitMSG(false, "Did you fill in the form properly?");
+        if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
+        submitMSG(false, errmsg);
     } else {
         // everything looks good!
         event.preventDefault();
@@ -58,10 +62,9 @@ function submitLoginForm(){
     var passw = $("#password").val();
 	var uri1 = $("#uri1").val();
 	var uri2 = $("#uri2").val();
-    //var message = $("#message").val();
     $.ajax({
         type: "POST",
-        url: "/functions/login-process.php",
+        url: "/login/" + uri2,
         data: "name=" + name + "&passw=" + passw,
         success : function(text){
             if (text == "success"){
@@ -81,7 +84,7 @@ function submitRegForm(){
     var passw = $("#regpassword").val();
 	var passw2 = $("#regpassword2").val();
     // var uri1 = $("#uri1").val();
-	var uri1 = "user";
+	var uri1 = "profile";
     var uri2 = $("#uri2").val();
     $.ajax({
         type: "POST",
@@ -101,7 +104,7 @@ function submitRegForm(){
 
 function loginFormSuccess(){
     $("#loginForm")[0].reset();
-    submitMSG(true, "Message Submitted!")
+    submitMSG(true, "Ok!")
 }
 
 function regFormSuccess(){

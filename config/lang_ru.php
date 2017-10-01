@@ -3,12 +3,16 @@ return [
 	'siteTitle' => 'Parts-Link информация о наличии на складе',
 	'siteLogo' => 'ЛОГО',
 	
-	// Главное меню
+	// Меню
 	'siteMenuAbout' => 'О платформе',
 	'siteMenuContact' => 'Написать нам',
 	'siteMenuLogin' => 'Войти',
 	'siteMenuLogout' => 'Выйти',
-	
+    'siteMenuUser' => 'Пользователь',
+    'siteTabProfile' => 'Профиль пользователя',
+    'siteTabWarehouse' => 'Склады',
+    'siteSelectorAccountActive' => 'Учетная запись активна',
+
 	// Модальная форма Логина
 	'siteLoginTitle' => 'Авторизация на Parts-Link',
 	'siteLoginCloseBtn' => 'Закрыть',
@@ -17,6 +21,9 @@ return [
 	'siteLoginPasswLbl' => 'Пароль',
 	'siteLoginPassw2Lbl' => 'Повтор пароля',
     'siteLoginRegisterBtn' => 'У меня еще нет акаунта, зарегистрируйте!',
+    'siteLoginUserNot' => 'Такой пользователь еще не зарегистрирован',
+    'siteLoginPasswErr' => 'Неверный пароль',
+    'siteLoginAccountErr' => 'Учетная запись выключена',
 
     // Модальная форма Регистрации
     'siteRegisterTitle' => 'Быстрая регистрация в Parts-Link',

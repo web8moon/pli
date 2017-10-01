@@ -1,8 +1,16 @@
 <?php
 
+function dbConnector($conf) {
+    if (is_array($conf)) {
+        return mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname']);
+    } else {
+        return false;
+    }
+}
+
 function loadConfig($file){
 	if(file_exists($file)) $conf = include_once ($file);
-	return $conf;
+	if (is_array($conf)) return $conf;
 }
 
 function loadLang($Conf){
@@ -12,7 +20,11 @@ function loadLang($Conf){
 		$lang = include_once ($file);
 	} else {
 		$file = 'config'.DIRECTORY_SEPARATOR.'lang_' . $Conf['defaultLang'] . '.php';
-        if(file_exists($file)) $lang = include_once ($file);
+        if(file_exists($file)) {
+            $lang = include_once ($file);
+        } else {
+            die("Error loading language file");
+        }
 	}
 	
 	return $lang;
@@ -46,7 +58,8 @@ function setLang($oldLang, $newLang, $allowLang){
 }
 
 function startUserSession(){
-	$_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']+date("z"));
+	// $_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']+date("z"));
+    $_SESSION['start'] = $_SERVER['HTTP_USER_AGENT']+date("z");
 }
 
 function controler($conf, $lang) {
@@ -64,7 +77,7 @@ function controler($conf, $lang) {
 		$success = false;
 		$errorMSG = $lang['siteRegisterConnErr'];
 		if (is_array($conf)) {
-			$link = mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname']);
+            $link = dbConnector($conf);
 			if ($link) {
 				$errorMSG = '';
 				// EMAIL
@@ -100,7 +113,6 @@ function controler($conf, $lang) {
                         mysqli_free_result($result);
                     }
 				}
-
 				mysqli_close($link);
 			}
 		}
@@ -108,7 +120,7 @@ function controler($conf, $lang) {
 		// redirect to success page
 		if ($success && $errorMSG == '') {
 			startUserSession();
-			echo "success";
+			echo 'success';
 		} else {
 			if ($errorMSG == '') {
 			echo $lang['siteRegisterWrongErr'];
@@ -126,6 +138,59 @@ function controler($conf, $lang) {
 // LOGIN
     if ($conf['currentAction'] == 'login') {
 		$success = false;
-		
+        $errorMSG = $lang['siteRegisterConnErr'];
+        if (is_array($conf)) {
+            $link = dbConnector($conf);
+            if ($link) {
+                $errorMSG = '';
+                // EMAIL
+                if (empty($_POST["name"])) {
+                    $errorMSG = $lang['siteRegisterLoginErr'];
+                } else {
+                    $name = mysqli_real_escape_string ($link, $_POST["name"]);
+                }
+                // PASWORD
+                if (empty($_POST["passw"])) {
+                    $errorMSG .= $lang['siteRegisterPasswErr'];
+                } else {
+                    $password = mysqli_real_escape_string ($link, $_POST["passw"]);
+
+                }
+
+                if ($errorMSG == ''){
+                    $select = 'SELECT `UserEmail`, `Active`, `UserPsw` FROM `users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
+                    if($result = mysqli_query($link, $select)) {
+                        if (mysqli_num_rows($result) == 1) {
+                            $users = mysqli_fetch_assoc($result);
+                            if ($users['UserPsw'] == md5($password)) {
+                                if($users['Active'] >= 0) {
+                                    $success = true;
+                                } else {
+                                    $errorMSG .= $lang['siteLoginAccountErr'];
+                                }
+                            } else {
+                                $errorMSG .= $lang['siteLoginPasswErr'];
+                            }
+                        } else {
+                            $errorMSG .= $lang['siteLoginUserNot'];
+                        }
+                        mysqli_free_result($result);
+                    }
+                }
+                mysqli_close($link);
+            }
+        }
+
+        // redirect to success page
+        if ($success && $errorMSG == '') {
+            startUserSession();
+            echo 'success';
+        } else {
+            if ($errorMSG == '') {
+                echo $lang['siteRegisterWrongErr'];
+            } else {
+                echo $errorMSG;
+            }
+        }
 	}
 }

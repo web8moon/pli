@@ -11,4 +11,5 @@ return [
 	'dbpass' => '',
     'loginLink' => 'login',
     'aboutLink' => 'about',
+    'profileLink' => 'profile',
 ];

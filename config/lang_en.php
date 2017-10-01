@@ -3,11 +3,15 @@ return [
 	'siteTitle' => 'Parts-Link - Stock warehouse info',
 	'siteLogo' => 'LOGO',
 	
-	// Главное меню
+	// Menu
 	'siteMenuAbout' => 'About this site',
 	'siteMenuContact' => 'Write Us',
 	'siteMenuLogin' => 'Login',
 	'siteMenuLogout' => 'Logout',
+    'siteMenuUser' => 'User',
+    'siteTabProfile' => 'User\'s profile',
+    'siteTabWarehouse' => 'Warehouses',
+    'siteSelectorAccountActive' => 'Account is active',
 	
 	// Модальная форма Логина
 	'siteLoginTitle' => 'Parts-Link Authorization',
@@ -15,17 +19,20 @@ return [
 	'siteLoginLoginBtn' => 'Login',
 	'siteLoginNameLbl' => 'Your email',
 	'siteLoginPasswLbl' => 'Your password',
-	'siteLoginPassw2Lbl' => 'Repeate your password',
-    'siteLoginRegisterBtn' => 'I have no accaunt yet, register me!',
+	'siteLoginPassw2Lbl' => 'Repeat your password',
+    'siteLoginRegisterBtn' => 'I have no account yet, register me!',
+    'siteLoginUserNot' => 'User does not registered yet',
+    'siteLoginPasswErr' => 'Password Error',
+    'siteLoginAccountErr' => 'Account is disabled',
 
     // Модальная форма Регистрации
     'siteRegisterTitle' => 'Register at Parts-Link',
     'siteRegisterRegisterBtn' => 'Register',
-    'siteRegisterLoginBtn' => 'I have an accaunt. Login me!',
+    'siteRegisterLoginBtn' => 'I have an account. Login me!',
 	'siteRegisterConnErr' => 'Data connection Error',
-	'siteRegisterLoginErr' => 'Email is needed for further logins by you',
+	'siteRegisterLoginErr' => 'Email is needed for furthers logins by you',
 	'siteRegisterPasswErr' => 'Password is required',
-	'siteRegisterDublicateErr' => 'Entered Email is already registred by smb.',
+	'siteRegisterDublicateErr' => 'Entered Email is already registered by smb.',
 	'siteRegisterAddErr' => 'Error adding new user',
 	'siteRegisterWrongErr' => 'Something went wrong :(',
 	'siteRegisterLoginPlace' => 'Enter your registration email here',
