@@ -38,4 +38,7 @@ return [
 	'siteRegisterLoginPlace' => 'Enter your registration email here',
 	'siteRegisterPasswPlace' => 'Enter your password',
 	'siteRegisterPassw2Err' => 'Passwords are different',
+	
+	// Profile Page
+	'profileConnErr' => 'Profile binding Error',
 ];

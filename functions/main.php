@@ -57,9 +57,8 @@ function setLang($oldLang, $newLang, $allowLang){
     }
 }
 
-function startUserSession(){
-	// $_SESSION['start'] = md5($_SERVER['HTTP_USER_AGENT']+date("z"));
-    $_SESSION['start'] = $_SERVER['HTTP_USER_AGENT']+date("z");
+function startUserSession($el1, $el2){
+	$_SESSION['start'] = $el1 . md5($_SERVER['HTTP_USER_AGENT'] + date("z")) . $el2;
 }
 
 function controler($conf, $lang) {
@@ -91,7 +90,7 @@ function controler($conf, $lang) {
 					$errorMSG .= $lang['siteRegisterPasswErr'];
 				} else {
 					if($_POST["passw"] == $_POST["passw2"]) {
-						$password = mysqli_real_escape_string ($link, $_POST["passw"]);
+						$password = md5(mysqli_real_escape_string ($link, $_POST["passw"]));
 					} else {
 						$errorMSG .= $lang['siteRegisterPassw2Err'];
 					}
@@ -103,9 +102,10 @@ function controler($conf, $lang) {
                         if (mysqli_num_rows($result) > 0) {
                             $errorMSG .= $lang['siteRegisterDublicateErr'];
                         } else {
-                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . md5($password) . '\', `Active`=0, `UserPlan`=1';
+                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . $password . '\', `Active`=0, `UserPlan`=1';
                             if (mysqli_query($link, $select)) {
-                                $success = true;
+								$userID = mysqli_insert_id($link);
+								$success = true;
                             } else {
                                 $errorMSG .= $lang['siteRegisterAddErr'];
                             }
@@ -119,7 +119,7 @@ function controler($conf, $lang) {
 
 		// redirect to success page
 		if ($success && $errorMSG == '') {
-			startUserSession();
+			startUserSession($userID, $password);
 			echo 'success';
 		} else {
 			if ($errorMSG == '') {
@@ -158,7 +158,7 @@ function controler($conf, $lang) {
                 }
 
                 if ($errorMSG == ''){
-                    $select = 'SELECT `UserEmail`, `Active`, `UserPsw` FROM `users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
+                    $select = 'SELECT `UserID`, `UserEmail`, `Active`, `UserPsw` FROM `users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
                     if($result = mysqli_query($link, $select)) {
                         if (mysqli_num_rows($result) == 1) {
                             $users = mysqli_fetch_assoc($result);
@@ -183,7 +183,7 @@ function controler($conf, $lang) {
 
         // redirect to success page
         if ($success && $errorMSG == '') {
-            startUserSession();
+            startUserSession($users['UserID'], $users['UserPsw']);
             echo 'success';
         } else {
             if ($errorMSG == '') {

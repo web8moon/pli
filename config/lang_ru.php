@@ -38,4 +38,7 @@ return [
 	'siteRegisterLoginPlace' => 'Введите Ваш емейл',
 	'siteRegisterPasswPlace' => 'Введите Ваш пароль',
 	'siteRegisterPassw2Err' => 'Пароли не совпадают',
+	
+	// Страница Профиль
+	'profileConnErr' => 'Ошибка связи с профилем',
 ];
