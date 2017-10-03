@@ -10,9 +10,6 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
         <link rel="stylesheet" href="/views/bootstrap.min.css">
 
-        <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
-		<script type="text/javascript" src="../functions/popper.min.js" ></script>
-        <script type="text/javascript" src="../functions/bootstrap.min.js"></script>
 
     </head>
     <body>
@@ -111,7 +108,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
 
     <?php if (!isset($_SESSION['start'])) { ?>
-<!-- Логин -> ToDo -->
+<!-- Логин -->
         <div id="loginModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -216,13 +213,25 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
             </div>
         </div>
 
-    <?php } ?>
+    <?php }  ?>
+	
+
+       
+		
+		
+	
+		
     </body>
+	
+	 <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../functions/popper.min.js" ></script>
+		<script type="text/javascript" src="../functions/bootstrap.min.js"></script>
 
     <?php if (!isset($_SESSION['start'])) { ?>
         <script type="text/javascript" src="../functions/validator.min.js"></script>
         <script type="text/javascript" src="../functions/form-scripts.js"></script>
     <?php } else { ?>
+		<script type="text/javascript" src="../functions/validator.min.js"></script>
         <script type="text/javascript" src="../functions/profile-script.js"></script>
     <?php } ?>
 	
