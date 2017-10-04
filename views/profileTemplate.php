@@ -4,7 +4,7 @@ $errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
 if (isset($_SESSION['start'])) {
     if (!isset($content)) {
         ob_start(); ?>
-        <br> <h1>Профиль</h1>
+        <br> <h1> <?php echo isset($siteTabProfile) ? $siteTabProfile : 'Profile'; ?></h1>
 <br>
 		<?php
 		$startUserIDstr = strpos($_SESSION['start'], md5($_SERVER['HTTP_USER_AGENT']+date("z")));
@@ -41,7 +41,7 @@ if (isset($_SESSION['start'])) {
   
   
 				<div class="card-block">
-					<br><h4 class="card-title">Учетная запись пользователя</h4><br>
+					<br><h4 class="card-title">Детали учетной записи</h4><br>
     
 	
 					<!-- PARAMETERS -->
@@ -52,13 +52,10 @@ if (isset($_SESSION['start'])) {
 							<br>
 							<div class="form-group row">
 								<div class="col col-4">
-
-
-							
 							
 									<div class="input-group mb-2 mr-sm-2 mb-sm-0">
 										<div class="input-group-addon">User Card ID:</div>
-										<input type="text" class="form-control" disabled value="<?php echo $UserID; ?>">
+										<input type="text" class="form-control" id="user-account-id" readonly value="<?php echo $UserID; ?>">
 									</div>
 								</div>
 							
@@ -74,6 +71,17 @@ if (isset($_SESSION['start'])) {
 								</div>
 					
 							</div>
+							
+							<div class="form-group row">
+							<div class="col">
+								<label for="exampleSelect1">Условия пользования</label>
+								<select class="form-control" id="planSelect" disabled>
+									<option>Безплатный</option>
+									<option>Платный</option>
+								</select>
+							</div>
+							</div>
+							
 						</div>
 					</div>	
 
@@ -86,23 +94,23 @@ if (isset($_SESSION['start'])) {
 							<br>
 
 							<div class="form-group row">
-								<label for="example-text-input" class="col-2 col-form-label">Имя</label>
+								<label for="user-text-input" class="col-2 col-form-label">Имя</label>
 								<div class="col-10">
 									<input class="form-control" type="text" value="<?php echo $user['UserName']; ?>" id="user-text-input">
 								</div>
 							</div>
 	
 							<div class="form-group row">
-								<label for="example-email-input" class="col-2 col-form-label">Email</label>
+								<label for="user-email-input" class="col-2 col-form-label"><?php echo isset($siteLoginNameLbl) ? $siteLoginNameLbl : 'E-mail'; ?></label>
 								<div class="col-10">
 									<input class="form-control" type="email" value="<?php echo $user['UserEmail']; ?>" id="user-email-input">
 								</div>
 							</div>
 
 							<div class="form-group row">
-								<label for="example-password-input" class="col-2 col-form-label">Password</label>
+								<label for="user-password-input" class="col-2 col-form-label"><?php echo isset($siteLoginPasswLbl) ? $siteLoginPasswLbl : 'Password'; ?></label>
 								<div class="col-10">
-									<input class="form-control" type="password" value="<?php echo $user['UserPsw']; ?>" id="user-password-input">
+									<input class="form-control" type="password" value="<?php echo $UserPassw; ?>" id="user-password-input">
 								</div>
 							</div>	
 						</div>
@@ -133,7 +141,6 @@ if (isset($_SESSION['start'])) {
 
 	require 'baseTemplate.php';
 ?>
-	
 	
 	
 		<!-- PASWWORD CONFIRM -->
@@ -174,7 +181,8 @@ if (isset($_SESSION['start'])) {
                     </div>
                 </div>
             </div>
-        </div>	
+        </div>
+	
 	
 	
 <?php	

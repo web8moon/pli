@@ -21,7 +21,7 @@ if (isset($QueqryUrl[0]) and (strlen($QueqryUrl[0]) > 1 and strlen($QueqryUrl[0]
 controler($Conf, $Lang);
 
 
-if($Conf['currentAction'] != 'login' and $Conf['currentAction'] != 'register' and $Conf['currentAction'] != 'profile'){
+if($Conf['currentAction'] != 'login' and $Conf['currentAction'] != 'register' and $Conf['currentAction'] != 'profile' and $Conf['currentAction'] != 'save-profile'){
 	print render('views/newTemplate.php', ($Conf+$Lang));
 }
 

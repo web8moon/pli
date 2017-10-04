@@ -193,4 +193,108 @@ function controler($conf, $lang) {
             }
         }
 	}
+	
+	
+// UPDATE PROFILE
+    if ($conf['currentAction'] == 'save-profile') {
+		$success = false;
+        $errorMSG = $lang['siteRegisterConnErr'];
+		if (is_array($conf)) {
+            $link = dbConnector($conf);
+            if ($link) {
+				$errorMSG = '';
+				
+				// gather data
+				if (empty($_POST["formid"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $formid = mysqli_real_escape_string ($link, $_POST["formid"]);
+                }
+				if (empty($_POST["active"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $active = mysqli_real_escape_string ($link, $_POST["active"]);
+                }
+
+				if (empty($_POST["plan"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $plan = mysqli_real_escape_string ($link, $_POST["plan"]);
+                }
+
+				if (!empty($_POST["name"])) {
+                    $name = mysqli_real_escape_string ($link, $_POST["name"]);
+                }
+
+				if (empty($_POST["mail"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $mail = mysqli_real_escape_string ($link, $_POST["mail"]);
+                }
+
+				if (empty($_POST["passw"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $passwnew = mysqli_real_escape_string ($link, $_POST["passw"]);
+                }
+				if (empty($_POST["passwconf"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $passwconfirm = mysqli_real_escape_string ($link, $_POST["passwconf"]);
+                }
+				if (empty($_POST["uri1"])) {
+                    $errorMSG = $lang['siteRegisterWrongErr'];
+                } else {
+                    $uri1 = mysqli_real_escape_string ($link, $_POST["uri1"]);
+                }
+			
+				
+				
+				if ($errorMSG == ''){
+                    $select = 'SELECT `UserPsw`,`Active` FROM `users` WHERE `UserID`=\'' . $formid . '\' LIMIT 1';
+                    if($result = mysqli_query($link, $select)) {
+                        if (mysqli_num_rows($result) == 1) {
+                            $users = mysqli_fetch_assoc($result);
+                            if ($users['UserPsw'] == md5($passwconfirm)) {
+                                if($users['Active'] >= 0) {
+                                    $success = true;
+                                } else {
+                                    $errorMSG .= $lang['siteLoginAccountErr'];
+                                }
+                            } else {
+                                $errorMSG .= $lang['siteLoginPasswErr'];
+                            }
+                        } else {
+                            $errorMSG .= $lang['siteLoginUserNot'];
+                        }
+                        mysqli_free_result($result);
+                    }
+                }
+				
+				
+				
+				
+				
+				
+				
+				
+			
+			}
+			mysqli_close($link);
+		}
+	
+		// redirect to success page
+		if ($success && $errorMSG == '') {
+			echo 'success';
+		} else {
+			if ($errorMSG == '') {
+				echo $lang['siteRegisterWrongErr'];
+			} else {
+				echo $errorMSG;
+			}
+		}
+	}
+	
+
+	
 }

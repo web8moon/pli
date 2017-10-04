@@ -34,24 +34,36 @@ $(document).ready(function(){
 });
 
 function submitLoginForm(){
-    // Initiate Variables With Form Content
-    var passw = $("#password").val();
+
+    var formid = $("#user-account-id").val();
+	var active = $("#accountactivechk").prop('checked');
+	var plan = $("#planSelect").val();
+
+	var name = $("#user-text-input").val();
+	var mail = $("#user-email-input").val();
+	var passw = $("#user-password-input").val();
+	
+	var passwconf = $("#conf-password").val();
+
 	var uri1 = $("#uri1").val();
 	var uri2 = $("#uri2").val();
-    $.ajax({
-        type: "POST",
-        url: "/save-profile/" + uri2,
-        data: "name=" + name + "&passw=" + passw,
-        success : function(text){
-            if (text == "success"){
-                loginFormSuccess();
-				void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
-            } else {
-                formError();
-                submitMSG(false,text);
-            }
-        }
-    });
+
+	if(uri1 == "profile"){
+		$.ajax({
+			type: "POST",
+			url: "/save-profile/" + uri2,
+			data: "formid=" + formid + "&active=" + active + "&plan=" + plan + "&name=" + name + "&mail=" + mail + "&passw=" + passw + "&uri1=" + uri1 + "&passwconf=" + passwconf,
+			success : function(text){
+				if (text == "success"){
+					confirmFormSuccess();
+					void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+				} else {
+					formError();
+					submitMSG(false,text);
+				}
+			}
+		});
+	}
 }
 
 function formError(){
@@ -68,4 +80,9 @@ function submitMSG(valid, msg){
         var msgClasses = "h3 text-center text-danger";
     }
     $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
+}
+
+function confirmFormSuccess(){
+    $("#PconfirmForm")[0].reset();
+    submitMSG(true, "Ok!")
 }
