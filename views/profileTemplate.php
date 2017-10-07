@@ -103,14 +103,14 @@ if (isset($_SESSION['start'])) {
 							<div class="form-group row">
 								<label for="user-email-input" class="col-2 col-form-label"><?php echo isset($siteLoginNameLbl) ? $siteLoginNameLbl : 'E-mail'; ?></label>
 								<div class="col-10">
-									<input class="form-control" type="email" value="<?php echo $user['UserEmail']; ?>" id="user-email-input">
+									<input required class="form-control" type="email" value="<?php echo $user['UserEmail']; ?>" id="user-email-input">
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<label for="user-password-input" class="col-2 col-form-label"><?php echo isset($siteLoginPasswLbl) ? $siteLoginPasswLbl : 'Password'; ?></label>
 								<div class="col-10">
-									<input class="form-control" type="password" value="<?php echo $UserPassw; ?>" id="user-password-input">
+									<input required class="form-control" type="password" value="<?php echo $UserPassw; ?>" id="user-password-input">
 								</div>
 							</div>	
 						</div>
@@ -158,8 +158,8 @@ if (isset($_SESSION['start'])) {
 
                         <form role="form" id="PconfirmForm" data-toggle="validator" class="shake">
                             <div class="row">
-                                <div class="form-group col-sm-6">
-                                    <label for="password" class="h4"><?php echo $siteLoginPasswLbl; ?></label>
+                                <div class="form-group">
+                                    <label for="password" class="h4"><?php echo isset($profileConfirmLbl) ? $profileConfirmLbl : ''; ?></label>
                                     <input type="password" class="form-control" id="conf-password"
                                            placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
@@ -168,7 +168,7 @@ if (isset($_SESSION['start'])) {
                             <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
                             <input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
                             <button type="submit" id="conf-form-submit"
-                                    class="btn btn-success btn-lg pull-right "><?php echo isset($siteLoginLoginBtn) ? $siteLoginLoginBtn : 'Login'; ?></button>
+                                    class="btn btn-success btn-lg pull-right "><?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?></button>
                             <div id="msgSubmit" class="h3 text-center hidden"></div>
                             <div class="clearfix"></div>
                         </form>
@@ -199,3 +199,4 @@ if($errMsg != '') {
 	<?php
 }
  ?>
+

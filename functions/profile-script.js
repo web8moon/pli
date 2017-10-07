@@ -12,7 +12,9 @@ $(document).ready(function(){
 	$("#save-profile").click(function() {
 		$("#PconfirmForm")[0].reset();
 		$("#msgSubmit").text('');
-		$("#PconfirmModal").modal('show');
+		if (checkForm()){
+			$("#PconfirmModal").modal('show');
+		}
 	});
   
 	
@@ -47,7 +49,8 @@ function submitLoginForm(){
 
 	var uri1 = $("#uri1").val();
 	var uri2 = $("#uri2").val();
-
+	
+	
 	if(uri1 == "profile"){
 		$.ajax({
 			type: "POST",
@@ -83,6 +86,25 @@ function submitMSG(valid, msg){
 }
 
 function confirmFormSuccess(){
-    $("#PconfirmForm")[0].reset();
-    submitMSG(true, "Ok!")
+    $("#conf-password").removeClass().addClass("form-control is-valid");
+	$("#PconfirmForm")[0].reset();
+    submitMSG(true, "Ok!");
+}
+
+function checkForm(){
+	var checkStatus = true;
+	
+	if(!/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test($("#user-email-input").val()) ){
+		checkStatus = false;
+		$("#user-email-input").removeClass().addClass("form-control is-invalid");
+		void(setTimeout('$("#user-email-input").removeClass().addClass("form-control")', 1500));
+	}
+
+	if($("#user-password-input").val().length<2 || $("#user-password-input").val().length>50){
+		checkStatus = false;
+		$("#user-password-input").removeClass().addClass("form-control is-invalid");
+		void(setTimeout('$("#user-password-input").removeClass().addClass("form-control")', 1500));
+	}
+	
+	return checkStatus;
 }

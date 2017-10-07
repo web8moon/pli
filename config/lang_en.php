@@ -17,9 +17,9 @@ return [
 	'siteLoginTitle' => 'Parts-Link Authorization',
 	'siteLoginCloseBtn' => 'Dismiss',
 	'siteLoginLoginBtn' => 'Login',
-	'siteLoginNameLbl' => 'Your email',
-	'siteLoginPasswLbl' => 'Your password',
-	'siteLoginPassw2Lbl' => 'Repeat your password',
+	'siteLoginNameLbl' => 'Your email*',
+	'siteLoginPasswLbl' => 'Your password*',
+	'siteLoginPassw2Lbl' => 'Repeat your password*',
     'siteLoginRegisterBtn' => 'I have no account yet, register me!',
     'siteLoginUserNot' => 'User does not registered yet',
     'siteLoginPasswErr' => 'Password Error',
@@ -40,5 +40,8 @@ return [
 	'siteRegisterPassw2Err' => 'Passwords are different',
 	
 	// Profile Page
-	'profileConnErr' => 'Profile binding Error',
+	'profileConnErr' => 'Profile binding Error. Obviously, the server changed the session. Try Exit and Login. If the error persists, notify the portal administrator',
+	'profileConfirmBtn' => 'Confirm',
+	'profileConfirmLbl' => 'To confirm updating, please, enter your current valid password',
+	'profileAccountAct' => 'You disable your account. Your warehouses will not be displayed.',
 ];

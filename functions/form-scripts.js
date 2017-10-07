@@ -103,11 +103,16 @@ function submitRegForm(){
 }
 
 function loginFormSuccess(){
-    $("#loginForm")[0].reset();
+    $("#name").removeClass().addClass("form-control is-valid");
+	$("#password").removeClass().addClass("form-control is-valid");
+	$("#loginForm")[0].reset();
     submitMSG(true, "Ok!")
 }
 
 function regFormSuccess(){
+	$("#regname").removeClass().addClass("form-control is-valid");
+	$("#regpassword").removeClass().addClass("form-control is-valid");
+	$("#regpassword2").removeClass().addClass("form-control is-valid");
     $("#registerForm")[0].reset();
     submitMSG(true, "Ok!")
 }

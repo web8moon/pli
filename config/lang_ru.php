@@ -17,9 +17,9 @@ return [
 	'siteLoginTitle' => 'Авторизация на Parts-Link',
 	'siteLoginCloseBtn' => 'Закрыть',
 	'siteLoginLoginBtn' => 'Войти',
-	'siteLoginNameLbl' => 'Е-мейл',
-	'siteLoginPasswLbl' => 'Пароль',
-	'siteLoginPassw2Lbl' => 'Повтор пароля',
+	'siteLoginNameLbl' => 'Е-мейл*',
+	'siteLoginPasswLbl' => 'Пароль*',
+	'siteLoginPassw2Lbl' => 'Повтор пароля*',
     'siteLoginRegisterBtn' => 'У меня еще нет акаунта, зарегистрируйте!',
     'siteLoginUserNot' => 'Такой пользователь еще не зарегистрирован',
     'siteLoginPasswErr' => 'Неверный пароль',
@@ -40,5 +40,8 @@ return [
 	'siteRegisterPassw2Err' => 'Пароли не совпадают',
 	
 	// Страница Профиль
-	'profileConnErr' => 'Ошибка связи с профилем',
+	'profileConnErr' => 'Ошибка связи с профилем. Очевидно, сервер изменил сеанс. Попробуйте Выйти и Войти. Если ошибка повторится, сообщите администратору портала.',
+	'profileConfirmBtn' => 'Подтвердить',
+	'profileConfirmLbl' => 'Для подтверждения изменений, введите Ваш действующий пароль',
+	'profileAccountAct' => 'Вы отключили Вашу учетную запись. Ваши склады не будут отображаться.',
 ];

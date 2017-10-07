@@ -213,26 +213,31 @@ function controler($conf, $lang) {
 				if (empty($_POST["active"])) {
                     $errorMSG = $lang['siteRegisterWrongErr'];
                 } else {
-                    $active = mysqli_real_escape_string ($link, $_POST["active"]);
+					if (strtolower(mysqli_real_escape_string ($link, $_POST["active"])) == 'true'){
+						$active = 1;
+					} else {
+						$active = 0;
+					}
                 }
-
+				/*
 				if (empty($_POST["plan"])) {
                     $errorMSG = $lang['siteRegisterWrongErr'];
                 } else {
                     $plan = mysqli_real_escape_string ($link, $_POST["plan"]);
                 }
-
-				if (!empty($_POST["name"])) {
+				*/
+				if (!empty($_POST["name"]) and strlen($_POST["name"])<25) {
                     $name = mysqli_real_escape_string ($link, $_POST["name"]);
-                }
+                } else {
+					$name = '';
+				}
 
-				if (empty($_POST["mail"])) {
-                    $errorMSG = $lang['siteRegisterWrongErr'];
+				if (empty($_POST["mail"]) or strlen($_POST["mail"])<6 or strlen($_POST["mail"])>49) {
+                    $errorMSG = $lang['siteRegisterLoginErr'];
                 } else {
                     $mail = mysqli_real_escape_string ($link, $_POST["mail"]);
                 }
-
-				if (empty($_POST["passw"])) {
+				if (empty($_POST["passw"]) or strlen($_POST["passw"])<2 or strlen($_POST["passw"])>50) {
                     $errorMSG = $lang['siteRegisterWrongErr'];
                 } else {
                     $passwnew = mysqli_real_escape_string ($link, $_POST["passw"]);
@@ -248,29 +253,35 @@ function controler($conf, $lang) {
                     $uri1 = mysqli_real_escape_string ($link, $_POST["uri1"]);
                 }
 			
-				
-				
-				if ($errorMSG == ''){
-                    $select = 'SELECT `UserPsw`,`Active` FROM `users` WHERE `UserID`=\'' . $formid . '\' LIMIT 1';
-                    if($result = mysqli_query($link, $select)) {
-                        if (mysqli_num_rows($result) == 1) {
-                            $users = mysqli_fetch_assoc($result);
-                            if ($users['UserPsw'] == md5($passwconfirm)) {
-                                if($users['Active'] >= 0) {
-                                    $success = true;
-                                } else {
-                                    $errorMSG .= $lang['siteLoginAccountErr'];
-                                }
-                            } else {
-                                $errorMSG .= $lang['siteLoginPasswErr'];
-                            }
-                        } else {
-                            $errorMSG .= $lang['siteLoginUserNot'];
-                        }
-                        mysqli_free_result($result);
-                    }
-                }
-				
+				if ($uri1 == $conf['profileLink']) {
+					if ($errorMSG == ''){
+						$select = 'SELECT `UserPsw`,`Active` FROM `users` WHERE `UserID`=\'' . $formid . '\' LIMIT 1';
+						if($result = mysqli_query($link, $select)) {
+							if (mysqli_num_rows($result) == 1) {
+								$users = mysqli_fetch_assoc($result);
+								if ($users['UserPsw'] == md5($passwconfirm)) {
+									if($users['Active'] >= 0) {
+									
+										$select = 'UPDATE `users` SET `UserName`=\'' . $name . '\', `UserPsw`=\'' . md5($passwnew) . '\', `UserEmail`=\'' . $mail . '\', `Active`=' . $active . ', `UserPlan`=1 WHERE `UserID`=\'' . $formid . '\' AND `UserPsw`=\'' . md5($passwconfirm) . '\' LIMIT 1';
+									
+										//$errorMSG .= var_dump($_POST);
+									
+										$success = true;
+									} else {
+										$errorMSG .= $lang['siteLoginAccountErr'];
+									}
+								} else {
+									$errorMSG .= $lang['siteLoginPasswErr'];
+								}
+							} else {
+								$errorMSG .= $lang['siteLoginUserNot'];
+							}
+							mysqli_free_result($result);
+						}
+					}
+				} else {
+					$errorMSG = $lang['siteLoginAccountErr'];
+				}
 				
 				
 				
@@ -282,7 +293,7 @@ function controler($conf, $lang) {
 			}
 			mysqli_close($link);
 		}
-	
+
 		// redirect to success page
 		if ($success && $errorMSG == '') {
 			echo 'success';
