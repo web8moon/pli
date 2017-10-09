@@ -2,6 +2,7 @@
 return [
 	'siteTitle' => 'Parts-Link - Stock warehouse info',
 	'siteLogo' => 'LOGO',
+    'siteSave' => 'Save',
 	
 	// Menu
 	'siteMenuAbout' => 'About this site',
@@ -44,4 +45,14 @@ return [
 	'profileConfirmBtn' => 'Confirm',
 	'profileConfirmLbl' => 'To confirm updating, please, enter your current valid password',
 	'profileAccountAct' => 'You disable your account. Your warehouses will not be displayed.',
+    'profileUpdateErr' => 'Profile is not updated',
+    'profileAccountMenu' => 'Account',
+    'profileStocksMenu' => 'Stocks',
+    'profileAccountDetail' => 'Account\'s detail',
+    'profileAccountParams' => 'Account\'s parameters',
+    'profileAccountPlan' => 'Type of account',
+    'profileAccountLogins' => 'Name and login',
+    'profileAccountName' => 'Name',
+    'profileAccountFree' => 'Free of pay',
+    'profileAccountId' => 'User Card ID:',
 ];

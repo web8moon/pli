@@ -14,10 +14,10 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     </head>
     <body>
     <header>
-        <!-- <div class="container"> -->
-           <!--  <a href="/" class="logo"><?php //echo isset($siteLogo) ? $siteLogo : ''; ?></a> -->
+
         <div class="container">
-        <nav class="navbar navbar-toggleable-md navbar-light">
+        <!-- <nav class="navbar navbar-toggleable-md navbar-light"> -->
+            <nav class="navbar navbar-toggleable-md navbar-inverse">
 
 
                     <div class="navbar-header">
@@ -103,7 +103,19 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
         </div>
     </div>
     <footer>
-        <div class="container"></div>
+        <div class="container">
+            <nav class="navbar navbar-inverse bg-primary">
+                Made with love to our users!
+                <?php echo '<br>Current Action:' . $currentAction . ' / Lang:' . $currentLang . '<br>';
+                echo 'QueryString:' . $_SERVER['QUERY_STRING'] . '<br>';
+                echo 'HTTP_HOST:' . $_SERVER['HTTP_HOST'] . '<br>';
+                echo 'REQUEST_URI:' . $_SERVER['REQUEST_URI'] . '<br>';
+                echo 'SCRIPT_NAME:' . $_SERVER['SCRIPT_NAME'] . '<br>';
+                // echo 'PATH_INFO:' . $_SERVER['PATH_INFO'] . '<br>';
+
+                ?>
+            </nav>
+        </div>
     </footer>
 
 
@@ -119,7 +131,6 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                     </div>
                     <!-- Основное содержимое модального окна -->
                     <div class="modal-body">
-
 
                         <form role="form" id="loginForm" data-toggle="validator" class="shake">
                             <div class="row">
@@ -182,14 +193,14 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                                     <input type="password" class="form-control" id="regpassword"
                                            placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
 
-										   
+
 										   <label for="regpassword2" class="h4"><?php echo $siteLoginPassw2Lbl; ?></label>
                                     <input type="password" class="form-control" id="regpassword2"
                                            placeholder="<?php echo isset($siteLoginPassw2Lbl) ? $siteLoginPassw2Lbl : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
-										   
-										   
-										   
-										   
+
+
+
+
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -214,7 +225,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
         </div>
 
     <?php }  ?>
-	
+
 
        
 		

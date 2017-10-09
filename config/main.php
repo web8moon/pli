@@ -12,4 +12,5 @@ return [
     'loginLink' => 'login',
     'aboutLink' => 'about',
     'profileLink' => 'profile',
+    'stocksLink' => 'stocks',
 ];

@@ -2,6 +2,7 @@
 return [
 	'siteTitle' => 'Parts-Link информация о наличии на складе',
 	'siteLogo' => 'ЛОГО',
+    'siteSave' => 'Сохранить',
 	
 	// Меню
 	'siteMenuAbout' => 'О платформе',
@@ -44,4 +45,14 @@ return [
 	'profileConfirmBtn' => 'Подтвердить',
 	'profileConfirmLbl' => 'Для подтверждения изменений, введите Ваш действующий пароль',
 	'profileAccountAct' => 'Вы отключили Вашу учетную запись. Ваши склады не будут отображаться.',
+    'profileUpdateErr' => 'Данные не изменены',
+    'profileAccountMenu' => 'Профиль',
+    'profileStocksMenu' => 'Склады',
+    'profileAccountDetail' => 'Детали учетной записи',
+    'profileAccountParams' => 'Параметры учетной записи',
+    'profileAccountPlan' => 'Условия пользования',
+    'profileAccountLogins' => 'Имя и данные',
+    'profileAccountName' => 'Имя',
+    'profileAccountFree' => 'Бесплатный',
+    'profileAccountId' => 'Номер карты учетной записи:',
 ];
