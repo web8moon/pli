@@ -9,8 +9,7 @@ return [
 	'dbname' => 'pli',
 	'dbuser' => 'root',
 	'dbpass' => '',
-    'loginLink' => 'login',
-    'aboutLink' => 'about',
-    'profileLink' => 'profile',
-    'stocksLink' => 'stocks',
+	'serviceLinks' => ['login' => 'login', 'register' => 'register', 'save-profile' => 'save-profile', 'logout' => 'logout'],
+	'pageLinks' => ['about' => 'about', 'profile' => 'profile', 'stocks' => 'stocks'],
+	'currentTemplate' => 'welcome',
 ];

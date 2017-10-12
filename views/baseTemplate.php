@@ -25,7 +25,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                     </div>
             <!-- <div class="nav justify-content-end"> -->
                 <div class="nav justify-content-end text-right">
-                    <li class="nav-item"><a class="nav-link" href="<?php echo isset($aboutLink) ? '/' . $aboutLink . '/' : '/';
+                    <li class="nav-item"><a class="nav-link" href="<?php echo isset($pageLinks['about']) ? '/' . $pageLinks['about'] . '/' : '/';
                         echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a>
                     </li>
                     <li class="nav-item"><a class="nav-link" href="<?php echo isset($siteMenuContact) ? '/' . $siteMenuContact . '/' : '/';
@@ -41,9 +41,9 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                                    href="#"><?php echo isset($siteMenuUser) ? $siteMenuUser : 'User'; ?> </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                                     <?php
-                                    echo '<a class="dropdown-item" href="/' . $profileLink . '/' . $currentLang . '"> ' . $siteTabProfile . ' </a>';
+                                    echo '<a class="dropdown-item" href="/' . $pageLinks['profile'] . '/' . $currentLang . '"> ' . $siteTabProfile . ' </a>';
                                     ?>
-                                    <a class="dropdown-item" href="/logout/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a>
+                                    <a class="dropdown-item" href="/<?php echo isset($serviceLinks['logout']) ? $serviceLinks['logout'] : 'logout'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a>
                                 </div>
                             </li>
                     <?php } else { ?>

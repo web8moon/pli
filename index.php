@@ -1,5 +1,6 @@
 <?php
 //if (isset($_REQUEST[session_name()])) session_start();
+
 session_start();
 
 require_once('functions' . DIRECTORY_SEPARATOR . 'main.php');
@@ -21,15 +22,23 @@ if (isset($QueqryUrl[0]) and (strlen($QueqryUrl[0]) > 1 and strlen($QueqryUrl[0]
 controler($Conf, $Lang);
 
 
-if($Conf['currentAction'] != 'login' and $Conf['currentAction'] != 'register' and $Conf['currentAction'] != 'profile' and $Conf['currentAction'] != 'save-profile'){
-	print render('views/newTemplate.php', ($Conf+$Lang));
-}
 
-if($Conf['currentAction'] == 'profile' and isset($_SESSION['start'])){
+/*
+if ($Conf['currentAction'] == 'profile' and isset($_SESSION['start'])){
     print render('views/profileTemplate.php', ($Conf+$Lang));
 } else {
     if($Conf['currentAction'] == 'profile' and !isset($_SESSION['start'])) {
         $Conf['currentAction'] == $Conf['defaultAction'];
         print render('views/newTemplate.php', ($Conf + $Lang));
     }
+}
+*/
+
+if (in_array($Conf['currentAction'], $Conf['pageLinks'])){
+	$template = checkTemplateExist($Conf['pageLinks'][$Conf['currentAction']]);
+	if ($template) print render($template, ($Conf+$Lang));
+}
+
+if (!in_array($Conf['currentAction'], $Conf['serviceLinks']) && !in_array($Conf['currentAction'], $Conf['pageLinks'])){
+	print render('views/newTemplate.php', ($Conf+$Lang));
 }

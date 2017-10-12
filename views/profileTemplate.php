@@ -1,10 +1,33 @@
 <?php
 $errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
-$sessionOK = checkUserSession('start');
+if (!isset($content)) {
+	ob_start(); 
+?>
 
-if ($sessionOK) {
-    if (!isset($content)) {
-        ob_start(); ?>
+<div class="card text-center">
+
+    <!-- UPPER TABS -->
+    <div class="card-header">
+        <ul class="nav nav-tabs card-header-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" href="/<?php echo isset($pageLinks['profile']) ? $pageLinks['profile'] : 'profile';?>/<?php echo isset($currentLang) ? $currentLang: '/';?>"><?php echo isset($profileAccountMenu) ? $profileAccountMenu : 'Account'; ?></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/<?php echo isset($pageLinks['stocks']) ? $pageLinks['stocks'] : 'stocks';?>/<?php echo isset($currentLang) ? $currentLang: '/';?>"><?php echo isset($profileStocksMenu) ? $profileStocksMenu : 'Stocks'; ?></a>
+            </li>
+        </ul>
+    </div>
+
+
+	
+	
+							
+<?php							
+							
+							
+if (checkUserSession('start')) {
+
+        ?>
         <br> <h1> <?php echo isset($siteTabProfile) ? $siteTabProfile : 'Profile'; ?></h1>
         <br>
         <?php
@@ -23,23 +46,10 @@ if ($sessionOK) {
                         mysqli_free_result($result);
                         $errMsg = '';
 
-                        ?>
-
-                        <div class="card text-center">
-
-                            <!-- UPPER TABS -->
-                            <div class="card-header">
-                                <ul class="nav nav-tabs card-header-tabs">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="/<?php echo isset($profileLink) ? $profileLink : 'profile';?>/<?php echo isset($currentLang) ? $currentLang: '/';?>"><?php echo isset($profileAccountMenu) ? $profileAccountMenu : 'Account'; ?></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="/<?php echo isset($stocksLink) ? $stocksLink : 'stocks';?>/<?php echo isset($currentLang) ? $currentLang: '/';?>"><?php echo isset($profileStocksMenu) ? $profileStocksMenu : 'Stocks'; ?></a>
-                                    </li>
-                                </ul>
-                            </div>
-
-
+                        ?>					
+							
+	
+							
                             <div class="card-block">
                                 <br><h5 class="card-title"><?php echo isset($profileAccountDetail) ? $profileAccountDetail : ''; ?></h5><br>
 
@@ -131,20 +141,18 @@ if ($sessionOK) {
 
                                 <br><a href="" data-toggle="modal" class="btn btn-primary"
                                        id="save-profile"><?php echo isset($siteSave) ? $siteSave : 'Save'; ?></a>
-                            </div>
-                        </div>
+                            </div> 
 
-
-                        <?php
+                       <?php
                     }
                 }
                 mysqli_close($link);
             }
         }
-        $content = ob_get_clean();
+        
     }
 
-    require 'baseTemplate.php';
+    
     ?>
 
 
@@ -193,7 +201,18 @@ if ($sessionOK) {
 
 
     <?php
+	$content = ob_get_clean();
 }
+
+?>
+
+
+
+</div>
+
+
+<?php 
+
 
 if ($errMsg != '') {
     ?>
@@ -206,5 +225,6 @@ if ($errMsg != '') {
     <br>
     <?php
 }
+require 'baseTemplate.php';
 ?>
 

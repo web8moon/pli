@@ -80,6 +80,16 @@ function checkUserSession($sesVarName)
     return $ok;
 }
 
+function checkTemplateExist ($pattern) {
+	$template = 'views' . DIRECTORY_SEPARATOR . $pattern . 'Template.php';
+	if (file_exists($template)) {
+		return $template;
+	}
+	else {
+		return false;
+	}
+}
+
 /**
  * @param $conf
  * @param $lang
@@ -88,7 +98,7 @@ function controler($conf, $lang)
 {
 
 // LOGOUT
-    if ($conf['currentAction'] == 'logout') {
+    if ($conf['currentAction'] == $conf['serviceLinks']['logout']) {
         if (isset($_SESSION['start'])) {
             $_SESSION = array();
             session_destroy();
@@ -98,7 +108,7 @@ function controler($conf, $lang)
     }
 
 // REGISTER
-    if ($conf['currentAction'] == 'register') {
+    if ($conf['currentAction'] == $conf['serviceLinks']['register']) {
         if(!empty($_POST)) {
         $success = false;
         $errorMSG = $lang['siteRegisterConnErr'];
@@ -164,7 +174,7 @@ function controler($conf, $lang)
 
 
 // LOGIN
-    if ($conf['currentAction'] == 'login') {
+    if ($conf['currentAction'] == $conf['serviceLinks']['login']) {
         if(!empty($_POST)) {
 
             $success = false;
@@ -230,7 +240,7 @@ function controler($conf, $lang)
 
 
 // UPDATE PROFILE
-    if ($conf['currentAction'] == 'save-profile') {
+    if ($conf['currentAction'] == $conf['serviceLinks']['save-profile']) {
         if (checkUserSession('start')) {
             $success = false;
             $errorMSG = $lang['siteRegisterConnErr'];
@@ -288,7 +298,7 @@ function controler($conf, $lang)
                         $uri1 = mysqli_real_escape_string($link, $_POST["uri1"]);
                     }
 
-                    if (isset($uri1) && $uri1 == $conf['profileLink']) {
+                    if (isset($uri1) && $uri1 == $conf['pageLinks']['profile']) {
                         if ($errorMSG == '') {
                             $select = 'SELECT `UserPsw`,`Active` FROM `users` WHERE `UserID`=\'' . $formid . '\' LIMIT 1';
                             if ($result = mysqli_query($link, $select)) {
