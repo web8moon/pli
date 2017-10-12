@@ -54,5 +54,5 @@ return [
     'profileAccountLogins' => 'Имя и данные',
     'profileAccountName' => 'Имя',
     'profileAccountFree' => 'Бесплатный',
-    'profileAccountId' => 'Номер карты учетной записи:',
+    'profileAccountId' => 'Номер кода учетной записи:',
 ];
