@@ -20,7 +20,7 @@
 	<br> <h1> <?php echo isset($siteTabWarehouse) ? $siteTabWarehouse : 'Stocks'; ?></h1>
 	<br>
 <?php
-	
+	echo var_dump($currentUserStockID);
 	$errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
 	if (checkUserSession('start')) {
 		$errMsg = '';

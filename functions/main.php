@@ -3,7 +3,7 @@
 function dbConnector($conf)
 {
     if (is_array($conf)) {
-        return mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname']);
+        return mysqli_connect($conf['dbhost'], $conf['dbuser'], $conf['dbpass'], $conf['dbname'], $conf['dbhostport']);
     } else {
         return false;
     }
@@ -64,7 +64,24 @@ function setLang($oldLang, $newLang, $allowLang)
 
 function startUserSession($el1, $el2)
 {
-    $_SESSION['start'] = $el1 . md5($_SERVER['HTTP_USER_AGENT'] + date("z")) . $el2;
+	global $Conf;
+
+	$link = dbConnector($Conf);
+        if ($link) {
+			$select = 'SELECT `StockID` FROM `userstoks` WHERE `UserID`=\'' . $el1 . '\' LIMIT 1';
+			echo $select;
+            if ($result = mysqli_query($link, $select)) {
+                if (mysqli_num_rows($result) > 0) {
+					$users = mysqli_fetch_assoc($result);
+					$Conf['currentUserID'] = $el1;
+					$Conf['currentUserStockID'] = $users['StockID'];
+					$_SESSION['start'] = $el1 . md5($_SERVER['HTTP_USER_AGENT'] + date("z")) . $el2;
+					unset($select,$users);
+					mysqli_free_result($result);
+				}
+			}
+		mysqli_close($link);
+		}
 }
 
 function checkUserSession($sesVarName)
@@ -139,13 +156,37 @@ function controler($conf, $lang)
                         if (mysqli_num_rows($result) > 0) {
                             $errorMSG .= $lang['siteRegisterDublicateErr'];
                         } else {
+							
+							
+					
+							
                             $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . $password . '\', `Active`=1, `UserPlan`=1';
                             if (mysqli_query($link, $select)) {
                                 $userID = mysqli_insert_id($link);
-                                $success = true;
-                            } else {
-                                $errorMSG .= $lang['siteRegisterAddErr'];
-                            }
+								
+								$select = 'SELECT `ID` FROM `userstoks` WHERE `UserID`=\'' . $userID . '\' LIMIT 1';
+                                
+								if ($result = mysqli_query($link, $select)) {
+									if (mysqli_num_rows($result) > 0) {
+										$errorMSG .= $lang['siteRegisterAddErr'];
+										$select = 'INSERT INTO `userstoks` SET `UserID`=\'' . $userID . '\', `Active`=0';
+										if (mysqli_query($link, $select)) {
+											$success = true;
+											
+								
+										} else {
+											$errorMSG = $lang['siteRegisterAddErr'];
+										}
+										unset ($select);
+									} else {
+									$errorMSG = $lang['siteRegisterAddErr'];
+									}
+							
+							
+							
+							
+							
+							
                         }
                         mysqli_free_result($result);
                     }
@@ -157,7 +198,7 @@ function controler($conf, $lang)
         // redirect to success page
         if ($success && $errorMSG == '') {
             startUserSession($userID, $password);
-            echo 'success';
+			echo 'success';
         } else {
             if ($errorMSG == '') {
                 echo $lang['siteRegisterWrongErr'];
