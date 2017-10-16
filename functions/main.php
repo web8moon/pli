@@ -11,8 +11,10 @@ function dbConnector($conf)
 
 function loadConfig($file)
 {
-    if (file_exists($file)) $conf = include_once($file);
-    if (is_array($conf)) return $conf;
+    if (file_exists($file))
+        $conf = include_once($file);
+    if (is_array($conf))
+        return $conf;
 }
 
 function loadLang($Conf)
@@ -64,24 +66,23 @@ function setLang($oldLang, $newLang, $allowLang)
 
 function startUserSession($el1, $el2)
 {
-	global $Conf;
+    global $Conf;
 
-	$link = dbConnector($Conf);
-        if ($link) {
-			$select = 'SELECT `StockID` FROM `userstoks` WHERE `UserID`=\'' . $el1 . '\' LIMIT 1';
-			echo $select;
-            if ($result = mysqli_query($link, $select)) {
-                if (mysqli_num_rows($result) > 0) {
-					$users = mysqli_fetch_assoc($result);
-					$Conf['currentUserID'] = $el1;
-					$Conf['currentUserStockID'] = $users['StockID'];
-					$_SESSION['start'] = $el1 . md5($_SERVER['HTTP_USER_AGENT'] + date("z")) . $el2;
-					unset($select,$users);
-					mysqli_free_result($result);
-				}
-			}
-		mysqli_close($link);
-		}
+    $link = dbConnector($Conf);
+    if ($link) {
+        $select = 'SELECT `StockID` FROM `pli_userstoks` WHERE `UserID`=\'' . $el1 . '\' LIMIT 1';
+        if ($result = mysqli_query($link, $select)) {
+            if (mysqli_num_rows($result) > 0) {
+                $users = mysqli_fetch_assoc($result);
+                $Conf['currentUserID'] = $el1;
+                $Conf['currentUserStockID'] = $users['StockID'];
+                $_SESSION['start'] = $el1 . md5($_SERVER['HTTP_USER_AGENT'] + date("z")) . $el2;
+                unset($select, $users);
+                mysqli_free_result($result);
+            }
+        }
+        mysqli_close($link);
+    }
 }
 
 function checkUserSession($sesVarName)
@@ -97,14 +98,14 @@ function checkUserSession($sesVarName)
     return $ok;
 }
 
-function checkTemplateExist ($pattern) {
-	$template = 'views' . DIRECTORY_SEPARATOR . $pattern . 'Template.php';
-	if (file_exists($template)) {
-		return $template;
-	}
-	else {
-		return false;
-	}
+function checkTemplateExist($pattern)
+{
+    $template = 'views' . DIRECTORY_SEPARATOR . $pattern . 'Template.php';
+    if (file_exists($template)) {
+        return $template;
+    } else {
+        return false;
+    }
 }
 
 /**
@@ -126,97 +127,126 @@ function controler($conf, $lang)
 
 // REGISTER
     if ($conf['currentAction'] == $conf['serviceLinks']['register']) {
-        if(!empty($_POST)) {
-        $success = false;
-        $errorMSG = $lang['siteRegisterConnErr'];
-        if (is_array($conf)) {
-            $link = dbConnector($conf);
-            if ($link) {
-                $errorMSG = '';
-                // EMAIL
-                if (empty($_POST["name"])) {
-                    $errorMSG = $lang['siteRegisterLoginErr'];
-                } else {
-                    $name = mysqli_real_escape_string($link, $_POST["name"]);
-                }
-                // PASWORD
-                if (empty($_POST["passw"]) or empty($_POST["passw2"])) {
-                    $errorMSG .= $lang['siteRegisterPasswErr'];
-                } else {
-                    if ($_POST["passw"] == $_POST["passw2"]) {
-                        $password = md5(mysqli_real_escape_string($link, $_POST["passw"]));
+        if (!empty($_POST)) {
+            $success = false;
+            $errorMSG = $lang['siteRegisterConnErr'];
+            if (is_array($conf)) {
+                $link = dbConnector($conf);
+                if ($link) {
+                    $errorMSG = '';
+                    // EMAIL
+                    if (empty($_POST["name"])) {
+                        $errorMSG = $lang['siteRegisterLoginErr'];
                     } else {
-                        $errorMSG .= $lang['siteRegisterPassw2Err'];
+                        $name = mysqli_real_escape_string($link, $_POST["name"]);
                     }
-                }
-
-                if ($errorMSG == '') {
-                    $select = 'SELECT `UserEmail` FROM `users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
-                    if ($result = mysqli_query($link, $select)) {
-                        if (mysqli_num_rows($result) > 0) {
-                            $errorMSG .= $lang['siteRegisterDublicateErr'];
+                    // PASWORD
+                    if (empty($_POST["passw"]) or empty($_POST["passw2"])) {
+                        $errorMSG .= $lang['siteRegisterPasswErr'];
+                    } else {
+                        if ($_POST["passw"] == $_POST["passw2"]) {
+                            $password = md5(mysqli_real_escape_string($link, $_POST["passw"]));
                         } else {
-							
-							
-					
-							
-                            $select = 'INSERT INTO `users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . $password . '\', `Active`=1, `UserPlan`=1';
-                            if (mysqli_query($link, $select)) {
-                                $userID = mysqli_insert_id($link);
-								
-								$select = 'SELECT `ID` FROM `userstoks` WHERE `UserID`=\'' . $userID . '\' LIMIT 1';
-                                
-								if ($result = mysqli_query($link, $select)) {
-									if (mysqli_num_rows($result) > 0) {
-										$errorMSG .= $lang['siteRegisterAddErr'];
-										$select = 'INSERT INTO `userstoks` SET `UserID`=\'' . $userID . '\', `Active`=0';
-										if (mysqli_query($link, $select)) {
-											$success = true;
-											
-								
-										} else {
-											$errorMSG = $lang['siteRegisterAddErr'];
-										}
-										unset ($select);
-									} else {
-									$errorMSG = $lang['siteRegisterAddErr'];
-									}
-							
-							
-							
-							
-							
-							
+                            $errorMSG .= $lang['siteRegisterPassw2Err'];
                         }
-                        mysqli_free_result($result);
                     }
+
+                    if ($errorMSG == '') {
+
+                        $select = 'SELECT `UserEmail` FROM `pli_users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
+                        if ($result = mysqli_query($link, $select)) {
+                            if (mysqli_num_rows($result) > 0) {
+                                $errorMSG = $lang['siteRegisterDublicateErr'];
+                            } else {
+
+                                $select = 'INSERT INTO `pli_users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . $password . '\', `Active`=1, `UserPlan`=1';
+                                if (mysqli_query($link, $select)) {
+                                    $userID = mysqli_insert_id($link);
+                                    $select = 'SELECT `ID` FROM `pli_userstoks` WHERE `UserID`=\'' . $userID . '\' LIMIT 1';
+                                    if ($result = mysqli_query($link, $select)) {
+                                        if (mysqli_num_rows($result) > 0) {
+                                            $errorMSG = $lang['siteRegisterAddErr'];
+                                        } else {
+
+                                            // INITIALISING THE STOCK
+                                            $select = 'INSERT INTO `pli_userstoks` SET `UserID`=\'' . $userID . '\', `Active`=0';
+                                            if (mysqli_query($link, $select)) {
+                                                $success = true;
+                                            } else {
+                                                $errorMSG = $lang['siteRegisterAddErr'];
+                                            }
+
+
+                                        }
+                                    }
+
+
+                                } else {
+                                    $errorMSG = $lang['siteRegisterAddErr'];
+                                }
+
+
+                            }
+                            mysqli_free_result($result);
+                        }
+                        unset($select);
+
+                        /*
+                          $select = 'SELECT `UserEmail` FROM `pli_users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
+                          if ($result = mysqli_query($link, $select)) {
+                          if (mysqli_num_rows($result) > 0) {
+                          mysqli_free_result($result);
+                          $errorMSG .= $lang['siteRegisterDublicateErr'];
+                          } else {
+
+                          $select = 'INSERT INTO `pli_users` SET `UserEmail`=\'' . $name . '\', `UserPsw`=\'' . $password . '\', `Active`=1, `UserPlan`=1';
+                          if (mysqli_query($link, $select)) {
+                          $userID = mysqli_insert_id($link);
+
+                          $select = 'SELECT `ID` FROM `pli_userstoks` WHERE `UserID`=\'' . $userID . '\' LIMIT 1';
+
+                          if (!$result = mysqli_query($link, $select)) {
+
+                          $select = 'INSERT INTO `pli_userstoks` SET `UserID`=\'' . $userID . '\', `Active`=0';
+                          if (mysqli_query($link, $select)) {
+                          $success = true;
+                          } else {
+                          $errorMSG = $lang['siteRegisterAddErr'];
+                          }
+                          } else {
+                          mysqli_free_result($result);
+                          }
+
+                          }
+                          }
+
+                          }
+                         */
+                    }
+
+                    // redirect to success page
+                    if ($success && $errorMSG == '') {
+                        startUserSession($userID, $password);
+                        echo 'success';
+                    } else {
+                        if ($errorMSG == '') {
+                            echo $lang['siteRegisterWrongErr'];
+                        } else {
+                            echo $errorMSG;
+                        }
+                    }
+                    mysqli_close($link);
+                } else {
+                    header("Location: /" . $conf['defaultAction'] . "/" . $conf['currentLang']);
+                    exit;
                 }
-                mysqli_close($link);
             }
-        }
-
-        // redirect to success page
-        if ($success && $errorMSG == '') {
-            startUserSession($userID, $password);
-			echo 'success';
-        } else {
-            if ($errorMSG == '') {
-                echo $lang['siteRegisterWrongErr'];
-            } else {
-                echo $errorMSG;
-            }
-        }
-
-    } else{
-            header("Location: /" . $conf['defaultAction'] . "/" . $conf['currentLang'] );
-            exit;
         }
     }
 
-
 // LOGIN
     if ($conf['currentAction'] == $conf['serviceLinks']['login']) {
-        if(!empty($_POST)) {
+        if (!empty($_POST)) {
 
             $success = false;
             $errorMSG = $lang['siteRegisterConnErr'];
@@ -235,11 +265,10 @@ function controler($conf, $lang)
                         $errorMSG .= $lang['siteRegisterPasswErr'];
                     } else {
                         $password = mysqli_real_escape_string($link, $_POST["passw"]);
-
                     }
 
                     if ($errorMSG == '') {
-                        $select = 'SELECT `UserID`, `UserEmail`, `Active`, `UserPsw` FROM `users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
+                        $select = 'SELECT `UserID`, `UserEmail`, `Active`, `UserPsw` FROM `pli_users` WHERE `UserEmail` like \'' . $name . '\' LIMIT 1';
                         if ($result = mysqli_query($link, $select)) {
                             if (mysqli_num_rows($result) == 1) {
                                 $users = mysqli_fetch_assoc($result);
@@ -273,8 +302,8 @@ function controler($conf, $lang)
                     echo $errorMSG;
                 }
             }
-        } else{
-            header("Location: /" . $conf['defaultAction'] . "/" . $conf['currentLang'] );
+        } else {
+            header("Location: /" . $conf['defaultAction'] . "/" . $conf['currentLang']);
             exit;
         }
     }
@@ -306,12 +335,12 @@ function controler($conf, $lang)
                         }
                     }
                     /*
-                    if (empty($_POST["plan"])) {
-                        $errorMSG = $lang['siteRegisterWrongErr'];
-                    } else {
-                        $plan = mysqli_real_escape_string ($link, $_POST["plan"]);
-                    }
-                    */
+                      if (empty($_POST["plan"])) {
+                      $errorMSG = $lang['siteRegisterWrongErr'];
+                      } else {
+                      $plan = mysqli_real_escape_string ($link, $_POST["plan"]);
+                      }
+                     */
                     if (!empty($_POST["name"]) and strlen($_POST["name"]) < 25) {
                         $name = mysqli_real_escape_string($link, $_POST["name"]);
                     } else {
@@ -341,16 +370,16 @@ function controler($conf, $lang)
 
                     if (isset($uri1) && $uri1 == $conf['pageLinks']['profile']) {
                         if ($errorMSG == '') {
-                            $select = 'SELECT `UserPsw`,`Active` FROM `users` WHERE `UserID`=\'' . $formid . '\' LIMIT 1';
+                            $select = 'SELECT `UserPsw`,`Active` FROM `pli_users` WHERE `UserID`=\'' . $formid . '\' LIMIT 1';
                             if ($result = mysqli_query($link, $select)) {
                                 if (mysqli_num_rows($result) == 1) {
                                     $users = mysqli_fetch_assoc($result);
                                     if ($users['UserPsw'] == md5($passwconfirm)) {
                                         if ($users['Active'] >= 0) {
                                             if ($users['UserPsw'] == $passwnew) {
-                                                $select = 'UPDATE `users` SET `UserName`=\'' . $name . '\', `UserEmail`=\'' . $mail . '\', `Active`=' . $active . ', `UserPlan`=1 WHERE `UserID`=\'' . $formid . '\' AND `UserPsw`=\'' . md5($passwconfirm) . '\' LIMIT 1';
+                                                $select = 'UPDATE `pli_users` SET `UserName`=\'' . $name . '\', `UserEmail`=\'' . $mail . '\', `Active`=' . $active . ', `UserPlan`=1 WHERE `UserID`=\'' . $formid . '\' AND `UserPsw`=\'' . md5($passwconfirm) . '\' LIMIT 1';
                                             } else {
-                                                $select = 'UPDATE `users` SET `UserName`=\'' . $name . '\', `UserPsw`=\'' . $passwnew . '\', `UserEmail`=\'' . $mail . '\', `Active`=' . $active . ', `UserPlan`=1 WHERE `UserID`=\'' . $formid . '\' AND `UserPsw`=\'' . md5($passwconfirm) . '\' LIMIT 1';
+                                                $select = 'UPDATE `pli_users` SET `UserName`=\'' . $name . '\', `UserPsw`=\'' . $passwnew . '\', `UserEmail`=\'' . $mail . '\', `Active`=' . $active . ', `UserPlan`=1 WHERE `UserID`=\'' . $formid . '\' AND `UserPsw`=\'' . md5($passwconfirm) . '\' LIMIT 1';
                                             }
                                             if (mysqli_query($link, $select)) {
                                                 unset($select, $users);
@@ -393,6 +422,4 @@ function controler($conf, $lang)
             }
         }
     }
-
-
 }

@@ -1,8 +1,10 @@
 <?php
 return [
-	'siteTitle' => 'Parts-Link информация о наличии на складе',
+	'siteTitle' => 'Parts-Link информация о наличии на складах',
 	'siteLogo' => 'ЛОГО',
     'siteSave' => 'Сохранить',
+    'siteSearchingLbl' => 'Поиск на складах по оригинальному номеру детали',
+    'searchLengthErr' => 'Длины введенного номера не достаточно для поиска',
 	
 	// Меню
 	'siteMenuAbout' => 'О платформе',

@@ -1,7 +1,7 @@
 <?php
 //if (isset($_REQUEST[session_name()])) session_start();
 if (isset($allowLanguages) and is_array($allowLanguages)) {
-?>
+    ?>
     <!DOCTYPE HTML>
     <html lang="ru-RU">
     <head>
@@ -16,68 +16,64 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <header>
 
         <div class="container">
-        <!-- <nav class="navbar navbar-toggleable-md navbar-light"> -->
+            <!-- <nav class="navbar navbar-toggleable-md navbar-light"> -->
             <nav class="navbar navbar-toggleable-md navbar-inverse">
 
 
-                    <div class="navbar-header">
+                <div class="navbar-header">
                     <a class="navbar-brand" href="/"><?php echo isset($siteLogo) ? $siteLogo : ''; ?></a>
-                    </div>
-            <!-- <div class="nav justify-content-end"> -->
+                </div>
+                <!-- <div class="nav justify-content-end"> -->
                 <div class="nav justify-content-end text-right">
-                    <li class="nav-item"><a class="nav-link" href="<?php echo isset($pageLinks['about']) ? '/' . $pageLinks['about'] . '/' : '/';
-                        echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="<?php echo isset($pageLinks['about']) ? '/' . $pageLinks['about'] . '/' : '/';
+                                            echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuAbout) ? $siteMenuAbout : ''; ?></a>
                     </li>
-                    <li class="nav-item"><a class="nav-link" href="<?php echo isset($siteMenuContact) ? '/' . $siteMenuContact . '/' : '/';
-                        echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuContact) ? $siteMenuContact : ''; ?></a>
+                    <li class="nav-item"><a class="nav-link"
+                                            href="<?php echo isset($siteMenuContact) ? '/' . $siteMenuContact . '/' : '/';
+                                            echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuContact) ? $siteMenuContact : ''; ?></a>
                     </li>
                     <?php if (isset($_SESSION['start'])) { ?>
 
 
-
-
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                                   href="#"><?php echo isset($siteMenuUser) ? $siteMenuUser : 'User'; ?> </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <?php
-                                    echo '<a class="dropdown-item" href="/' . $pageLinks['profile'] . '/' . $currentLang . '"> ' . $siteTabProfile . ' </a>';
-                                    ?>
-                                    <a class="dropdown-item" href="/<?php echo isset($serviceLinks['logout']) ? $serviceLinks['logout'] : 'logout'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a>
-                                </div>
-                            </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                               href="#"><?php echo isset($siteMenuUser) ? $siteMenuUser : 'User'; ?> </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                                <?php
+                                echo '<a class="dropdown-item" href="/' . $pageLinks['profile'] . '/' . $currentLang . '"> ' . $siteTabProfile . ' </a>';
+                                ?>
+                                <a class="dropdown-item"
+                                   href="/<?php echo isset($serviceLinks['logout']) ? $serviceLinks['logout'] : 'logout'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($siteMenuLogout) ? $siteMenuLogout : ''; ?></a>
+                            </div>
+                        </li>
                     <?php } else { ?>
 
                         <li class="nav-item"><a class="nav-link" href="" id="loginbtn"
-                               data-toggle="modal"><?php echo isset($siteMenuLogin) ? $siteMenuLogin : ''; ?></a></li>
+                                                data-toggle="modal"><?php echo isset($siteMenuLogin) ? $siteMenuLogin : ''; ?></a>
+                        </li>
                     <?php } ?>
 
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                               href="#"><?php echo isset($currentLang) ? $currentLang : ''; ?> <span
-                                        class="caret"></span></a>
-                            <div class="dropdown-menu">
-                                <?php
-                                sort($allowLanguages);
-                                foreach ($allowLanguages as $l) {
-                                    echo '<a class="dropdown-item" href="/' . $currentAction . '/' . $l . '"> ' . $l . ' </a>';
-                                }
-                                ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           href="#"><?php echo isset($currentLang) ? $currentLang : ''; ?> <span
+                                    class="caret"></span></a>
+                        <div class="dropdown-menu">
+                            <?php
+                            sort($allowLanguages);
+                            foreach ($allowLanguages as $l) {
+                                echo '<a class="dropdown-item" href="/' . $currentAction . '/' . $l . '"> ' . $l . ' </a>';
+                            }
+                            ?>
 
-                            </div>
-                        </li>
+                        </div>
+                    </li>
 
                 </div>
 
 
             </nav>
         </div>
-
-
-
-
-
-
 
 
         <!-- </div> -->
@@ -111,7 +107,9 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                 echo 'HTTP_HOST:' . $_SERVER['HTTP_HOST'] . '<br>';
                 echo 'REQUEST_URI:' . $_SERVER['REQUEST_URI'] . '<br>';
                 echo 'SCRIPT_NAME:' . $_SERVER['SCRIPT_NAME'] . '<br>';
-                // echo 'PATH_INFO:' . $_SERVER['PATH_INFO'] . '<br>';
+                echo '__FILE__:' . __FILE__ . '<br>';
+                echo '__FUNCTION__:' . __FUNCTION__ . '<br>';
+                echo '__LINE__:' . __LINE__ . '<br>';
 
                 ?>
             </nav>
@@ -120,7 +118,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
 
     <?php if (!isset($_SESSION['start'])) { ?>
-<!-- Логин -->
+        <!-- Логин -->
         <div id="loginModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -136,14 +134,18 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label for="name" class="h4"><?php echo $siteLoginNameLbl; ?></label>
-                                    <input type="email" class="form-control" id="name" placeholder="<?php echo isset($siteRegisterLoginPlace) ? $siteRegisterLoginPlace : ''; ?>"
-                                           required data-error="<?php echo isset($siteRegisterLoginErr) ? $siteRegisterLoginErr : ''; ?>">
+                                    <input type="email" class="form-control" id="name"
+                                           placeholder="<?php echo isset($siteRegisterLoginPlace) ? $siteRegisterLoginPlace : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterLoginErr) ? $siteRegisterLoginErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="password" class="h4"><?php echo $siteLoginPasswLbl; ?></label>
                                     <input type="password" class="form-control" id="password"
-                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
+                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
@@ -167,7 +169,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
             </div>
         </div>
 
-<!-- Регистрация -->
+        <!-- Регистрация -->
         <div id="registerModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -184,21 +186,25 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                             <div class="row">
                                 <div class="form-group col-sm-6">
                                     <label for="regname" class="h4"><?php echo $siteLoginNameLbl; ?></label>
-                                    <input type="email" class="form-control" id="regname" placeholder="<?php echo isset($siteRegisterLoginPlace) ? $siteRegisterLoginPlace : ''; ?>"
-                                           required data-error="<?php echo isset($siteRegisterLoginErr) ? $siteRegisterLoginErr : ''; ?>">
+                                    <input type="email" class="form-control" id="regname"
+                                           placeholder="<?php echo isset($siteRegisterLoginPlace) ? $siteRegisterLoginPlace : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterLoginErr) ? $siteRegisterLoginErr : ''; ?>">
                                     <div class="help-block with-errors"></div>
                                 </div>
                                 <div class="form-group col-sm-6">
                                     <label for="regpassword" class="h4"><?php echo $siteLoginPasswLbl; ?></label>
                                     <input type="password" class="form-control" id="regpassword"
-                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
+                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
 
 
-										   <label for="regpassword2" class="h4"><?php echo $siteLoginPassw2Lbl; ?></label>
+                                    <label for="regpassword2" class="h4"><?php echo $siteLoginPassw2Lbl; ?></label>
                                     <input type="password" class="form-control" id="regpassword2"
-                                           placeholder="<?php echo isset($siteLoginPassw2Lbl) ? $siteLoginPassw2Lbl : ''; ?>" required data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
-
-
+                                           placeholder="<?php echo isset($siteLoginPassw2Lbl) ? $siteLoginPassw2Lbl : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
 
 
                                     <div class="help-block with-errors"></div>
@@ -224,28 +230,22 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
             </div>
         </div>
 
-    <?php }  ?>
+    <?php } ?>
 
 
-       
-		
-		
-	
-		
     </body>
-	
-	 <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
-        <script type="text/javascript" src="../functions/popper.min.js" ></script>
-		<script type="text/javascript" src="../functions/bootstrap.min.js"></script>
 
+    <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../functions/popper.min.js"></script>
+    <script type="text/javascript" src="../functions/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../functions/validator.min.js"></script>
+    <script type="text/javascript" src="../functions/search-script.js"></script>
     <?php if (!isset($_SESSION['start'])) { ?>
-        <script type="text/javascript" src="../functions/validator.min.js"></script>
         <script type="text/javascript" src="../functions/form-scripts.js"></script>
     <?php } else { ?>
-		<script type="text/javascript" src="../functions/validator.min.js"></script>
         <script type="text/javascript" src="../functions/profile-script.js"></script>
     <?php } ?>
-	
+
 
     </html>
     <?php

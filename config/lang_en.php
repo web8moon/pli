@@ -1,8 +1,10 @@
 <?php
 return [
-	'siteTitle' => 'Parts-Link - Stock warehouse info',
+	'siteTitle' => 'Parts-Link - Stocks warehouses info',
 	'siteLogo' => 'LOGO',
     'siteSave' => 'Save',
+    'siteSearchingLbl' => 'Searching in werehouses by original part number',
+    'searchLengthErr' => 'Length of entered number is not sufficient for searching',
 	
 	// Menu
 	'siteMenuAbout' => 'About this site',

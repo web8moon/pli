@@ -2,7 +2,8 @@
 $errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
 if (!isset($content)) {
 	ob_start(); 
-?>
+
+	?>
 
 <div class="card text-center">
 
@@ -37,9 +38,9 @@ if (checkUserSession('start')) {
             $UserID = substr($_SESSION['start'], 0, $startUserIDstr);
             $UserPassw = substr($_SESSION['start'], (strlen($UserID) + strlen(md5($_SERVER['HTTP_USER_AGENT'] + date("z")))));
             unset($startUserIDstr);
-            $link = dbConnector(compact('dbhost', 'dbname', 'dbuser', 'dbpass'));
+            $link = dbConnector(compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
             if ($link) {
-                $select = 'SELECT `UserName`, `UserEmail`, `Active`, `UserPlan` FROM `users` WHERE `UserID`=' . $UserID . ' AND `UserPsw` LIKE \'' . $UserPassw . '\' LIMIT 1';
+                $select = 'SELECT `UserName`, `UserEmail`, `Active`, `UserPlan` FROM `pli_users` WHERE `UserID`=' . $UserID . ' AND `UserPsw` LIKE \'' . $UserPassw . '\' LIMIT 1';
                 if ($result = mysqli_query($link, $select)) {
                     if (mysqli_num_rows($result) == 1) {
                         $user = mysqli_fetch_assoc($result);
