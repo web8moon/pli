@@ -27,8 +27,10 @@
 
                 <p class="card-text">SearchResults</p>
                 <br>
-
-
+<?php
+				$a= crossSearchList($currentAction, compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
+				var_dump $a;
+?>
 
             </div>
         </div>

@@ -8,7 +8,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
 
-        <link rel="stylesheet" href="/views/bootstrap.min.css">
+        <link rel="stylesheet" href="/views/bootstrap4b.min.css">
 
 
     </head>
@@ -110,6 +110,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                 echo '__FILE__:' . __FILE__ . '<br>';
                 echo '__FUNCTION__:' . __FUNCTION__ . '<br>';
                 echo '__LINE__:' . __LINE__ . '<br>';
+				echo '$_SESSION[start]:' . $_SESSION['start'] . '<br>';
 
                 ?>
             </nav>
@@ -236,8 +237,8 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     </body>
 
     <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
-    <script type="text/javascript" src="../functions/popper.min.js"></script>
-    <script type="text/javascript" src="../functions/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../functions/popper4a.min.js"></script>
+    <script type="text/javascript" src="../functions/bootstrap4b.min.js"></script>
     <script type="text/javascript" src="../functions/validator.min.js"></script>
     <script type="text/javascript" src="../functions/search-script.js"></script>
     <?php if (!isset($_SESSION['start'])) { ?>
