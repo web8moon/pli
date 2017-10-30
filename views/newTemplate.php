@@ -28,8 +28,14 @@
                 <p class="card-text">SearchResults</p>
                 <br>
 <?php
-				$a= crossSearchList($currentAction, compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
-				var_dump $a;
+				$a = TDcrossSearchList($currentAction, compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
+				
+				foreach ($a as $key => $value) {
+				//	echo $key, ' ', $value, '<br>';
+				}
+var_dump ($a);
+
+				
 ?>
 
             </div>

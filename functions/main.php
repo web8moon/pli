@@ -424,12 +424,14 @@ function controler($conf, $lang)
     }
 }
 
-function crossSearchList($N, $conf)
+function TDcrossSearchList($N, $conf)
 {
 	$select = 'SELECT DISTINCT
-	IF (ART_LOOKUP2.ARL_KIND = 3, BRANDS2.BRA_BRAND, SUPPLIERS2.SUP_BRAND) AS BRAND,
-	IF (ART_LOOKUP2.ARL_KIND IN (2, 3), ART_LOOKUP2.ARL_DISPLAY_NR, ARTICLES2.ART_ARTICLE_NR) AS NUMBER,
-	ART_LOOKUP2.ARL_KIND
+	IF (ART_LOOKUP2.ARL_KIND = 3, BRANDS2.BRA_BRAND, SUPPLIERS2.SUP_BRAND) AS BRAND
+	/* ,IF (ART_LOOKUP2.ARL_KIND IN (2, 3), ART_LOOKUP2.ARL_SEARCH_NUMBER, ARTICLES2.ART_ARTICLE_NR) AS NUMBER */
+	,ART_LOOKUP2.ARL_SEARCH_NUMBER AS NUMBER
+	,ART_LOOKUP2.ARL_KIND
+	,IF (ART_LOOKUP2.ARL_KIND = 3, BRANDS2.BRA_ID, SUPPLIERS2.SUP_ID) AS BRANDID
 FROM ART_LOOKUP
 	 LEFT JOIN BRANDS ON BRANDS.BRA_ID = ART_LOOKUP.ARL_BRA_ID
 	INNER JOIN ARTICLES ON ARTICLES.ART_ID = ART_LOOKUP.ARL_ART_ID
@@ -453,12 +455,18 @@ ORDER BY
     if ($link) {
 		if ($result = mysqli_query($link, $select)) {
             if (mysqli_num_rows($result) > 0) {
-				$Mas = mysqli_fetch_assoc($result);
-				return $Mas;
+				while ($Mas = mysqli_fetch_assoc($result)) {
+					$M[] = $Mas["BRANDID"];
+					$M[] = $Mas["NUMBER"];
+				}
 			}
 		}
 	}
-	
-	
+echo $select;
+	if (isset($M)) {
+		return $M;
+	} else {
+		return false;
+	}
 }
 
