@@ -37,10 +37,41 @@
 					if($p) {
 						var_dump ($p);
 					} else {
-						var_dump ($t);
+					    unset ($t['cause']);
+                        echo $siteSearchEmpty;
+					    ?>
+
+                        <p>
+                        <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#crossCollapseShow" aria-expanded="false" aria-controls="crossCollapseShow">
+                            <?php echo isset($siteSearchCrossesShow) ? $siteSearchCrossesShow : 'Show'; ?>
+                        </button>
+                        </p>
+                        <div class="collapse" id="crossCollapseShow">
+                        <table class="table table-responsive">
+<!--
+                            <thead>
+                            <tr>
+                                <th></th>
+                                <th></th>
+                            </tr>
+                            </thead>
+-->
+                            <tbody>
+                                <?php
+                                foreach ($t as $v) {
+                                    echo '<tr><td>' . $v['BRAND'] . '</td><td>' . $v['NUMBER'] . '</td></tr>';
+                                }
+                                ?>
+
+                            </tbody>
+                        </table>
+                        </div>
+
+                <?php
+						//var_dump ($t);
 					}
 				} else {
-					echo $siteSearchEmpty;
+
 				}
 				
 ?>

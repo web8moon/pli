@@ -6,6 +6,7 @@ return [
     'siteSearchingLbl' => 'Searching in werehouses by original part number',
     'searchLengthErr' => 'Length of entered number is not sufficient for searching',
 	'siteSearchEmpty' => 'The requested number is not found on the stocks',
+    'siteSearchCrossesShow' => 'Show founded crosses',
 	
 	// Menu
 	'siteMenuAbout' => 'About this site',
