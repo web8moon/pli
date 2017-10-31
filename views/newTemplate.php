@@ -19,22 +19,29 @@
 <br>
     <?php
     if (!in_array($currentAction, $serviceLinks) && !in_array($currentAction, $pageLinks) && $currentAction != $defaultAction) {
+		$SearchNumber = strtoupper(CheckUs($currentAction));
         ?>
         <div class="card">
             <div class="card-block">
-                <h4 class="card-title">Поиск номера <?php echo $currentAction; ?></h4>
+                <h4 class="card-title">Поиск номера <?php echo $SearchNumber; ?></h4>
                 <h6 class="card-subtitle mb-2 text-muted">Прямой поиск</h6>
 
                 <p class="card-text">SearchResults</p>
                 <br>
 <?php
-				$a = TDcrossSearchList($currentAction, compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
+				$t = TDcrossSearchList($SearchNumber, compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
 				
-				foreach ($a as $key => $value) {
-				//	echo $key, ' ', $value, '<br>';
+				
+				if($t) {
+					$p = priceSearchList($t['cause'], compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
+					if($p) {
+						var_dump ($p);
+					} else {
+						var_dump ($t);
+					}
+				} else {
+					echo $siteSearchEmpty;
 				}
-var_dump ($a);
-
 				
 ?>
 

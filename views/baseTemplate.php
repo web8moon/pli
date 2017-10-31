@@ -3,7 +3,7 @@
 if (isset($allowLanguages) and is_array($allowLanguages)) {
     ?>
     <!DOCTYPE HTML>
-    <html lang="ru-RU">
+    <html>
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">

@@ -450,23 +450,107 @@ WHERE
 		 (4, 1))
 ORDER BY
 	BRAND, NUMBER';
-	
 	$link = dbConnector($conf);
     if ($link) {
 		if ($result = mysqli_query($link, $select)) {
             if (mysqli_num_rows($result) > 0) {
+				$cause = '';
 				while ($Mas = mysqli_fetch_assoc($result)) {
-					$M[] = $Mas["BRANDID"];
-					$M[] = $Mas["NUMBER"];
+					$M[] = $Mas;
+					$cause .= ' (`Brand`=' . $Mas['BRANDID'] . ' AND `Code` LIKE \'' . $Mas['NUMBER'] . '\' AND `Quantity`>0 AND `Active`>0) OR';
 				}
+				$cause = substr($cause, 0, (strlen($cause) - 2));
+				$M['cause'] = $cause;
 			}
 		}
 	}
-echo $select;
+unset($cause);
+
 	if (isset($M)) {
+		
 		return $M;
 	} else {
 		return false;
 	}
 }
 
+function priceSearchList ($cause, $conf)
+{
+	$select = 'SELECT * FROM `pli_usersparts` WHERE ' . $cause;
+	$link = dbConnector($conf);
+    if ($link) {
+		if ($result = mysqli_query($link, $select)) {
+            if (mysqli_num_rows($result) > 0) {
+				while ($Mas = mysqli_fetch_assoc($result)) {
+					$M[] = $Mas;
+				}
+			}
+		}
+	}
+
+	if (isset($M)) {
+		return $M;
+	} else {
+		return false;
+	}	
+}
+	
+
+
+
+
+function CheckUs($N)
+{
+$N=trim($N);
+$N=stripslashes($N);
+$N=strip_tags($N);
+//$N = strtoupper($N);
+$N=str_ireplace("COUNT","",$N);
+$N=str_ireplace("SELECT","",$N);
+$N=str_ireplace("UPDATE","",$N);
+$N=str_ireplace("DELETE","",$N);
+$N=str_ireplace("-","",$N);
+$N=str_ireplace("%","",$N);
+$N=str_ireplace(" ","",$N);
+$N=str_ireplace(".","",$N);
+$N=str_ireplace(chr(96),"",$N);
+$N=str_ireplace(",","",$N);
+$N=str_ireplace("<","",$N);
+$N=str_ireplace(">","",$N);
+$N=str_ireplace(chr(92),"",$N);
+$N=str_ireplace(chr(47),"",$N);
+$N=str_ireplace(chr(95),"",$N);
+$N=str_ireplace(chr(61),"",$N);
+$N=str_ireplace(chr(27),"",$N);
+$N=str_ireplace(chr(13),"",$N);
+$N=str_ireplace("(","",$N);
+$N=str_ireplace(")","",$N);
+$N=str_ireplace(":","",$N);
+$N=str_ireplace(";","",$N);
+$N=str_ireplace("!","",$N);
+$N=str_ireplace("=","",$N);
+$N=str_ireplace("+","",$N);
+$N=str_ireplace("&","",$N);
+$N=str_ireplace("?","",$N);
+$N=str_ireplace(chr(34),"",$N);
+$N=str_ireplace(chr(39),"",$N);
+$N=str_ireplace("А","A",$N);
+$N=str_ireplace("а","A",$N);
+$N=str_ireplace("В","B",$N);
+$N=str_ireplace("в","B",$N);
+$N=str_ireplace("С","C",$N);
+$N=str_ireplace("с","C",$N);
+$N=str_ireplace("М","M",$N);
+$N=str_ireplace("м","M",$N);
+$N=str_ireplace("Е","E",$N);
+$N=str_ireplace("е","E",$N);
+$N=str_ireplace("Р","P",$N);
+$N=str_ireplace("р","P",$N);
+$N=str_ireplace("О","O",$N);
+$N=str_ireplace("о","O",$N);
+$N=str_ireplace("Н","H",$N);
+$N=str_ireplace("н","H",$N);
+$N=str_ireplace("к","K",$N);
+$N=str_ireplace("К","K",$N);
+return $N;
+}
