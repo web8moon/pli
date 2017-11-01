@@ -59,4 +59,5 @@ return [
     'profileAccountName' => 'Name',
     'profileAccountFree' => 'Free of pay',
     'profileAccountId' => 'User Card ID:',
+	'stockName' => 'Stock\'s name',
 ];

@@ -20,7 +20,10 @@
 	<br> <h1> <?php echo isset($siteTabWarehouse) ? $siteTabWarehouse : 'Stocks'; ?></h1>
 	<br>
 <?php
-	echo 'currentUserStockID:' , var_dump($currentUserStockID);
+	$userParams = array();
+	$userParams = getUserParams();
+	
+	var_dump ($userParams);
 	$errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
 	if (checkUserSession('start')) {
 		$errMsg = '';
@@ -31,9 +34,9 @@
               <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($pr) ? $pr : 'СКлад'; ?></h6>
                                         <br>
 			<div class="form-group row">
-               <label for="user-text-input" class="col-2 col-form-label"><?php echo isset($profileAccountName) ? $profileAccountName : 'Name'; ?></label>
+               <label for="user-stock-name" class="col-2 col-form-label"><?php echo isset($stockName) ? $stockName : 'Name'; ?></label>
                <div class="col-10">
-                  <input class="form-control" type="text" value="<?php echo $user['UserName']; ?>" id="user-text-input">
+                  <input class="form-control" type="text" value="<?php echo $user['UserName']; ?>" id="user-stock-name">
                </div>
            </div>
 			

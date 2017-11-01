@@ -5,7 +5,7 @@
     <div class="input-group">
         <input type="text" class="form-control form-control-lg" id="search" autofocus placeholder="Search for...">
         <span class="input-group-btn">
-        <button class="btn btn-primary btn-lg" id="go" type="submit">Go!</button>
+        <button class="btn btn-primary btn-lg" id="go" type="submit" autofocus >Go!</button>
       </span>
     </div>
     <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">

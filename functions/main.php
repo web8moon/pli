@@ -66,18 +66,15 @@ function setLang($oldLang, $newLang, $allowLang)
 
 function startUserSession($el1, $el2)
 {
-    global $Conf;
 
-    $link = dbConnector($Conf);
+    $link = dbConnector($GLOBALS['Conf']);
     if ($link) {
         $select = 'SELECT `StockID` FROM `pli_userstoks` WHERE `UserID`=\'' . $el1 . '\' LIMIT 1';
         if ($result = mysqli_query($link, $select)) {
             if (mysqli_num_rows($result) > 0) {
-                $users = mysqli_fetch_assoc($result);
-                $Conf['currentUserID'] = $el1;
-                $Conf['currentUserStockID'] = $users['StockID'];
+
                 $_SESSION['start'] = $el1 . md5($_SERVER['HTTP_USER_AGENT'] + date("z")) . $el2;
-                unset($select, $users);
+                unset($select);
                 mysqli_free_result($result);
             }
         }
@@ -90,12 +87,47 @@ function checkUserSession($sesVarName)
     $ok = false;
     if (!empty($sesVarName)) {
         if (isset($_SESSION[$sesVarName])) {
-            if (strpos($_SESSION['start'], md5($_SERVER['HTTP_USER_AGENT'] + date("z"))) > 0) {
-                $ok = true;
+			$a = strpos($_SESSION[$sesVarName], md5($_SERVER['HTTP_USER_AGENT'] + date("z")));
+            if ($a > 0) {
+                $ok = substr($_SESSION[$sesVarName], 0, $a);
             }
         }
     }
     return $ok;
+}
+
+function getUserParams()
+{
+	$ok = false;
+	$userParams = array();
+	$userID = checkUserSession('start');
+	if ($userID > 0) {
+		$link = dbConnector($GLOBALS['Conf']);
+        if ($link) {
+			$select = 'SELECT `UserID` FROM `pli_users` WHERE `UserID`=' . $userID . ' LIMIT 2';
+			if ($result = mysqli_query($link, $select)) {
+                if (mysqli_num_rows($result) == 1) {
+					mysqli_free_result($result);
+					//$userParams['userID'] = $userID;
+					$select = 'SELECT * FROM `pli_userstoks` WHERE `UserID`=' . $userID ;
+					if ($result = mysqli_query($link, $select)) {
+						if (mysqli_num_rows($result) > 0) {
+							$userParams = mysqli_fetch_assoc($result);
+							mysqli_free_result($result);
+							$ok = true;
+						}
+					}
+				}
+			}
+			mysqli_close($link);
+		}
+	}
+	if ($ok) {
+		return $userParams;
+	} else {
+		return false;
+	}
+	
 }
 
 function checkTemplateExist($pattern)
@@ -464,7 +496,7 @@ ORDER BY
 			}
 		}
 	}
-unset($cause);
+	unset($cause);
 
 	if (isset($M)) {
 		

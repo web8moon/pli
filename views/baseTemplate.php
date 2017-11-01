@@ -17,7 +17,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
         <div class="container">
             <!-- <nav class="navbar navbar-toggleable-md navbar-light"> -->
-            <nav class="navbar navbar-toggleable-md navbar-inverse">
+            <nav class="navbar navbar-dark bg-dark navbar-toggleable-md">
 
 
                 <div class="navbar-header">
@@ -100,9 +100,16 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     </div>
     <footer>
         <div class="container">
-            <nav class="navbar navbar-inverse bg-primary">
-                Made with love to our users!
-                <?php echo '<br>Current Action:' . $currentAction . ' / Lang:' . $currentLang . '<br>';
+           
+			<nav class="navbar navbar-dark bg-dark">
+			 <div class="row">
+				<span class="navbar-text">
+				Made with<img src="../views/heart.gif" width="22" height="22" alt="love" style="margin-left:5px; margin-right:5px;">to our users!
+				</span>
+				
+                <?php 
+				/*
+				echo '<br>Current Action:' . $currentAction . ' / Lang:' . $currentLang . '<br>';
                 echo 'QueryString:' . $_SERVER['QUERY_STRING'] . '<br>';
                 echo 'HTTP_HOST:' . $_SERVER['HTTP_HOST'] . '<br>';
                 echo 'REQUEST_URI:' . $_SERVER['REQUEST_URI'] . '<br>';
@@ -111,9 +118,11 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
                 echo '__FUNCTION__:' . __FUNCTION__ . '<br>';
                 echo '__LINE__:' . __LINE__ . '<br>';
 				echo '$_SESSION[start]:' . $_SESSION['start'] . '<br>';
-
+*/
                 ?>
-            </nav>
+</div>           
+		   </nav>
+			
         </div>
     </footer>
 
