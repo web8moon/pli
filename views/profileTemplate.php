@@ -40,7 +40,7 @@ if (checkUserSession('start')) {
             unset($startUserIDstr);
             $link = dbConnector(compact('dbhost', 'dbname', 'dbuser', 'dbpass', 'dbhostport'));
             if ($link) {
-                $select = 'SELECT `UserName`, `UserEmail`, `Active`, `UserPlan` FROM `pli_users` WHERE `UserID`=' . $UserID . ' AND `UserPsw` LIKE \'' . $UserPassw . '\' LIMIT 1';
+                $select = 'SELECT `UserName`, `UserEmail`, `Active`, `UserPlan` FROM `pli_users` WHERE `UserID`=' . $UserID . ' AND `UserPsw` LIKE \'' . $UserPassw . '\' LIMIT 2';
                 if ($result = mysqli_query($link, $select)) {
                     if (mysqli_num_rows($result) == 1) {
                         $user = mysqli_fetch_assoc($result);
@@ -51,14 +51,14 @@ if (checkUserSession('start')) {
 							
 	
 							
-                            <div class="card-block">
+                            <div class="card-body">
                                 <br><h5 class="card-title"><?php echo isset($profileAccountDetail) ? $profileAccountDetail : ''; ?></h5><br>
 
 
                                 <!-- PARAMETERS -->
 
                                 <div class="card">
-                                    <div class="card-block"><br>
+                                    <div class="card-body"><br>
                                         <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($profileAccountParams) ? $profileAccountParams : ''; ?></h6>
                                         <br>
                                         <div class="form-group row">
@@ -107,7 +107,7 @@ if (checkUserSession('start')) {
                                 <br>
                                 <!-- USERs DATA -->
                                 <div class="card">
-                                    <div class="card-block"><br>
+                                    <div class="card-body"><br>
                                         <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($profileAccountLogins) ? $profileAccountLogins : ''; ?></h6>
                                         <br>
 
@@ -200,7 +200,7 @@ if (checkUserSession('start')) {
         </div>
     </div>
 
-
+</div>
     <?php
 	$content = ob_get_clean();
 }
@@ -209,7 +209,7 @@ if (checkUserSession('start')) {
 
 
 
-</div>
+
 
 
 <?php 

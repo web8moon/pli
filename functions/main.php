@@ -100,19 +100,25 @@ function getUserParams()
 {
 	$ok = false;
 	$userParams = array();
+	$userParams['stokNumbers'] = 0;
 	$userID = checkUserSession('start');
 	if ($userID > 0) {
 		$link = dbConnector($GLOBALS['Conf']);
         if ($link) {
-			$select = 'SELECT `UserID` FROM `pli_users` WHERE `UserID`=' . $userID . ' LIMIT 2';
+			$select = 'SELECT `UserID`,`UserName`,`UserPsw`,`UserPlan`,`Active` FROM `pli_users` WHERE `UserID`=' . $userID . ' LIMIT 2';
 			if ($result = mysqli_query($link, $select)) {
                 if (mysqli_num_rows($result) == 1) {
+					$userParams['User'] = mysqli_fetch_assoc($result);
 					mysqli_free_result($result);
-					//$userParams['userID'] = $userID;
 					$select = 'SELECT * FROM `pli_userstoks` WHERE `UserID`=' . $userID ;
 					if ($result = mysqli_query($link, $select)) {
+						unset ($select);
 						if (mysqli_num_rows($result) > 0) {
-							$userParams = mysqli_fetch_assoc($result);
+							while ($Mas = mysqli_fetch_assoc($result)) {
+								$userParams['stokNumbers'] ++;
+								$userParams [$userParams['stokNumbers']] = $Mas;
+							}
+							unset ($Mas);
 							mysqli_free_result($result);
 							$ok = true;
 						}

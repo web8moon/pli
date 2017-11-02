@@ -1,11 +1,11 @@
 <?php if (!isset($content)) {
     ob_start(); ?>
-    <h1><?php echo isset($siteSearchingLbl) ? $siteSearchingLbl : 'Searching'; ?></h1>
+    <br><h1><?php echo isset($siteSearchingLbl) ? $siteSearchingLbl : 'Searching'; ?></h1>
 
     <div class="input-group">
-        <input type="text" class="form-control form-control-lg" id="search" autofocus placeholder="Search for...">
+        <input type="text" class="form-control form-control-lg" id="search" autofocus placeholder="<?php echo isset($searchFor) ? $searchFor : 'Search for...'; ?>">
         <span class="input-group-btn">
-        <button class="btn btn-primary btn-lg" id="go" type="submit" autofocus >Go!</button>
+        <button class="btn btn-primary btn-lg" id="go" type="submit" >Go!</button>
       </span>
     </div>
     <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
@@ -22,7 +22,7 @@
 		$SearchNumber = strtoupper(CheckUs($currentAction));
         ?>
         <div class="card">
-            <div class="card-block">
+            <div class="card-body">
                 <h4 class="card-title">Поиск номера <?php echo $SearchNumber; ?></h4>
                 <h6 class="card-subtitle mb-2 text-muted">Прямой поиск</h6>
 

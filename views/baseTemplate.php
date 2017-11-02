@@ -102,7 +102,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
         <div class="container">
            
 			<nav class="navbar navbar-dark bg-dark">
-			 <div class="row">
+			 <div class="navbar-header">
 				<span class="navbar-text">
 				Made with<img src="../views/heart.gif" width="22" height="22" alt="love" style="margin-left:5px; margin-right:5px;">to our users!
 				</span>

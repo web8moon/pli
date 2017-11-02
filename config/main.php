@@ -13,6 +13,4 @@ return [
 	'serviceLinks' => ['login' => 'login', 'register' => 'register', 'save-profile' => 'save-profile', 'logout' => 'logout'],
 	'pageLinks' => ['about' => 'about', 'profile' => 'profile', 'stocks' => 'stocks'],
 	'currentTemplate' => 'welcome',
-	'currentUserID' => '',
-	'currentUserStockID' => '',
 ];

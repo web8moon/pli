@@ -3,10 +3,11 @@ return [
 	'siteTitle' => 'Parts-Link - Stocks warehouses info',
 	'siteLogo' => 'LOGO',
     'siteSave' => 'Save',
-    'siteSearchingLbl' => 'Searching in werehouses by original part number',
+    'siteSearchingLbl' => 'Search through warehouses by part number',
     'searchLengthErr' => 'Length of entered number is not sufficient for searching',
 	'siteSearchEmpty' => 'The requested number is not found on the stocks',
     'siteSearchCrossesShow' => 'Show founded crosses',
+	'searchFor' => 'Search for...',
 	
 	// Menu
 	'siteMenuAbout' => 'About this site',
@@ -15,7 +16,7 @@ return [
 	'siteMenuLogout' => 'Logout',
     'siteMenuUser' => 'User',
     'siteTabProfile' => 'User\'s profile',
-    'siteTabWarehouse' => 'Warehouses',
+    'siteTabWarehouse' => 'User\'s Warehouses',
     'siteSelectorAccountActive' => 'Account is active',
 	
 	// Модальная форма Логина
@@ -60,4 +61,6 @@ return [
     'profileAccountFree' => 'Free of pay',
     'profileAccountId' => 'User Card ID:',
 	'stockName' => 'Stock\'s name',
+	'stockMultiError' => 'We\'ve found you have more than one Warehouse registered and Free of pay Type of Account. The first registered Warehouse is set as Active. To having more stocks you have to change your Type of Account',
+	'profileActiveWarning' => 'Your Account is not set as Active. Actuality of your stocks will be unavailable for visiters.',
 ];

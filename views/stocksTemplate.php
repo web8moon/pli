@@ -16,28 +16,50 @@
         </ul>
     </div>
 
-
-	<br> <h1> <?php echo isset($siteTabWarehouse) ? $siteTabWarehouse : 'Stocks'; ?></h1>
+<div class="card-body">
+	<h1> <?php echo isset($siteTabWarehouse) ? $siteTabWarehouse : 'Stocks'; ?></h1>
 	<br>
 <?php
 	$userParams = array();
 	$userParams = getUserParams();
 	
-	var_dump ($userParams);
+	// var_dump ($userParams);
+	if ($userParams['stokNumbers'] > 1 AND $userParams['User']['UserPlan'] == 1) {
+		$userParams['stokNumbers'] = 1;
+	?>
+	<br>
+    <div class="container">
+        <div class="alert alert-warning" role="alert">
+            <?php echo isset($stockMultiError) ? $stockMultiError : 'Error'; ?>
+        </div>
+    </div>
+    <br>
+	<?php
+	}
+	if ($userParams['User']['Active'] != 1) {
+	?>
+	<br>
+    <div class="container">
+        <div class="alert alert-warning" role="alert">
+            <?php echo isset($profileActiveWarning) ? $profileActiveWarning : 'Warning'; ?>
+        </div>
+    </div>
+    <br>
+	<?php
+	}
 	$errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
 	if (checkUserSession('start')) {
 		$errMsg = '';
 ?>		
 		
 		<div class="card">
-           <div class="card-block"><br>
+           <div class="card-body">
               <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($pr) ? $pr : 'СКлад'; ?></h6>
-                                        <br>
 			<div class="form-group row">
-               <label for="user-stock-name" class="col-2 col-form-label"><?php echo isset($stockName) ? $stockName : 'Name'; ?></label>
-               <div class="col-10">
-                  <input class="form-control" type="text" value="<?php echo $user['UserName']; ?>" id="user-stock-name">
-               </div>
+               <label for="user-stock-name" ><?php echo isset($stockName) ? $stockName : 'Name'; ?></label>
+              <div class="col-4">
+                  <input class="form-control" type="text" value="<?php echo $userParams[$userParams['stokNumbers']]['StockName']; ?>" id="user-stock-name">
+              </div>
            </div>
 			
 			
@@ -61,7 +83,8 @@
 
 	
 ?>	
-</div>	
+</div>
+</div>
     <?php $content = ob_get_clean();} ?>
 
 <?php require 'baseTemplate.php'; ?>
