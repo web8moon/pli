@@ -61,6 +61,9 @@ return [
     'profileAccountFree' => 'Free of pay',
     'profileAccountId' => 'User Card ID:',
 	'stockName' => 'Stock\'s name',
+	'stockCountry' => 'Stock\'s country',
+	'stockAdress' => 'Stock\'s adress',
+	'stockCity' => 'Stock\'s city',
 	'stockMultiError' => 'We\'ve found you have more than one Warehouse registered and Free of pay Type of Account. The first registered Warehouse is set as Active. To having more stocks you have to change your Type of Account',
 	'profileActiveWarning' => 'Your Account is not set as Active. Actuality of your stocks will be unavailable for visiters.',
 ];
