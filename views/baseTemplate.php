@@ -250,11 +250,15 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <script type="text/javascript" src="../functions/bootstrap4b.min.js"></script>
     <script type="text/javascript" src="../functions/validator.min.js"></script>
     <script type="text/javascript" src="../functions/search-script.js"></script>
-    <?php if (!isset($_SESSION['start'])) { ?>
+    <?php 
+	if (!isset($_SESSION['start'])) { ?>
         <script type="text/javascript" src="../functions/form-scripts.js"></script>
-    <?php } else { ?>
-        <script type="text/javascript" src="../functions/profile-script.js"></script>
-    <?php } ?>
+    <?php } else {
+			if ( $currentAction == $pageLinks['profile'] ) {?>
+				<script type="text/javascript" src="../functions/profile-script.js"></script>
+    <?php 
+			}
+	} ?>
 
 
     </html>

@@ -4,7 +4,7 @@ if (!isset($content)) {
 	ob_start(); 
 
 	?>
-
+<br>
 <div class="card text-center">
 
     <!-- UPPER TABS -->
