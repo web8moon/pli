@@ -106,7 +106,87 @@ function getUserParams()
     $userParams = array();
     $userParams['stokNumbers'] = 0;
     $userID = checkUserSession('start');
-    if ($userID > 0) {
+    
+	if ($userID > 0) {
+        $link = dbConnector($GLOBALS['Conf']);
+        if ($link) {
+			$select = 'SELECT 
+						pli_stockphones.ID P_ID,
+						pli_stockphones.StockID P_SiD,
+						pli_stockphones.CountryCode P_CC,
+						pli_stockphones.Phone P_Ph,
+						pli_stockphones.IsViber P_iV,
+						pli_stockphones.IsWatsapp P_iW,
+    
+						pli_userstoks.ID S_ID, 
+						pli_userstoks.StockName S_Name,
+						pli_userstoks.StockCountry S_Country,
+						pli_userstoks.StockCity S_City,
+						pli_userstoks.StockAdress S_Adr,
+						pli_userstoks.StockEmail S_mail,
+						pli_userstoks.ShipsInfo S_Shi,
+						pli_userstoks.Currency S_Cur,
+						pli_userstoks.Active S_Act,
+						
+						pli_users.UserName U_Name,
+						pli_users.UserPsw U_Pwd,
+						pli_users.UserEmail U_mail,
+						pli_users.Active U_Act
+						
+					FROM pli_stockphones
+						RIGHT JOIN pli_userstoks ON pli_userstoks.ID=pli_stockphones.StockID
+						JOIN pli_users ON pli_users.UserID=pli_userstoks.UserID
+					WHERE
+						pli_users.UserID=' . $userID;
+			if ($result = mysqli_query($link, $select)) {
+				if (mysqli_num_rows($result) > 0) {
+					while ($Mas = mysqli_fetch_assoc($result)) {
+                        $userParams['stokNumbers'] ++;
+                        $userParams[$userParams['stokNumbers']] = $Mas;
+                    }
+				}
+			}
+		}
+	}
+	$userParams['User']['UserName'] = $userParams[$userParams['stokNumbers']]['U_Name'];
+	$userParams['User']['UserPsw'] = $userParams[$userParams['stokNumbers']]['U_Pwd'];
+	$userParams['User']['UserEmail'] = $userParams[$userParams['stokNumbers']]['U_mail'];
+	$userParams['User']['Active'] = $userParams[$userParams['stokNumbers']]['U_Act'];
+	
+	for ( $i = 1;  $i<=$userParams['stokNumbers']; $i++ ) {
+				
+			$userParams['Stock'][$i]['ID'] = $userParams[$i]['S_ID'];
+			$userParams['Stock'][$i]['StockName'] = $userParams[$i]['S_Name'];
+			$userParams['Stock'][$i]['StockCountry'] = $userParams[$i]['S_Country'];
+			$userParams['Stock'][$i]['StockCity'] = $userParams[$i]['S_City'];
+			$userParams['Stock'][$i]['StockAdress'] = $userParams[$i]['S_Adr'];
+			$userParams['Stock'][$i]['StockEmail'] = $userParams[$i]['S_mail'];
+			$userParams['Stock'][$i]['ShipsInfo'] = $userParams[$i]['S_Shi'];
+			$userParams['Stock'][$i]['Currency'] = $userParams[$i]['S_Cur'];
+			$userParams['Stock'][$i]['Active'] = $userParams[$i]['S_Act'];
+			
+			$userParams['Phone'][$i]['ID'] = $userParams[$i]['P_ID'];
+			$userParams['Phone'][$i]['StockID'] = $userParams[$i]['P_SiD'];
+			$userParams['Phone'][$i]['CountryCode'] = $userParams[$i]['P_CC'];
+			$userParams['Phone'][$i]['Phone'] = $userParams[$i]['P_Ph'];
+			$userParams['Phone'][$i]['IsViber'] = $userParams[$i]['P_iV'];
+			$userParams['Phone'][$i]['IsWatsapp'] = $userParams[$i]['P_iW'];
+
+		unset ($userParams[$i]);
+	}
+	$userParams['Stock'] = array_unique($userParams['Stock'], 0);
+	sort ($userParams['Stock'], 0);
+	$userParams['Phone'] = array_unique($userParams['Phone'], 0);
+	sort ($userParams['Phone'], 0);
+	
+	echo '<pre>';
+	var_dump ($userParams);
+	echo '</pre>';
+	
+	
+	
+	/*
+	if ($userID > 0) {
         $link = dbConnector($GLOBALS['Conf']);
         if ($link) {
             $select = 'SELECT `UserID`,`UserName`,`UserPsw`,`UserPlan`,`Active` FROM `pli_users` WHERE `UserID`=' . $userID . ' LIMIT 2';
@@ -138,7 +218,9 @@ function getUserParams()
             mysqli_close($link);
         }
     }
-    if ($ok) {
+    */
+	
+	if ($ok) {
         return $userParams;
     } else {
         return false;
