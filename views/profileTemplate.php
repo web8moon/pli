@@ -22,10 +22,10 @@ if (!isset($content)) {
 
 	
 	
-							
+
 <?php							
-							
-							
+
+
 if (checkUserSession('start')) {
 
         ?>

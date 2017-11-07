@@ -29,7 +29,7 @@ if (! isset($content)) {
     // echo '<pre>';
     // var_dump($userParams);
     // echo '</pre>';
-    if ($userParams['stokNumbers'] > 1 and $userParams['User']['UserPlan'] == 1) {
+    if (count($userParams['Stock']) > 1 and $userParams['User']['UserPlan'] == 1) {
         $userParams['stokNumbers'] = 1;
         ?>
                 <br>
@@ -46,8 +46,8 @@ if (! isset($content)) {
                 <br>
 		<div class="container">
 			<div class="alert alert-warning" role="alert">
-                        <?php echo isset($profileActiveWarning) ? $profileActiveWarning : 'Warning'; ?>
-                    </div>
+              <?php echo isset($profileActiveWarning) ? $profileActiveWarning : 'Warning'; ?>
+           </div>
 		</div>
 		<br>
                 <?php
@@ -67,7 +67,7 @@ if (! isset($content)) {
 					<label for="user-stock-name" class="col-sm-2 col-form-label"><?php echo isset($stockName) ? $stockName : 'Name'; ?></label>
 					<div class="col col-3">
 						<input class="form-control" type="text"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['StockName']; ?>"
+							value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockName']; ?>"
 							id="user-stock-name">
 					</div>
 
@@ -84,7 +84,7 @@ if (! isset($content)) {
 
                                 foreach ($currency as $c) {
                                     echo '<option value=\"' . $c['ID'] . '\"';
-                                    if ($userParams[$userParams['stokNumbers']]['Currency'] == $c['ID'])
+                                    if ($userParams['Stock'][$userParams['stokNumbers']]['Currency'] == $c['ID'])
                                         echo ' selected';
                                     echo '>' . $c['Name'] . '</option>';
                                 }
@@ -101,14 +101,14 @@ if (! isset($content)) {
 					<div class="col-3">
 						<div class="input-group">
 							<span class="input-group-addon"> <input
-								<?php echo ($userParams[$userParams['stokNumbers']]['Active'] >= 1) ? 'checked' : ''; ?>
+								<?php echo ($userParams['Stock'][$userParams['stokNumbers']]['Active'] >= 1) ? 'checked' : ''; ?>
 								type="checkbox" aria-label="Check to activate your stock"
 								id="stock-active-chk">
 							</span> <input disabled
 								value="<?php echo isset($stockSelectorStockActive) ? $stockSelectorStockActive : 'Active'; ?>"
-								type="text" id="accountactivelbl"
+								type="text" id="stock-active-lbl"
 								aria-label="Check to activate your stock"
-								class="form-control <?php echo ($userParams[$userParams['stokNumbers']]['Active'] < 1) ? 'btn-danger' : ''; ?> ">
+								class="form-control <?php echo ($userParams['Stock'][$userParams['stokNumbers']]['Active'] < 1) ? 'btn-danger' : ''; ?> ">
 						</div>
 					</div>
 
@@ -139,7 +139,7 @@ if (! isset($content)) {
 
 foreach ($countries as $c) {
     echo '<option value=\"' . $c['ID'] . '\"';
-    if ($userParams[$userParams['stokNumbers']]['StockCountry'] == $c['ID'])
+    if ($userParams['Stock'][$userParams['stokNumbers']]['StockCountry'] == $c['ID'])
         echo ' selected';
     echo '>' . $c   ['Name'] . '</option>';
 }
@@ -156,7 +156,7 @@ foreach ($countries as $c) {
 					<label for="user-stock-city" class="col-sm-2 col-form-label"><?php echo isset($stockCity) ? $stockCity : 'City'; ?></label>
 					<div class="col col-4">
 						<input class="form-control" type="text"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['StockCity']; ?>"
+							value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockCity']; ?>"
 							id="user-stock-city">
 					</div>
 
@@ -165,7 +165,7 @@ foreach ($countries as $c) {
 					<label for="user-stock-adress" class="col-sm-2 col-form-label"><?php echo isset($stockAdress) ? $stockAdress : 'Adress'; ?></label>
 					<div class="col">
 						<input class="form-control" type="text"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['StockAdress']; ?>"
+							value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockAdress']; ?>"
 							id="user-stock-adress">
 					</div>
 
@@ -183,7 +183,7 @@ foreach ($countries as $c) {
 					<label for="user-stock-mail" class="col-sm-4 col-form-label"><?php echo isset($stockOrdersEmail) ? $stockOrdersEmail : 'E-mail'; ?></label>
 					<div class="col col-5">
 						<input class="form-control" type="email"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
+							value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockEmail']; ?>"
 							id="user-stock-mail">
 					</div>
 				</div>
@@ -210,8 +210,7 @@ foreach ($countries as $c) {
 							class="form-check-input" id="has-viber" data-toggle="tooltip"
 							data-placement="bottom"
 							title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
-							<img src="../views/icon_viber.png" alt="Viber" width="22"
-							height="22">
+							<img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
 						</label>
 					</div>
 					<div class="form-check">
@@ -219,18 +218,24 @@ foreach ($countries as $c) {
 							class="form-check-input" id="has-whatsapp" data-toggle="tooltip"
 							data-placement="bottom"
 							title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
-							<img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24"
-							height="24">
+							<img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
 						</label>
 					</div>
-					<button type="button" class="btn btn-outline-primary"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?></button>
+					<button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
+					<span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
+					</button>
+
+			  
+			  
+			  
+           </div>
 				</div>
 
 				<div class="form-group row">
 					<label for="user-stock-ships" class="col-sm-3 col-form-label"><?php echo isset($stockShipmentInfo) ? $stockShipmentInfo : 'ShipsInfo'; ?></label>
 					<div class="col">
 						<input class="form-control" type="text"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['ShipsInfo']; ?>"
+							value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['ShipsInfo']; ?>"
 							id="user-stock-ships">
 					</div>
 
@@ -239,25 +244,27 @@ foreach ($countries as $c) {
 		</div>
 		<!--  /THIRD CARD -->
 		<br>
-
-                <?php
+		<div class="container">
+		<a href="" data-toggle="modal" class="btn btn-primary" id="save-stock"><?php echo isset($siteSave) ? $siteSave : 'Save'; ?></a>
+		</div>
+		<br>
+       <?php
     }
     
     if ($errMsg != '') {
         ?>
-                <br>
+       <br>
 		<div class="container">
 			<div class="alert alert-danger" role="alert">
-                        <?php echo $errMsg; ?>
-                    </div>
+              <?php echo $errMsg; ?>
+           </div>
 		</div>
 		<br>
-                <?php
+       <?php
     }
     
     ?>
-            <br>
-		<a href="" data-toggle="modal" class="btn btn-primary" id="save-stock"><?php echo isset($siteSave) ? $siteSave : 'Save'; ?></a>
+
 	</div>
 </div>
 
@@ -275,7 +282,7 @@ foreach ($countries as $c) {
 			<div class="modal-body">
 
 
-				<form role="form" id="PconfirmForm" data-toggle="validator"
+				<form role="form" id="SconfirmForm" data-toggle="validator"
 					class="shake">
 					<div class="row">
 						<div class="form-group">

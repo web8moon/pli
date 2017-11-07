@@ -8,6 +8,7 @@ return [
 	'siteSearchEmpty' => 'Искомый номер в предложениях не найден',
     'siteSearchCrossesShow' => 'Показать найденные аналоги',
 	'searchFor' => 'Номер для поиска...',
+	'siteErrorLbl' => 'Ошибка',
 	
 	// Меню
 	'siteMenuAbout' => 'О платформе',

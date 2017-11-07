@@ -258,6 +258,12 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 				<script type="text/javascript" src="../functions/profile-script.js"></script>
     <?php 
 			}
+			if ( $currentAction == $pageLinks['stocks'] ) {?>
+				<script type="text/javascript" src="../functions/stocks-script.js"></script>
+    <?php 
+			}
+			
+			
 	} ?>
 
 

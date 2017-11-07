@@ -131,6 +131,7 @@ function getUserParams()
 						pli_users.UserName U_Name,
 						pli_users.UserPsw U_Pwd,
 						pli_users.UserEmail U_mail,
+						pli_users.UserPlan U_Plan,
 						pli_users.Active U_Act
 						
 					FROM pli_stockphones
@@ -144,44 +145,64 @@ function getUserParams()
                         $userParams['stokNumbers'] ++;
                         $userParams[$userParams['stokNumbers']] = $Mas;
                     }
-				}
-			}
-		}
-	}
-	$userParams['User']['UserName'] = $userParams[$userParams['stokNumbers']]['U_Name'];
-	$userParams['User']['UserPsw'] = $userParams[$userParams['stokNumbers']]['U_Pwd'];
-	$userParams['User']['UserEmail'] = $userParams[$userParams['stokNumbers']]['U_mail'];
-	$userParams['User']['Active'] = $userParams[$userParams['stokNumbers']]['U_Act'];
-	
-	for ( $i = 1;  $i<=$userParams['stokNumbers']; $i++ ) {
+					unset ($Mas);
 				
-			$userParams['Stock'][$i]['ID'] = $userParams[$i]['S_ID'];
-			$userParams['Stock'][$i]['StockName'] = $userParams[$i]['S_Name'];
-			$userParams['Stock'][$i]['StockCountry'] = $userParams[$i]['S_Country'];
-			$userParams['Stock'][$i]['StockCity'] = $userParams[$i]['S_City'];
-			$userParams['Stock'][$i]['StockAdress'] = $userParams[$i]['S_Adr'];
-			$userParams['Stock'][$i]['StockEmail'] = $userParams[$i]['S_mail'];
-			$userParams['Stock'][$i]['ShipsInfo'] = $userParams[$i]['S_Shi'];
-			$userParams['Stock'][$i]['Currency'] = $userParams[$i]['S_Cur'];
-			$userParams['Stock'][$i]['Active'] = $userParams[$i]['S_Act'];
+				
+					$userParams['User']['UserName'] = $userParams[$userParams['stokNumbers']]['U_Name'];
+					$userParams['User']['UserPsw'] = $userParams[$userParams['stokNumbers']]['U_Pwd'];
+					$userParams['User']['UserEmail'] = $userParams[$userParams['stokNumbers']]['U_mail'];
+					$userParams['User']['UserPlan'] = $userParams[$userParams['stokNumbers']]['U_Plan'];
+					$userParams['User']['Active'] = $userParams[$userParams['stokNumbers']]['U_Act'];
+					
+					for ( $i = 1;  $i<=$userParams['stokNumbers']; $i++ ) {
+								
+						$userParams['Stock'][$i]['ID'] = $userParams[$i]['S_ID'];
+						$userParams['Stock'][$i]['StockName'] = $userParams[$i]['S_Name'];
+						$userParams['Stock'][$i]['StockCountry'] = $userParams[$i]['S_Country'];
+						$userParams['Stock'][$i]['StockCity'] = $userParams[$i]['S_City'];
+						$userParams['Stock'][$i]['StockAdress'] = $userParams[$i]['S_Adr'];
+						$userParams['Stock'][$i]['StockEmail'] = $userParams[$i]['S_mail'];
+						$userParams['Stock'][$i]['ShipsInfo'] = $userParams[$i]['S_Shi'];
+						$userParams['Stock'][$i]['Currency'] = $userParams[$i]['S_Cur'];
+						$userParams['Stock'][$i]['Active'] = $userParams[$i]['S_Act'];
+						
+						$userParams['Phone'][$i]['ID'] = $userParams[$i]['P_ID'];
+						$userParams['Phone'][$i]['StockID'] = $userParams[$i]['P_SiD'];
+						$userParams['Phone'][$i]['CountryCode'] = $userParams[$i]['P_CC'];
+						$userParams['Phone'][$i]['Phone'] = $userParams[$i]['P_Ph'];
+						$userParams['Phone'][$i]['IsViber'] = $userParams[$i]['P_iV'];
+						$userParams['Phone'][$i]['IsWatsapp'] = $userParams[$i]['P_iW'];
+				
+						unset ($userParams[$i]);
+					}
+					
+					unset ($userParams['stokNumbers']);
+					
+					$userParams['Stock'] = array_unique($userParams['Stock'], 0);
+					sort ($userParams['Stock'], 0);
+					
+					$userParams['Phone'] = array_unique($userParams['Phone'], 0);
+					sort ($userParams['Phone'], 0);
+				
+				
+				
+				
+				
+				
+				
+				
+				$ok = true;
+				
+				}
+				mysqli_free_result($result);
+			}
 			
-			$userParams['Phone'][$i]['ID'] = $userParams[$i]['P_ID'];
-			$userParams['Phone'][$i]['StockID'] = $userParams[$i]['P_SiD'];
-			$userParams['Phone'][$i]['CountryCode'] = $userParams[$i]['P_CC'];
-			$userParams['Phone'][$i]['Phone'] = $userParams[$i]['P_Ph'];
-			$userParams['Phone'][$i]['IsViber'] = $userParams[$i]['P_iV'];
-			$userParams['Phone'][$i]['IsWatsapp'] = $userParams[$i]['P_iW'];
+			mysqli_close($link);
+			
 
-		unset ($userParams[$i]);
-	}
-	$userParams['Stock'] = array_unique($userParams['Stock'], 0);
-	sort ($userParams['Stock'], 0);
-	$userParams['Phone'] = array_unique($userParams['Phone'], 0);
-	sort ($userParams['Phone'], 0);
-	
-	echo '<pre>';
-	var_dump ($userParams);
-	echo '</pre>';
+		
+		}
+	}	
 	
 	
 	

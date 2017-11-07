@@ -8,6 +8,7 @@ return [
 	'siteSearchEmpty' => 'The requested number is not found on the stocks',
     'siteSearchCrossesShow' => 'Show founded crosses',
 	'searchFor' => 'Search for...',
+	'siteErrorLbl' => 'Error',
 	
 	// Menu
 	'siteMenuAbout' => 'About this site',
