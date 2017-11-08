@@ -7,7 +7,11 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
-
+ <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+ <?php if ( $currentAction == $pageLinks['stocks'] ) {?>
+				<script type="text/javascript" src="../functions/stocks-script.js"></script>
+    <?php 	} ?>
+ 
         <link rel="stylesheet" href="/views/bootstrap4b.min.css">
 
 
@@ -245,7 +249,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
     </body>
 
-    <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+   
     <script type="text/javascript" src="../functions/popper4a.min.js"></script>
     <script type="text/javascript" src="../functions/bootstrap4b.min.js"></script>
     <script type="text/javascript" src="../functions/validator.min.js"></script>
@@ -258,10 +262,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 				<script type="text/javascript" src="../functions/profile-script.js"></script>
     <?php 
 			}
-			if ( $currentAction == $pageLinks['stocks'] ) {?>
-				<script type="text/javascript" src="../functions/stocks-script.js"></script>
-    <?php 
-			}
+			
 			
 			
 	} ?>

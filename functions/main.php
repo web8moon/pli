@@ -639,13 +639,14 @@ ORDER BY
                 }
                 $cause = substr($cause, 0, (strlen($cause) - 2));
                 $M['cause'] = $cause;
-            }
+				unset($cause);
+			}
+			mysqli_free_result($result);
         }
+		mysqli_close($link);
     }
-    unset($cause);
-    
+
     if (isset($M)) {
-        
         return $M;
     } else {
         return false;
@@ -663,9 +664,11 @@ function priceSearchList($cause, $conf)
                     $M[] = $Mas;
                 }
             }
+			mysqli_free_result($result);
         }
+		mysqli_close($link);
     }
-    
+
     if (isset($M)) {
         return $M;
     } else {

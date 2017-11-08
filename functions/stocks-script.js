@@ -2,10 +2,10 @@ $(document).ready(function(){
     
 	// Checkbox is the Stock is Active
 	$("#stock-active-chk").click(function() {
-        if(!$("#stock-active-chk").is(':checked')) {
-            $("#stock-active-lbl").addClass('btn-danger');
+        if(!$("#stock-active-chk").is(":checked")) {
+            $("#stock-active-lbl").addClass("btn-danger");
         } else {
-            $("#stock-active-lbl").removeClass('btn-danger');
+            $("#stock-active-lbl").removeClass("btn-danger");
         }
 	});
 	
@@ -14,7 +14,7 @@ $(document).ready(function(){
 		$("#SconfirmForm")[0].reset();
 		$("#msgSubmit").text('');
 		// if (checkForm()){
-			$("#SconfirmModal").modal('show');
+			$("#SconfirmModal").modal("show");
 		// }
 	});
 
@@ -41,7 +41,17 @@ $(document).ready(function(){
 		}
 	});
   
-*/  
+*/
+
+function putPhoneNumbers() {
+
+	$("#three").html("<div class=\"form-group row\">");
+	$("#three").html("<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + label + "</label>");
+	$("#three").html("<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"\"></div>");
+	$("#three").html("</div");
+
+}
+
 });
 /*
 function submitLoginForm(){
@@ -116,4 +126,18 @@ function checkForm(){
 	}
 */	
 	return checkStatus;
+}
+
+
+function putPhoneNumbers(label, phonesArr) {
+	var a = "";
+
+	alert (phonesArr[1].CountryCode);
+	
+	a = "<div class=\"form-group row\">\
+		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + label + "</label>\
+		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"\"></div></div";
+		
+		return a;
+
 }

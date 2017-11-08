@@ -188,6 +188,8 @@ foreach ($countries as $c) {
 					</div>
 				</div>
 
+				<input type="hidden" value="<?php echo count($userParams['Phone']); ?>" id="user-stock-phones">
+				<div id="three">
 				<div class="form-group row">
 
 					<label for="user-stock-phone" class="col-sm-3 col-form-label"><?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
@@ -222,13 +224,19 @@ foreach ($countries as $c) {
 						</label>
 					</div>
 					<button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
-					<span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
+						<span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
 					</button>
 
 			  
 			  
 			  
            </div>
+		   <script type="text/javascript">
+			$(document).ready( document.write( putPhoneNumbers("<?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?>", <?php echo json_encode($userParams['Phone']); ?> ) ) );
+		   </script>
+		   
+</div>
+<?php echo json_encode($userParams['Phone']); ?>
 				</div>
 
 				<div class="form-group row">
