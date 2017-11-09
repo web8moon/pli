@@ -21,8 +21,10 @@ $(document).ready(function(){
 	
 	$("#add-phone-number").click(function() {
 		
+		/*
 		//Show Error badge
 		$("#add-phone-number-error").css("display", "inline-block");
+		*/
 	});	
 	
 /*  
@@ -129,14 +131,21 @@ function checkForm(){
 }
 
 
-function putPhoneNumbers(label, phonesArr) {
+function putPhoneNumber(label, tooltipCountryCode, HasViber, HasWhatsapp, phonesArr) {
 	var a = "";
 
-	alert (phonesArr[1].CountryCode);
+	// alert (phonesArr.CountryCode);
 	
 	a = "<div class=\"form-group row\">\
 		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + label + "</label>\
-		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"\"></div></div";
+		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"" + phonesArr.CountryCode + "\"\
+		data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + tooltipCountryCode + "\"\
+		id=\"user-phone-country-code-" + phonesArr.ID + "\"></div>\
+		<div class=\"col col-3\"><input class=\"form-control\" type=\"tel\" value=\"" + phonesArr.Phone + "\"></div>\
+		<div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasViber + "\">\
+		<img src=\"../views/icon_viber.png\" alt=\"Viber\" width=\"22\" height=\"22\">\
+		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
+		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div></div>";
 		
 		return a;
 

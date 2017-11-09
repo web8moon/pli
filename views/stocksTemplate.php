@@ -188,22 +188,22 @@ foreach ($countries as $c) {
 					</div>
 				</div>
 
-				<input type="hidden" value="<?php echo count($userParams['Phone']); ?>" id="user-stock-phones">
 				<div id="three">
+				<!--
 				<div class="form-group row">
 
-					<label for="user-stock-phone" class="col-sm-3 col-form-label"><?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
+					<label for="user-stock-phone" class="col-sm-3 col-form-label"><?php //echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
 					<div class="col col-1">
 						<input class="form-control" type="text"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
+							value="<?php //echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
 							id="user-stock-country-code" data-toggle="tooltip"
 							data-placement="bottom"
-							title="<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
+							title="<?php //echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
 					</div>
 
 					<div class="col col-3">
 						<input class="form-control" type="tel"
-							value="<?php echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
+							value="<?php //echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
 							id="user-stock-phone">
 					</div>
 
@@ -211,7 +211,7 @@ foreach ($countries as $c) {
 						<label class="form-check-label"> <input type="checkbox"
 							class="form-check-input" id="has-viber" data-toggle="tooltip"
 							data-placement="bottom"
-							title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
+							title="<?php //echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
 							<img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
 						</label>
 					</div>
@@ -219,24 +219,31 @@ foreach ($countries as $c) {
 						<label class="form-check-label"> <input type="checkbox"
 							class="form-check-input" id="has-whatsapp" data-toggle="tooltip"
 							data-placement="bottom"
-							title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
+							title="<?php //echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
 							<img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
 						</label>
 					</div>
-					<button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
-						<span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
-					</button>
+					
 
 			  
 			  
 			  
            </div>
-		   <script type="text/javascript">
-			$(document).ready( document.write( putPhoneNumbers("<?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?>", <?php echo json_encode($userParams['Phone']); ?> ) ) );
-		   </script>
-		   
-</div>
-<?php echo json_encode($userParams['Phone']); ?>
+		   -->
+		   <?php
+
+		   for ($i = 0;  $i < count ($userParams['Phone']); $i++) {
+
+		   ?>
+		   <script type="text/javascript"><!--
+				$(document).ready( document.write( putPhoneNumber("<?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?>", "<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>", "<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>", "<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>", <?php echo json_encode($userParams['Phone'][$i]); ?> ) ) );
+		   --></script>
+	<?php } ?>
+<button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
+						<span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
+					</button>
+	</div>
+
 				</div>
 
 				<div class="form-group row">
@@ -257,7 +264,16 @@ foreach ($countries as $c) {
 		</div>
 		<br>
        <?php
-    }
+
+
+		function addPhNumber($stockNumber, $stocks) {
+		
+			var_dump ($stocks);
+		
+		}
+
+
+   }
     
     if ($errMsg != '') {
         ?>
@@ -269,7 +285,9 @@ foreach ($countries as $c) {
 		</div>
 		<br>
        <?php
-    }
+	   
+	}   
+		
     
     ?>
 

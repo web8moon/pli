@@ -97,7 +97,8 @@ function checkUserSession($sesVarName)
             }
         }
     }
-    return $ok;
+    // Return KundenNumer
+	return $ok;
 }
 
 function getUserParams()
