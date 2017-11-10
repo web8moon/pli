@@ -108,7 +108,7 @@ function getUserParams()
     $userParams['stokNumbers'] = 0;
     $userID = checkUserSession('start');
     
-	if ($userID > 0) {
+	if (is_numeric($userID) and $userID > 0) {
         $link = dbConnector($GLOBALS['Conf']);
         if ($link) {
 			$select = 'SELECT 
@@ -139,7 +139,7 @@ function getUserParams()
 						RIGHT JOIN pli_userstoks ON pli_userstoks.ID=pli_stockphones.StockID
 						JOIN pli_users ON pli_users.UserID=pli_userstoks.UserID
 					WHERE
-						pli_users.UserID=' . $userID;
+						pli_users.UserID=' . $userID . ' ORDER by S_ID';
 			if ($result = mysqli_query($link, $select)) {
 				if (mysqli_num_rows($result) > 0) {
 					while ($Mas = mysqli_fetch_assoc($result)) {
@@ -601,6 +601,30 @@ function controler($conf, $lang)
             }
         }
     }
+
+	
+    // ADD-PHONE
+    if ($conf['currentAction'] == $conf['serviceLinks']['add-phone']) {
+		$errorMSG = "Error";
+		if (isset($_SESSION['start']) and !empty($_POST) ) {
+			if ( !empty($_POST["st"]) and is_numeric($_POST["st"]) and $_POST["st"]>0 ) {
+				$link = dbConnector($conf);
+                if ($link) {
+					$select = 'INSERT INTO `pli_stockphones` SET `StockID`=\'' . $_POST["st"] . '\', `CountryCode`=\'00\'';
+					if (mysqli_query($link, $select)) {
+                        $newPhoneID = mysqli_insert_id($link);
+						if ($newPhoneID >0) {
+							$errorMSG = 'success' . $newPhoneID;
+						}
+						unset($newPhoneID);
+					}
+                    unset($select);
+					mysqli_close($link);
+				}
+			}
+		}
+		echo $errorMSG;
+	}
 }
 
 function TDcrossSearchList($N, $conf)

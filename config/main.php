@@ -10,7 +10,7 @@ return [
 	'dbname' => 'pli',
 	'dbuser' => 'root',
 	'dbpass' => '',
-	'serviceLinks' => ['login' => 'login', 'register' => 'register', 'save-profile' => 'save-profile', 'logout' => 'logout'],
+	'serviceLinks' => ['login' => 'login', 'register' => 'register', 'save-profile' => 'save-profile', 'logout' => 'logout', 'add-phone' => 'add-phone'],
 	'pageLinks' => ['about' => 'about', 'profile' => 'profile', 'stocks' => 'stocks'],
 	'currentTemplate' => 'welcome',
 ];

@@ -30,7 +30,7 @@ if (! isset($content)) {
     // var_dump($userParams);
     // echo '</pre>';
     if (count($userParams['Stock']) > 1 and $userParams['User']['UserPlan'] == 1) {
-        $userParams['stokNumbers'] = 1;
+        $userParams['stokNumbers'] = 0;
         ?>
                 <br>
 		<div class="container">
@@ -60,6 +60,7 @@ if (! isset($content)) {
         $errMsg = '';
         ?>
                 <!--  FIRST CARD -->
+				
 		<div class="card">
 			<div class="card-body">
 				<!-- <h6 class="card-subtitle mb-2 text-muted"><?php //echo isset($pr) ? $pr : 'СКлад'; ?></h6> -->
@@ -189,37 +190,42 @@ foreach ($countries as $c) {
 				</div>
 
 				<div id="three">
-				<!--
+<?php
+
+		   for ($i = 0;  $i < count ($userParams['Phone']); $i++) {
+				if ($userParams['Stock'][$userParams['stokNumbers']]['ID'] == $userParams['Phone'][$i]['StockID']) {
+				?>
+
 				<div class="form-group row">
 
-					<label for="user-stock-phone" class="col-sm-3 col-form-label"><?php //echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
+					<label for="user-stock-phone" class="col-sm-3 col-form-label" id="phLbl"><?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
 					<div class="col col-1">
 						<input class="form-control" type="text"
-							value="<?php //echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
-							id="user-stock-country-code" data-toggle="tooltip"
+							value="<?php echo $userParams['Phone'][$i]['CountryCode']; ?>"
+							id="user-phone-country-code-<?php echo $userParams['Phone'][$i]['ID']; ?>" data-toggle="tooltip"
 							data-placement="bottom"
-							title="<?php //echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
+							title="<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
 					</div>
 
 					<div class="col col-3">
 						<input class="form-control" type="tel"
-							value="<?php //echo $userParams[$userParams['stokNumbers']]['StockEmail']; ?>"
-							id="user-stock-phone">
+							value="<?php echo $userParams['Phone'][$i]['Phone']; ?>"
+							id="user-stock-phone-<?php echo $userParams['Phone'][$i]['ID']; ?>">
 					</div>
 
 					<div class="form-check">
 						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" id="has-viber" data-toggle="tooltip"
+							class="form-check-input" id="has-viber-" data-toggle="tooltip"
 							data-placement="bottom"
-							title="<?php //echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
+							title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
 							<img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
 						</label>
 					</div>
 					<div class="form-check">
 						<label class="form-check-label"> <input type="checkbox"
-							class="form-check-input" id="has-whatsapp" data-toggle="tooltip"
+							class="form-check-input" id="has-whatsapp-" data-toggle="tooltip"
 							data-placement="bottom"
-							title="<?php //echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
+							title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
 							<img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
 						</label>
 					</div>
@@ -229,21 +235,15 @@ foreach ($countries as $c) {
 			  
 			  
            </div>
-		   -->
-		   <?php
-
-		   for ($i = 0;  $i < count ($userParams['Phone']); $i++) {
-
-		   ?>
-		   <script type="text/javascript"><!--
-				$(document).ready( document.write( putPhoneNumber("<?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?>", "<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>", "<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>", "<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>", <?php echo json_encode($userParams['Phone'][$i]); ?> ) ) );
-		   --></script>
-	<?php } ?>
+	<?php 
+	}
+	}
+	?>
+		   
+	</div>
 <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
 						<span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
 					</button>
-	</div>
-
 				</div>
 
 				<div class="form-group row">
@@ -263,16 +263,11 @@ foreach ($countries as $c) {
 		<a href="" data-toggle="modal" class="btn btn-primary" id="save-stock"><?php echo isset($siteSave) ? $siteSave : 'Save'; ?></a>
 		</div>
 		<br>
-       <?php
-
-
-		function addPhNumber($stockNumber, $stocks) {
-		
-			var_dump ($stocks);
-		
-		}
-
-
+       
+	   <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
+       <input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
+	   <input type="hidden" id="stn" value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['ID']; ?>">
+	   <?php
    }
     
     if ($errMsg != '') {

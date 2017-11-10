@@ -21,10 +21,33 @@ $(document).ready(function(){
 	
 	$("#add-phone-number").click(function() {
 		
-		/*
-		//Show Error badge
-		$("#add-phone-number-error").css("display", "inline-block");
-		*/
+		var uri1 = $("#uri1").val();
+		var uri2 = $("#uri2").val();
+		var stock = $("#stn").val();
+		
+		if (stock > 0) {
+			if(uri1 == "stocks"){
+				$.ajax({
+					type: "POST",
+					url: "/add-phone/" + uri2,
+					data: "st=" + stock,
+					success : function(text){
+
+						echo = text.substring(0, 7);
+						newID = text.substring(7);
+
+						if (echo == "success" && newID > 0	){
+							//confirmFormSuccess();
+							putEmptyPhoneNumber(newID);
+							//void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+						} else {
+							//formError();
+							$("#add-phone-number-error").css("display", "inline-block");
+						}
+					}
+				});
+			}
+		}
 	});	
 	
 /*  
@@ -131,22 +154,24 @@ function checkForm(){
 }
 
 
-function putPhoneNumber(label, tooltipCountryCode, HasViber, HasWhatsapp, phonesArr) {
+function putEmptyPhoneNumber(id) {
 	var a = "";
+	var phLbl = document.getElementById("phLbl").innerHTML;
+	var HasViber = document.getElementById("has-viber-").getAttribute("title");
+	var HasWhatsapp = document.getElementById("has-whatsapp-").getAttribute("title");
+	var tooltipCountryCode = $("input[id^='user-phone-country-code']")[0].getAttribute("title");;
 
-	// alert (phonesArr.CountryCode);
 	
-	a = "<div class=\"form-group row\">\
-		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + label + "</label>\
-		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"" + phonesArr.CountryCode + "\"\
+	a = document.getElementById("three").innerHTML + "<div class=\"form-group row\">\
+		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + phLbl + "</label>\
+		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"00\"\
 		data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + tooltipCountryCode + "\"\
-		id=\"user-phone-country-code-" + phonesArr.ID + "\"></div>\
-		<div class=\"col col-3\"><input class=\"form-control\" type=\"tel\" value=\"" + phonesArr.Phone + "\"></div>\
-		<div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasViber + "\">\
+		id=\"user-phone-country-code-" + id + "\"></div>\
+		<div class=\"col col-3\"><input class=\"form-control\" type=\"tel\" value=\"\" id=\"user-stock-phone-" + id + "\"></div>\
+		<div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" id=\"has-viber-\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasViber + "\">\
 		<img src=\"../views/icon_viber.png\" alt=\"Viber\" width=\"22\" height=\"22\">\
-		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
+		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\"  id=\"has-whatsapp-\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
 		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div></div>";
 		
-		return a;
-
+	$("#three").html(a);
 }
