@@ -11,10 +11,13 @@ $(document).ready(function(){
 	
 	
 	$("#save-stock").click(function() {
-		$("#SconfirmForm")[0].reset();
-		$("#msgSubmit").text('');
+		var fields = [];
+		gatherFields(fields);
+		alert( fields.Ntels );
+		//$("#SconfirmForm")[0].reset();
+		//$("#msgSubmit").text('');
 		// if (checkForm()){
-			$("#SconfirmModal").modal("show");
+			// $("#SconfirmModal").modal("show");
 		// }
 	});
 
@@ -67,15 +70,6 @@ $(document).ready(function(){
 	});
   
 */
-
-function putPhoneNumbers() {
-
-	$("#three").html("<div class=\"form-group row\">");
-	$("#three").html("<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + label + "</label>");
-	$("#three").html("<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"\"></div>");
-	$("#three").html("</div");
-
-}
 
 });
 /*
@@ -159,11 +153,11 @@ function putEmptyPhoneNumber(id) {
 	var phLbl = document.getElementById("phLbl").innerHTML;
 	var HasViber = document.getElementById("has-viber-").getAttribute("title");
 	var HasWhatsapp = document.getElementById("has-whatsapp-").getAttribute("title");
-	var tooltipCountryCode = $("input[id^='user-phone-country-code']")[0].getAttribute("title");;
+	var tooltipCountryCode = $("input[id^='user-phone-country-code']")[0].getAttribute("title");
 
 	
 	a = document.getElementById("three").innerHTML + "<div class=\"form-group row\">\
-		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\">" + phLbl + "</label>\
+		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\" id=\"phLbl\">" + phLbl + "</label>\
 		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"00\"\
 		data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + tooltipCountryCode + "\"\
 		id=\"user-phone-country-code-" + id + "\"></div>\
@@ -174,4 +168,36 @@ function putEmptyPhoneNumber(id) {
 		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div></div>";
 		
 	$("#three").html(a);
+}
+
+function gatherFields(fields) {
+	
+	var Ntels = $('div#three > div.row').length;
+	// FIRST SECTION
+	var stname = $("user-stock-name").val();
+	var currencyList = document.getElementById("user-stock-currency");
+	var currencyId = currencyList.options[currencyList.selectedIndex].value;
+	var active = $("#stock-active-chk").prop('checked');
+	// SECOND SECTION
+	var counrtyList = document.getElementById("user-stock-country");
+	var countryId = counrtyList.options[counrtyList.selectedIndex].value;
+	var stcity = $("user-stock-city").val();
+	var stadres = $("user-stock-adress").val();
+	// THIRD SECTION
+	var stmail = $("user-stock-mail").val();
+	var phCCodeid = $("input[id^='user-phone-country-code']")[0].getAttribute("id");
+	
+	var ships = $("user-stock-ships").val();
+	
+	fields.Ntels = Ntels;
+	// FIRST SECTION
+	fields.stname = stname;
+	fields.currencyId = currencyId;
+	fields.stactive = active;
+	// SECOND SECTION
+	fields.countryId = countryId;
+	fields.stcity = stcity;
+	fields.stadres = stadres;
+	// THIRD SECTION
+	
 }
