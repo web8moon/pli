@@ -218,7 +218,7 @@ if (!isset($content)) {
 
                                     <div class="form-check">
                                         <label class="form-check-label"> <input type="checkbox"
-                                                                                class="form-check-input" id="has-viber-"
+                                                                                class="form-check-input" id="has-viber-<?php echo $userParams['Phone'][$i]['ID']; ?>"
                                                                                 data-toggle="tooltip"
                                                                                 data-placement="bottom"
                                                                                 title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
@@ -228,7 +228,7 @@ if (!isset($content)) {
                                     <div class="form-check">
                                         <label class="form-check-label"> <input type="checkbox"
                                                                                 class="form-check-input"
-                                                                                id="has-whatsapp-" data-toggle="tooltip"
+                                                                                id="has-whatsapp-<?php echo $userParams['Phone'][$i]['ID']; ?>" data-toggle="tooltip"
                                                                                 data-placement="bottom"
                                                                                 title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
                                             <img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
@@ -348,5 +348,3 @@ if (!isset($content)) {
 ?>
 
 <?php require 'baseTemplate.php'; ?>
-
-
