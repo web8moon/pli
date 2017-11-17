@@ -49,7 +49,7 @@ return [
 	// Profile Page
 	'profileConnErr' => 'Profile binding Error. Obviously, the server changed the session. Try Exit and Login. If the error persists, notify the portal administrator',
 	'profileConfirmBtn' => 'Confirm',
-	'profileConfirmLbl' => 'To confirm updating, please, enter your current valid password',
+	'profileConfirmLbl' => 'To confirm updating, enter your current valid password, please',
 	'profileAccountAct' => 'You disable your account. Your warehouses will not be displayed.',
     'profileUpdateErr' => 'Profile is not updated',
     'profileAccountMenu' => 'Account',

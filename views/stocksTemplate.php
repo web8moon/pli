@@ -85,7 +85,7 @@ if (!isset($content)) {
                                     <?php
 
                                     foreach ($currency as $c) {
-                                        echo '<option value=\"' . $c['ID'] . '\"';
+                                        echo '<option value="' . $c['ID'] . '"';
                                         if ($userParams['Stock'][$userParams['stokNumbers']]['Currency'] == $c['ID'])
                                             echo ' selected';
                                         echo '>' . $c['Name'] . '</option>';
@@ -137,7 +137,7 @@ if (!isset($content)) {
                                     <?php
 
                                     foreach ($countries as $c) {
-                                        echo '<option value=\"' . $c['ID'] . '\"';
+                                        echo '<option value="' . $c['ID'] . '"';
                                         if ($userParams['Stock'][$userParams['stokNumbers']]['StockCountry'] == $c['ID'])
                                             echo ' selected';
                                         echo '>' . $c['Name'] . '</option>';

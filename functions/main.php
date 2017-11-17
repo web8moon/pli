@@ -490,7 +490,7 @@ function controler($conf, $lang)
     
     // UPDATE PROFILE
     if ($conf['currentAction'] == $conf['serviceLinks']['save-profile']) {
-        if (checkUserSession('start')) {
+        if ($startID = checkUserSession('start')) {
             $success = false;
             $errorMSG = $lang['siteRegisterConnErr'];
             if (is_array($conf)) {
@@ -499,7 +499,7 @@ function controler($conf, $lang)
                     $errorMSG = '';
                     
                     // gather data
-                    if (empty($_POST["formid"])) {
+                    if (empty($_POST["formid"]) && $startID == $_POST["formid"]) {
                         $errorMSG = $lang['siteRegisterWrongErr'];
                     } else {
                         $formid = mysqli_real_escape_string($link, $_POST["formid"]);
@@ -602,6 +602,42 @@ function controler($conf, $lang)
         }
     }
 
+	
+	// UPDATE STOCK INF
+	if ($conf['currentAction'] == $conf['serviceLinks']['save-stock']) {
+		
+		$data = array();
+		$success = false;
+        $errorMSG = $lang['siteRegisterConnErr'];
+		
+		if (!empty($_POST)) {
+
+			$data = json_decode($_POST['json'], true);
+			$startID = checkUserSession('start');
+			$link = dbConnector($conf);
+			if ($startID > 0 && $data['currencyId'] > 0 && $data['countryId'] > 0 && $link) {
+
+				//$select = 'SELECT `UserID` FROM `pli_users` WHERE `UserID`=\'' . $startID . '\' AND `UserPsw` LIKE  \'' . md5($data['pwd']) . '\' LIMIT 2';
+				$select = 'SELECT `pli_userstoks`.`ID` FROM `pli_userstoks`,`pli_users` WHERE `pli_users`.`UserID`=' . $startID . ' AND `pli_users`.`UserPsw` LIKE \'' . md5($data['pwd']) . '\' AND `pli_userstoks`.`UserID`=' . $startID . ' ORDER BY `pli_userstoks`.`ID` ASC';
+				if ($result = mysqli_query($link, $select)) {
+
+					if (mysqli_num_rows($result) > 0) {
+$errorMSG = 'AA';
+					} else {
+						$errorMSG = $lang['siteRegisterPassw2Err'];
+					}
+					mysqli_free_result($result);
+				}
+				//unset($select);
+				mysqli_close($link);
+			}		
+		}
+		
+		if($success) $errorMSG = 'success';
+		echo $errorMSG . ' ' . $select;
+		unset($data, $success, $errorMSG);
+	}
+	
 	
     // ADD-PHONE
     if ($conf['currentAction'] == $conf['serviceLinks']['add-phone']) {

@@ -63,9 +63,10 @@ $(document).ready(function () {
 
 
     $("#save-stock").click(function () {
-        fields = [];
+        fields = {};
         fields.phone = [];
         gatherFields(fields);
+
         if (checkForm(fields)) {
             $("#SconfirmForm")[0].reset();
             $("#msgSubmit").text('');
@@ -105,9 +106,10 @@ $(document).ready(function () {
         }
     });
 
-    /*
+
 
         $("#SconfirmForm").validator().on("submit", function (event) {
+
             if (event.isDefaultPrevented()) {
                 // handle the invalid form...
                 var errmsg = "Did you fill in the form properly?";
@@ -119,34 +121,27 @@ $(document).ready(function () {
                 event.preventDefault();
                 submitLoginForm();
             }
-        });
 
-    */
+		});
+
+
 
 });
 
-/*
+
 function submitLoginForm(){
 
-    var formid = $("#user-account-id").val();
-	var active = $("#accountactivechk").prop('checked');
-	var plan = $("#planSelect").val();
+    var uri1 = document.getElementById("uri1").value;
+    var uri2 = document.getElementById("uri2").value;
+	fields.stn = Number(document.getElementById("stn").value);
 
-	var name = $("#user-text-input").val();
-	var mail = $("#user-email-input").val();
-	var passw = $("#user-password-input").val();
-	
-	var passwconf = $("#conf-password").val();
-
-	var uri1 = $("#uri1").val();
-	var uri2 = $("#uri2").val();
-	
-	
-	if(uri1 == "profile"){
+	if( uri1 == "stocks" && fields.stn > 0 ){
+		fields.pwd = document.getElementById("conf-password").value;
 		$.ajax({
 			type: "POST",
-			url: "/save-profile/" + uri2,
-			data: "formid=" + formid + "&active=" + active + "&plan=" + plan + "&name=" + name + "&mail=" + mail + "&passw=" + passw + "&uri1=" + uri1 + "&passwconf=" + passwconf,
+			url: "/save-stock/" + uri2,
+			//data: "formid=" + formid + "&active=" + active + "&plan=" + plan + "&name=" + name + "&mail=" + mail + "&passw=" + passw + "&uri1=" + uri1 + "&passwconf=" + passwconf,
+			data: "json=" + JSON.stringify(fields),
 			success : function(text){
 				if (text == "success"){
 					confirmFormSuccess();
@@ -162,7 +157,7 @@ function submitLoginForm(){
 
 function formError(){
 	
-	$("#PconfirmForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+	$("#SconfirmForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
         $(this).removeClass();
     });
 }
@@ -181,7 +176,7 @@ function confirmFormSuccess(){
 	$("#PconfirmForm")[0].reset();
     submitMSG(true, "Ok!");
 }
-*/
+
 function checkForm(fields) {
     var checkStatus = true;
 
@@ -224,7 +219,8 @@ function checkForm(fields) {
         checkStatus = false;
         $("#user-stock-ships").removeClass().addClass("form-control is-invalid");
     }
-
+alert("Status set True on line 227");
+checkStatus = true;
     return checkStatus;
 }
 
