@@ -105,7 +105,10 @@ $(document).ready(function () {
             }
         }
     });
-
+	
+	$(".del-phone-number").click(function () {
+		alert(this.id);
+	});
 
 
         $("#SconfirmForm").validator().on("submit", function (event) {

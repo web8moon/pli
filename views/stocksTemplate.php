@@ -225,6 +225,7 @@ if (!isset($content)) {
                                             <img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
                                         </label>
                                     </div>
+									&nbsp;
                                     <div class="form-check">
                                         <label class="form-check-label"> <input type="checkbox"
                                                                                 class="form-check-input"
@@ -234,7 +235,11 @@ if (!isset($content)) {
                                             <img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
                                         </label>
                                     </div>
-
+&nbsp;                                     <div class="form-check">
+<label class="form-check-label del-phone-number" id="del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>">
+       <img src="../views/del.bmp" alt="Del" width="22" height="22">
+</label>
+	   </div>
 
                                 </div>
                                 <?php
