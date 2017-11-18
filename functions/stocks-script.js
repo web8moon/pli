@@ -173,7 +173,7 @@ function submitMSG(valid, msg){
 
 function confirmFormSuccess(){
     $("#conf-password").removeClass().addClass("form-control is-valid");
-	$("#PconfirmForm")[0].reset();
+	$("#SconfirmForm")[0].reset();
     submitMSG(true, "Ok!");
 }
 

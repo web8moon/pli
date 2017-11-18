@@ -562,7 +562,7 @@ function controler($conf, $lang)
                                             }
                                             if (mysqli_query($link, $select)) {
                                                 unset($select, $users);
-                                                if (mysqli_affected_rows($link) == 1) {
+                                                if (mysqli_affected_rows($link) != -1) {
                                                     $success = true;
                                                 } else {
                                                     $errorMSG = $lang['profileUpdateErr'];
@@ -603,38 +603,122 @@ function controler($conf, $lang)
     }
 
 	
-	// UPDATE STOCK INF
+	// UPDATE STOCK INFO
 	if ($conf['currentAction'] == $conf['serviceLinks']['save-stock']) {
 		
 		$data = array();
-		$success = false;
+		$success = true;
         $errorMSG = $lang['siteRegisterConnErr'];
 		
 		if (!empty($_POST)) {
+			
 
 			$data = json_decode($_POST['json'], true);
+			//Check data
+			if (!is_numeric($data['Ntels']) && $data['Ntels'] < 1) $success = false;
+			if ($success && strlen($data['stname']) > 24) $success = false;
+			if ($success && !is_numeric($data['currencyId']) && $data['currencyId'] < 1) $success = false;
+			if ($success && !is_bool($data['stactive'])) $success = false;
+			if ($success && !is_numeric($data['countryId']) && $data['countryId'] < 1) $success = false;
+			if ($success && strlen($data['stcity']) > 19) $success = false;
+			if ($success && strlen($data['stadres']) > 49) $success = false;
+			if ($success && strlen($data['stmail']) > 49) $success = false;
+			if ($success && strlen($data['stmail']) > 5 && preg_match('/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/', $data['stmail']) !== 1) $success = false;
+			if ($success && strlen($data['ships']) > 240) $success = false;
+			if ($success && is_bool($data['stactive'])) {
+				if ($data['stactive']) {
+					$data['stactive'] = 1;
+				} else {
+					$data['stactive'] = 0;
+				}
+			} else {
+				$success = false;
+			}
+			if ($success) {
+				for ($i = 0; $i < $data['Ntels']; $i++) {
+					if (is_bool($data['phone'][$i + $data['Ntels'] * 3]) && is_bool($data['phone'][$i + $data['Ntels'] * 4])) {
+						if ($data['phone'][$i + $data['Ntels'] * 3]) {
+							$data['phone'][$i + $data['Ntels'] * 3] = 1;
+						} else {
+							$data['phone'][$i + $data['Ntels'] * 3] = 0;
+						}
+						if ($data['phone'][$i + $data['Ntels'] * 4]) {
+							$data['phone'][$i + $data['Ntels'] * 4] = 1;
+						} else {
+							$data['phone'][$i + $data['Ntels'] * 4] = 0;
+						}
+					} else {
+						$success = false;
+						break;
+					}
+				}
+			}
 			$startID = checkUserSession('start');
 			$link = dbConnector($conf);
-			if ($startID > 0 && $data['currencyId'] > 0 && $data['countryId'] > 0 && $link) {
-
-				//$select = 'SELECT `UserID` FROM `pli_users` WHERE `UserID`=\'' . $startID . '\' AND `UserPsw` LIKE  \'' . md5($data['pwd']) . '\' LIMIT 2';
+			if ($success && $startID > 0 && $link) {
+				$success = false;
 				$select = 'SELECT `pli_userstoks`.`ID` FROM `pli_userstoks`,`pli_users` WHERE `pli_users`.`UserID`=' . $startID . ' AND `pli_users`.`UserPsw` LIKE \'' . md5($data['pwd']) . '\' AND `pli_userstoks`.`UserID`=' . $startID . ' ORDER BY `pli_userstoks`.`ID` ASC';
 				if ($result = mysqli_query($link, $select)) {
-
+					// We take ONLY THE FIRST registered Warehouse here (ORDER BY `ID`)
 					if (mysqli_num_rows($result) > 0) {
-$errorMSG = 'AA';
+						$res = mysqli_fetch_assoc($result);
+						mysqli_free_result($result);
+						$select = 'UPDATE `pli_userstoks` SET `StockName`=\'' . $data['stname'] . '\', `StockCountry`=' . $data['countryId'] . ', `StockCity`=\'' . $data['stcity'] . '\', `StockAdress`= \'' . $data['stadres'] . '\', `StockEmail`=\'' . $data['stmail'] . '\', `ShipsInfo`=\'' . $data['ships'] . '\', `DateModify`=\'' . date('Y-m-d H:i:s') . '\', `Currency`=' . $data['currencyId'] . ', `Active`=' . $data['stactive'] . ' WHERE `UserID`=' . $startID . ' AND `ID`=' . $res['ID'] . ' LIMIT 1';
+						if ($result = mysqli_query($link, $select)) {
+							if (mysqli_affected_rows($link) != -1) {
+								$select = 'UPDATE `pli_stockphones` SET ';
+								$select .= ' `CountryCode`=(CASE `ID` ';
+								for ($i = 0; $i < $data['Ntels']; $i++) {
+									$select .= 'WHEN \'' . $data['phone'][$i] . '\' THEN \'' . $data['phone'][$i + $data['Ntels']] . '\' ';
+									//$success = true;
+								}
+								$select .= ' END), ';
+								$select .= ' `Phone`=(CASE `ID` ';
+								for ($i = 0; $i < $data['Ntels']; $i++) {
+									$select .= 'WHEN \'' . $data['phone'][$i] . '\' THEN \'' . $data['phone'][$i + $data['Ntels'] * 2] . '\' ';
+									//$success = true;
+								}
+								$select .= ' END), ';
+								$select .= ' `IsViber`=(CASE `ID` ';
+								for ($i = 0; $i < $data['Ntels']; $i++) {
+									$select .= 'WHEN \'' . $data['phone'][$i] . '\' THEN \'' . $data['phone'][$i + $data['Ntels'] * 3] . '\' ';
+								}
+								$select .= ' END), ';
+								$select .= ' `IsWatsapp`=(CASE `ID` ';
+								for ($i = 0; $i < $data['Ntels']; $i++) {
+									$select .= 'WHEN \'' . $data['phone'][$i] . '\' THEN \'' . $data['phone'][$i + $data['Ntels'] * 4] . '\' ';
+									//$success = true;
+								}
+								$select .= ' END) ';
+								$select .= ' WHERE `StockID`=' . $res['ID'] . ' AND `ID` IN (';
+								for ($i = 0; $i < $data['Ntels']; $i++) {
+									$select .= '\'' . $data['phone'][$i] . '\',';
+								}
+								$select = substr($select, 0, -1);
+								$select .= ')';
+								if ($result = mysqli_query($link, $select)) {
+									if (mysqli_affected_rows($link) != -1) {
+										$success = true;
+									}
+								}
+								unset ($i);
+							}
+						}
+						unset ($res);
 					} else {
 						$errorMSG = $lang['siteRegisterPassw2Err'];
 					}
-					mysqli_free_result($result);
+					
 				}
-				//unset($select);
+				unset($select);
 				mysqli_close($link);
 			}		
+		} else {
+			$success = false;
 		}
 		
 		if($success) $errorMSG = 'success';
-		echo $errorMSG . ' ' . $select;
+		echo $errorMSG;
 		unset($data, $success, $errorMSG);
 	}
 	
