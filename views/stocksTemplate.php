@@ -26,9 +26,9 @@ if (!isset($content)) {
             $userParams = array();
             $userParams = getUserParams();
 
-            // echo '<pre>';
-            // var_dump($userParams);
-            // echo '</pre>';
+             //echo '<pre>';
+             //var_dump($userParams);
+             //echo '</pre>';
             if (count($userParams['Stock']) > 1 and $userParams['User']['UserPlan'] == 1) {
                 $userParams['stokNumbers'] = 0;
                 ?>
@@ -205,8 +205,7 @@ if (!isset($content)) {
                                         <input class="form-control" type="text"
                                                value="<?php echo $userParams['Phone'][$i]['CountryCode']; ?>"
                                                id="user-phone-country-code-<?php echo $userParams['Phone'][$i]['ID']; ?>"
-                                               data-toggle="tooltip"
-                                               data-placement="bottom"
+                                               data-toggle="tooltip" data-placement="bottom"
                                                title="<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
                                     </div>
 
@@ -219,7 +218,7 @@ if (!isset($content)) {
                                     <div class="form-check">
                                         <label class="form-check-label"> <input type="checkbox"
                                                                                 class="form-check-input" id="has-viber-<?php echo $userParams['Phone'][$i]['ID']; ?>"
-                                                                                data-toggle="tooltip"
+                                                                                data-toggle="tooltip" <?php echo $userParams['Phone'][$i]['IsViber'] == 1 ? 'checked' : ''; ?>
                                                                                 data-placement="bottom"
                                                                                 title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
                                             <img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
@@ -230,17 +229,18 @@ if (!isset($content)) {
                                         <label class="form-check-label"> <input type="checkbox"
                                                                                 class="form-check-input"
                                                                                 id="has-whatsapp-<?php echo $userParams['Phone'][$i]['ID']; ?>" data-toggle="tooltip"
-                                                                                data-placement="bottom"
+                                                                                data-placement="bottom" <?php echo $userParams['Phone'][$i]['IsWatsapp'] == 1 ? 'checked' : ''; ?>
                                                                                 title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
                                             <img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
                                         </label>
                                     </div>
-&nbsp;                                     <div class="form-check">
+<?php if (count($userParams['Phone']) > 2) { ?>
+                                    &nbsp;                                     <div class="form-check">
 <label class="form-check-label del-phone-number" id="del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>">
        <img src="../views/del.bmp" alt="Del" width="22" height="22">
 </label>
 	   </div>
-
+<?php } ?>
                                 </div>
                                 <?php
                             }

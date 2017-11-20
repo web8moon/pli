@@ -76,6 +76,6 @@ return [
     'stockPhone' => 'Контактный телефон',
     'stockPhoneAdd' => 'Добавить номер тел',
     'stockShipmentInfo' => 'Информация об отгрузке',
-    'stockPhoneViberChk' => 'Отметте, если на этом тел есть Вайбер',
+    'stockPhoneViberChk' => 'Отметте, если на этом тел есть Viber',
     'stockPhoneWhatsappChk' => 'Отметте, если на этом тел есть Whatsapp',
 ];

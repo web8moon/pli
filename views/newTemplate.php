@@ -16,6 +16,9 @@
             <div class="h4 text-center hidden"><?php echo isset($searchLengthErr) ? $searchLengthErr : 'Short'; ?></div>
         </div>
     </div>
+    <div class="progress" >
+        <div id="progress" class="progress-bar progress-bar-striped" role="progressbar" style="width: 2%; display: none;" aria-valuenow="2" aria-valuemin="0" aria-valuemax="100"></div>
+    </div>
 <br>
     <?php
     if (!in_array($currentAction, $serviceLinks) && !in_array($currentAction, $pageLinks) && $currentAction != $defaultAction) {

@@ -7,11 +7,11 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
- <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
- <?php if ( $currentAction == $pageLinks['stocks'] ) {?>
-				<script type="text/javascript" src="../functions/stocks-script.js"></script>
-    <?php 	} ?>
- 
+        <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+        <?php if ( $currentAction == $pageLinks['stocks'] ) {?>
+            <script type="text/javascript" src="../functions/stocks-script.js"></script>
+        <?php 	} ?>
+
         <link rel="stylesheet" href="/views/bootstrap4b.min.css">
 
 
@@ -104,29 +104,29 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     </div>
     <footer>
         <div class="container">
-           
-			<nav class="navbar navbar-dark bg-dark">
-			 <div class="navbar-header">
+
+            <nav class="navbar navbar-dark bg-dark">
+                <div class="navbar-header">
 				<span class="navbar-text">
 				Made with<img src="../views/heart.gif" width="22" height="22" alt="love" style="margin-left:5px; margin-right:5px;">to our users!
 				</span>
-				
-                <?php 
-				/*
-				echo '<br>Current Action:' . $currentAction . ' / Lang:' . $currentLang . '<br>';
-                echo 'QueryString:' . $_SERVER['QUERY_STRING'] . '<br>';
-                echo 'HTTP_HOST:' . $_SERVER['HTTP_HOST'] . '<br>';
-                echo 'REQUEST_URI:' . $_SERVER['REQUEST_URI'] . '<br>';
-                echo 'SCRIPT_NAME:' . $_SERVER['SCRIPT_NAME'] . '<br>';
-                echo '__FILE__:' . __FILE__ . '<br>';
-                echo '__FUNCTION__:' . __FUNCTION__ . '<br>';
-                echo '__LINE__:' . __LINE__ . '<br>';
-				echo '$_SESSION[start]:' . $_SESSION['start'] . '<br>';
-*/
-                ?>
-</div>           
-		   </nav>
-			
+
+                    <?php
+                    /*
+                    echo '<br>Current Action:' . $currentAction . ' / Lang:' . $currentLang . '<br>';
+                    echo 'QueryString:' . $_SERVER['QUERY_STRING'] . '<br>';
+                    echo 'HTTP_HOST:' . $_SERVER['HTTP_HOST'] . '<br>';
+                    echo 'REQUEST_URI:' . $_SERVER['REQUEST_URI'] . '<br>';
+                    echo 'SCRIPT_NAME:' . $_SERVER['SCRIPT_NAME'] . '<br>';
+                    echo '__FILE__:' . __FILE__ . '<br>';
+                    echo '__FUNCTION__:' . __FUNCTION__ . '<br>';
+                    echo '__LINE__:' . __LINE__ . '<br>';
+                    echo '$_SESSION[start]:' . $_SESSION['start'] . '<br>';
+    */
+                    ?>
+                </div>
+            </nav>
+
         </div>
     </footer>
 
@@ -249,23 +249,23 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
     </body>
 
-   
+
     <script type="text/javascript" src="../functions/popper4a.min.js"></script>
     <script type="text/javascript" src="../functions/bootstrap4b.min.js"></script>
     <script type="text/javascript" src="../functions/validator.min.js"></script>
     <script type="text/javascript" src="../functions/search-script.js"></script>
-    <?php 
-	if (!isset($_SESSION['start'])) { ?>
+    <?php
+    if (!isset($_SESSION['start'])) { ?>
         <script type="text/javascript" src="../functions/form-scripts.js"></script>
     <?php } else {
-			if ( $currentAction == $pageLinks['profile'] ) {?>
-				<script type="text/javascript" src="../functions/profile-script.js"></script>
-    <?php 
-			}
-			
-			
-			
-	} ?>
+    if ( $currentAction == $pageLinks['profile'] ) {?>
+        <script type="text/javascript" src="../functions/profile-script.js"></script>
+        <?php
+    }
+
+
+
+    } ?>
 
 
     </html>

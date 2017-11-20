@@ -105,68 +105,90 @@ $(document).ready(function () {
             }
         }
     });
-	
-	$(".del-phone-number").click(function () {
-		alert(this.id);
-	});
 
+    $(".del-phone-number").click(function () {
+        var uri1 = document.getElementById("uri1").value;
+        var uri2 = document.getElementById("uri2").value;
+        var stock = document.getElementById("stn").value;
+        var img1 = $(this).children("img:first");
+        var img1src = img1.attr("src");
 
-        $("#SconfirmForm").validator().on("submit", function (event) {
-
-            if (event.isDefaultPrevented()) {
-                // handle the invalid form...
-                var errmsg = "Did you fill in the form properly?";
-                formError();
-                if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
-                submitMSG(false, errmsg);
-            } else {
-                // everything looks good!
-                event.preventDefault();
-                submitLoginForm();
+        if (stock > 0) {
+            if (uri1 == "stocks") {
+img1.attr("src", "../views/preloader.gif");
+                $.ajax({
+                    type: "POST",
+                    url: "/del-phone/" + uri2,
+                    data: "st=" + stock + "&phn=" + this.id,
+                    success: function (text) {
+                        if (text == "success") {
+                            void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+                        } else {
+                            img1.attr("src", img1src);
+                            alert(text);
+                        }
+                    }
+                });
             }
+        }
+    });
 
-		});
 
+    $("#SconfirmForm").validator().on("submit", function (event) {
+
+        if (event.isDefaultPrevented()) {
+            // handle the invalid form...
+            var errmsg = "Did you fill in the form properly?";
+            formError();
+            if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
+            submitMSG(false, errmsg);
+        } else {
+            // everything looks good!
+            event.preventDefault();
+            submitLoginForm();
+        }
+
+    });
 
 
 });
 
 
-function submitLoginForm(){
+function submitLoginForm() {
 
     var uri1 = document.getElementById("uri1").value;
     var uri2 = document.getElementById("uri2").value;
-	fields.stn = Number(document.getElementById("stn").value);
+    fields.stn = Number(document.getElementById("stn").value);
 
-	if( uri1 == "stocks" && fields.stn > 0 ){
-		fields.pwd = document.getElementById("conf-password").value;
-		$.ajax({
-			type: "POST",
-			url: "/save-stock/" + uri2,
-			//data: "formid=" + formid + "&active=" + active + "&plan=" + plan + "&name=" + name + "&mail=" + mail + "&passw=" + passw + "&uri1=" + uri1 + "&passwconf=" + passwconf,
-			data: "json=" + JSON.stringify(fields),
-			success : function(text){
-				if (text == "success"){
-					confirmFormSuccess();
-					void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
-				} else {
-					formError();
-					submitMSG(false,text);
-				}
-			}
-		});
-	}
+    if (uri1 == "stocks" && fields.stn > 0) {
+        fields.pwd = document.getElementById("conf-password").value;
+        $.ajax({
+            type: "POST",
+            url: "/save-stock/" + uri2,
+            //data: "formid=" + formid + "&active=" + active + "&plan=" + plan + "&name=" + name + "&mail=" + mail + "&passw=" + passw + "&uri1=" + uri1 + "&passwconf=" + passwconf,
+            data: "json=" + JSON.stringify(fields),
+            success: function (text) {
+                if (text == "success") {
+                    confirmFormSuccess();
+                    void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+                } else {
+                    formError();
+                    submitMSG(false, text);
+                }
+            }
+        });
+    }
 }
 
-function formError(){
-	
-	$("#SconfirmForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
+function formError() {
+
+    $("#SconfirmForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
         $(this).removeClass();
     });
 }
 
-function submitMSG(valid, msg){
-    if(valid){
+function submitMSG(valid, msg) {
+    if (valid) {
         var msgClasses = "h3 text-center tada animated text-success";
     } else {
         var msgClasses = "h3 text-center text-danger";
@@ -174,9 +196,9 @@ function submitMSG(valid, msg){
     $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
 }
 
-function confirmFormSuccess(){
+function confirmFormSuccess() {
     $("#conf-password").removeClass().addClass("form-control is-valid");
-	$("#SconfirmForm")[0].reset();
+    $("#SconfirmForm")[0].reset();
     submitMSG(true, "Ok!");
 }
 
@@ -204,14 +226,14 @@ function checkForm(fields) {
         $("#user-stock-mail").removeClass().addClass("form-control is-invalid");
         //void(setTimeout('$("#user-stock-mail").removeClass().addClass("form-control")', 1500));
     }
-    for (let i = 0; i < fields.Ntels; i++) {
+    for (var i = 0; i < fields.Ntels; i++) {
         // Phone Country Code
         if ($("#user-phone-country-code-" + fields.phone[i]).val().length > 4 || $("#user-phone-country-code-" + fields.phone[i]).val().length == 0 || $("#user-phone-country-code-" + fields.phone[i]).val() == "00") {
             checkStatus = false;
             $("#user-phone-country-code-" + fields.phone[i]).removeClass().addClass("form-control is-invalid");
         }
         // Phone Number
-        if ($("#user-stock-phone-" + fields.phone[i]).val().length > 10 || $("#user-stock-phone-" + fields.phone[i]).val().length < 7) {
+        if ($("#user-stock-phone-" + fields.phone[i]).val().length > 20 || $("#user-stock-phone-" + fields.phone[i]).val().length < 7) {
             checkStatus = false;
             $("#user-stock-phone-" + fields.phone[i]).removeClass().addClass("form-control is-invalid");
         }
@@ -222,8 +244,8 @@ function checkForm(fields) {
         checkStatus = false;
         $("#user-stock-ships").removeClass().addClass("form-control is-invalid");
     }
-alert("Status set True on line 227");
-checkStatus = true;
+    alert("Status set True on line 227");
+    checkStatus = true;
     return checkStatus;
 }
 
@@ -245,7 +267,9 @@ function putEmptyPhoneNumber(id) {
 		<div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" id=\"has-viber-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasViber + "\">\
 		<img src=\"../views/icon_viber.png\" alt=\"Viber\" width=\"22\" height=\"22\">\
 		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\"  id=\"has-whatsapp-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
-		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div></div>";
+		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div>\
+		<div class=\"form-check\"><label class=\"form-check-label del-phone-number\" id=\"del-phone-number-" + id + "\">\
+        <img src=\"../views/del.bmp\" alt=\"Del\" width=\"22\" height=\"22\"></label></div></div>";
 
     $("#three").html(a);
 }
