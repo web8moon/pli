@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 
     $("#save-stock").click(function () {
-        fields = {};
+         fields = {};
         fields.phone = [];
         gatherFields(fields);
 
@@ -95,6 +95,7 @@ $(document).ready(function () {
                         if (echo == "success" && newID > 0) {
                             //confirmFormSuccess();
                             putEmptyPhoneNumber(newID);
+								void( setTimeout(location.reload(), 500) );
                             //void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
                         } else {
                             //formError();
@@ -106,31 +107,43 @@ $(document).ready(function () {
         }
     });
 
-    $(".del-phone-number").click(function () {
+    $("label.del-phone-number").click(function () {
         var uri1 = document.getElementById("uri1").value;
         var uri2 = document.getElementById("uri2").value;
         var stock = document.getElementById("stn").value;
-        var img1 = $(this).children("img:first");
+	    var img1 = $(this).children("img:first");
         var img1src = img1.attr("src");
-
+        img1.attr("src", "../views/preloader.gif");
+		
+		 //fields = {};
+        //fields.phone = [];
+        //gatherFields(fields);
+		var eid = this.id;
+		
+		
+		
         if (stock > 0) {
             if (uri1 == "stocks") {
-img1.attr("src", "../views/preloader.gif");
+
                 $.ajax({
                     type: "POST",
                     url: "/del-phone/" + uri2,
-                    data: "st=" + stock + "&phn=" + this.id,
+                    // data: "st=" + stock + "&phn=" + eid + "&max=" + fields.Ntels,
+					  data: "st=" + stock + "&phn=" + eid,
                     success: function (text) {
                         if (text == "success") {
-                            void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+                            //void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+							void( setTimeout(location.reload(), 500) );
                         } else {
-                            img1.attr("src", img1src);
+								img1.attr("src", img1src);
                             alert(text);
                         }
                     }
                 });
             }
         }
+		
+		
     });
 
 
@@ -257,8 +270,8 @@ function putEmptyPhoneNumber(id) {
     var HasWhatsapp = document.getElementById($("input[id^='has-whatsapp-']")[0].getAttribute("id")).getAttribute('title');
     var tooltipCountryCode = $("input[id^='user-phone-country-code']")[0].getAttribute("title");
 
-
-    a = document.getElementById("three").innerHTML + "<div class=\"form-group row\">\
+/*
+    //a = document.getElementById("three").innerHTML + "<div class=\"form-group row\">\
 		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\" id=\"phLbl\">" + phLbl + "</label>\
 		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"00\"\
 		data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + tooltipCountryCode + "\"\
@@ -267,11 +280,26 @@ function putEmptyPhoneNumber(id) {
 		<div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" id=\"has-viber-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasViber + "\">\
 		<img src=\"../views/icon_viber.png\" alt=\"Viber\" width=\"22\" height=\"22\">\
 		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\"  id=\"has-whatsapp-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
-		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div>\
+		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div>&nbsp;\
 		<div class=\"form-check\"><label class=\"form-check-label del-phone-number\" id=\"del-phone-number-" + id + "\">\
         <img src=\"../views/del.bmp\" alt=\"Del\" width=\"22\" height=\"22\"></label></div></div>";
+		//$("#three").html(a);
+*/
 
-    $("#three").html(a);
+		a = "<div class=\"form-group row\">\
+		<label for=\"user-stock-phone\" class=\"col-sm-3 col-form-label\" id=\"phLbl\">" + phLbl + "</label>\
+		<div class=\"col col-1\"><input class=\"form-control\" type=\"text\" value=\"00\"\
+		data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + tooltipCountryCode + "\"\
+		id=\"user-phone-country-code-" + id + "\"></div>\
+		<div class=\"col col-3\"><input class=\"form-control\" type=\"tel\" value=\"\" id=\"user-stock-phone-" + id + "\"></div>\
+		<div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\" id=\"has-viber-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasViber + "\">\
+		<img src=\"../views/icon_viber.png\" alt=\"Viber\" width=\"22\" height=\"22\">\
+		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\"  id=\"has-whatsapp-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
+		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div>&nbsp;\
+		<div class=\"form-check\"><label class=\"form-check-label del-phone-number\" id=\"del-phone-number-" + id + "\">\
+        <img src=\"../views/del.bmp\" alt=\"Del\" width=\"22\" height=\"22\"></label></div></div>";
+		$("#three").append(a);
+    
 }
 
 function gatherFields(fields) {

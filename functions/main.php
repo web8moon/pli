@@ -698,7 +698,6 @@ function controler($conf, $lang)
                                 }
                                 $select = substr($select, 0, -1);
                                 $select .= ')';
-                                echo $select;
                                 if ($result = mysqli_query($link, $select)) {
                                     if (mysqli_affected_rows($link) != -1) {
                                         $success = true;
