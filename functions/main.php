@@ -146,11 +146,11 @@ function getUserParams()
             if ($result = mysqli_query($link, $select)) {
                 if (mysqli_num_rows($result) > 0) {
                     while ($Mas = mysqli_fetch_assoc($result)) {
-                        $userParams['stokNumbers']++;
                         $userParams[$userParams['stokNumbers']] = $Mas;
+						$userParams['stokNumbers']++;
                     }
                     unset ($Mas);
-
+$userParams['stokNumbers']--;
 
                     $userParams['User']['UserName'] = $userParams[$userParams['stokNumbers']]['U_Name'];
                     $userParams['User']['UserPsw'] = $userParams[$userParams['stokNumbers']]['U_Pwd'];
@@ -158,7 +158,7 @@ function getUserParams()
                     $userParams['User']['UserPlan'] = $userParams[$userParams['stokNumbers']]['U_Plan'];
                     $userParams['User']['Active'] = $userParams[$userParams['stokNumbers']]['U_Act'];
 
-                    for ($i = 1; $i <= $userParams['stokNumbers']; $i++) {
+                    for ($i = 0; $i <= $userParams['stokNumbers']; $i++) {
 
                         $userParams['Stock'][$i]['ID'] = $userParams[$i]['S_ID'];
                         $userParams['Stock'][$i]['StockName'] = $userParams[$i]['S_Name'];

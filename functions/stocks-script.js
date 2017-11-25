@@ -76,76 +76,30 @@ $(document).ready(function () {
 
 
     $("#add-phone-number").click(function () {
-
-        var uri1 = document.getElementById("uri1").value;
-        var uri2 = document.getElementById("uri2").value;
+	    var uri1 = document.getElementById("uri1").value;
         var stock = document.getElementById("stn").value;
 
         if (stock > 0) {
             if (uri1 == "stocks") {
-                $.ajax({
-                    type: "POST",
-                    url: "/add-phone/" + uri2,
-                    data: "st=" + stock,
-                    success: function (text) {
+				addPhoneN();
+			}
+		}
 
-                        echo = text.substring(0, 7);
-                        newID = text.substring(7);
-
-                        if (echo == "success" && newID > 0) {
-                            //confirmFormSuccess();
-                            putEmptyPhoneNumber(newID);
-								void( setTimeout(location.reload(), 500) );
-                            //void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
-                        } else {
-                            //formError();
-                            $("#add-phone-number-error").css("display", "inline-block");
-                        }
-                    }
-                });
-            }
-        }
     });
-
+/*
     $("label.del-phone-number").click(function () {
-        var uri1 = document.getElementById("uri1").value;
-        var uri2 = document.getElementById("uri2").value;
-        var stock = document.getElementById("stn").value;
-	    var img1 = $(this).children("img:first");
-        var img1src = img1.attr("src");
-        img1.attr("src", "../views/preloader.gif");
-		
-		 //fields = {};
-        //fields.phone = [];
-        //gatherFields(fields);
-		var eid = this.id;
-		
-		
-		
+ var eid = this.id;
+       var uri1 = document.getElementById("uri1").value;
+       var stock = document.getElementById("stn").value;
+alert("me");
         if (stock > 0) {
             if (uri1 == "stocks") {
-
-                $.ajax({
-                    type: "POST",
-                    url: "/del-phone/" + uri2,
-                    // data: "st=" + stock + "&phn=" + eid + "&max=" + fields.Ntels,
-					  data: "st=" + stock + "&phn=" + eid,
-                    success: function (text) {
-                        if (text == "success") {
-                            //void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
-							void( setTimeout(location.reload(), 500) );
-                        } else {
-								img1.attr("src", img1src);
-                            alert(text);
-                        }
-                    }
-                });
+				delPhoneN(eid);
             }
-        }
-		
-		
-    });
+        }		
 
+    });
+*/
 
     $("#SconfirmForm").validator().on("submit", function (event) {
 
@@ -257,11 +211,75 @@ function checkForm(fields) {
         checkStatus = false;
         $("#user-stock-ships").removeClass().addClass("form-control is-invalid");
     }
-    alert("Status set True on line 227");
-    checkStatus = true;
+
     return checkStatus;
 }
 
+function addPhoneN() {
+	    var uri1 = document.getElementById("uri1").value;
+        var uri2 = document.getElementById("uri2").value;
+        var stock = document.getElementById("stn").value;
+
+        if (stock > 0) {
+            if (uri1 == "stocks") {
+                $.ajax({
+                    type: "POST",
+                    url: "/add-phone/" + uri2,
+                    data: "st=" + stock,
+                    success: function (text) {
+
+                        echo = text.substring(0, 7);
+                        newID = text.substring(7);
+
+                        if (echo == "success" && newID > 0) {
+                            //confirmFormSuccess();
+                            putEmptyPhoneNumber(newID);
+								//void( setTimeout(location.reload(), 500) );
+
+                        } else {
+                            //formError();
+                            $("#add-phone-number-error").css("display", "inline-block");
+                        }
+                    }
+                });
+            }
+        }
+}
+
+function delPhoneN(eid) {
+
+	alert("1" + eid);
+
+	if ( eid.indexOf("del-phone-number") !=-1 ) {
+        var uri1 = document.getElementById("uri1").value;
+        var uri2 = document.getElementById("uri2").value;
+        var stock = document.getElementById("stn").value;
+	    var img1 = $(this).children("img:first");
+        var img1src = img1.attr("src");
+        img1.attr("src", "../views/preloader.gif");
+		
+        if (stock > 0) {
+            if (uri1 == "stocks") {
+
+                $.ajax({
+                    type: "POST",
+                    url: "/del-phone/" + uri2,
+                    // data: "st=" + stock + "&phn=" + eid + "&max=" + fields.Ntels,
+					  data: "st=" + stock + "&phn=" + eid,
+                    success: function (text) {
+                        if (text == "success") {
+                            //void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
+								void( setTimeout(location.reload(), 500) );
+                        } else {
+								img1.attr("src", img1src);
+                            alert(text);
+                        }
+                    }
+                });
+            }
+        }
+	}
+}
 
 function putEmptyPhoneNumber(id) {
     var a = "";
@@ -296,11 +314,13 @@ function putEmptyPhoneNumber(id) {
 		<img src=\"../views/icon_viber.png\" alt=\"Viber\" width=\"22\" height=\"22\">\
 		</label></div><div class=\"form-check\"><label class=\"form-check-label\"><input type=\"checkbox\"  id=\"has-whatsapp-" + id + "\" class=\"form-check-input\" data-toggle=\"tooltip\" data-placement=\"bottom\" title=\"" + HasWhatsapp + "\">\
 		<img src=\"../views/icon_whatsapp.png\" alt=\"Whatsapp\" width=\"24\" height=\"24\"></label></div>&nbsp;\
-		<div class=\"form-check\"><label class=\"form-check-label del-phone-number\" id=\"del-phone-number-" + id + "\">\
+		<div class=\"form-check\"><label   onclick=\"delPhoneN('del-phone-number-" + id + "')\"    class=\"form-check-label del-phone-number\" id=\"del-phone-number-" + id + "\">\
         <img src=\"../views/del.bmp\" alt=\"Del\" width=\"22\" height=\"22\"></label></div></div>";
 		$("#three").append(a);
-    
+		$("#three").on('click', 'label', delPhoneN);
 }
+
+
 
 function gatherFields(fields) {
 

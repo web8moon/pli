@@ -29,8 +29,9 @@ if (!isset($content)) {
              //echo '<pre>';
              //var_dump($userParams);
              //echo '</pre>';
+			 $userParams['stokNumbers'] = 0;
             if (count($userParams['Stock']) > 1 and $userParams['User']['UserPlan'] == 1) {
-                $userParams['stokNumbers'] = 0;
+                // $userParams['stokNumbers'] = 0;
                 ?>
                 <br>
                 <div class="container">
@@ -234,9 +235,9 @@ if (!isset($content)) {
                                             <img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
                                         </label>
                                     </div>
-<?php if (count($userParams['Phone']) > 2) { ?>
+<?php if (count($userParams['Phone']) > 1) { ?>
                                     &nbsp;                                     <div class="form-check">
-<label class="form-check-label del-phone-number" id="del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>">
+<label onclick="delPhoneN('del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>')" class="form-check-label del-phone-number" id="del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>">
        <img src="../views/del.bmp" alt="Del" width="22" height="22">
 </label>
 	   </div>

@@ -60,7 +60,7 @@ return [
     'profileAccountLogins' => 'Имя и данные',
     'profileAccountName' => 'Имя',
     'profileAccountFree' => 'Бесплатный',
-    'profileAccountId' => 'Номер кода учетной записи:',
+    'profileAccountId' => 'Номер карточки клиента:',
 	'stockName' => 'Название склада',
 	'stockCountry' => 'Страна',
     'stockCountryCode' => 'Код страны',
