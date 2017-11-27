@@ -54,6 +54,7 @@ return [
     'profileUpdateErr' => 'Profile is not updated',
     'profileAccountMenu' => 'Account',
     'profileStocksMenu' => 'Stocks',
+    'profilePartsMenu' => 'Parts',
     'profileAccountDetail' => 'Account\'s detail',
     'profileAccountParams' => 'Account\'s parameters',
     'profileAccountPlan' => 'Type of account',
@@ -78,4 +79,5 @@ return [
     'stockShipmentInfo' => 'Shipment info',
     'stockPhoneViberChk' => 'Check if this phone has Viber',
     'stockPhoneWhatsappChk' => 'Check if this phone has Whatsapp',
+    'stockPartsQsearch' => 'Quick search by Number in the current warehouse',
 ];

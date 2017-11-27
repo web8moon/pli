@@ -10,11 +10,14 @@ if (!isset($content)) {
         <!-- UPPER TABS -->
         <div class="card-header">
             <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item"><a class="nav-link"
-                                        href="/<?php echo isset($pageLinks['profile']) ? $pageLinks['profile'] : 'profile'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileAccountMenu) ? $profileAccountMenu : 'Account'; ?></a>
+                <li class="nav-item">
+                    <a class="nav-link" href="/<?php echo isset($pageLinks['profile']) ? $pageLinks['profile'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileAccountMenu) ? $profileAccountMenu : 'Account'; ?></a>
                 </li>
-                <li class="nav-item"><a class="nav-link active"
-                                        href="/<?php echo isset($pageLinks['stocks']) ? $pageLinks['stocks'] : 'stocks'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileStocksMenu) ? $profileStocksMenu : 'Stocks'; ?></a>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/<?php echo isset($pageLinks['stocks']) ? $pageLinks['stocks'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileStocksMenu) ? $profileStocksMenu : 'Stocks'; ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/<?php echo isset($pageLinks['parts']) ? $pageLinks['parts'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profilePartsMenu) ? $profilePartsMenu : 'Parts'; ?></a>
                 </li>
             </ul>
         </div>
@@ -56,7 +59,7 @@ if (!isset($content)) {
 
 
             $errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
-            if (checkUserSession('start') and $countries = getTableList('pli_counties') and $userParams and $currency = getTableList('pli_currencies')) {
+            if (checkUserSession('start') and $countries = getTableList('pli_countries') and $userParams and $currency = getTableList('pli_currencies')) {
             $errMsg = '';
             ?>
             <!--  FIRST CARD -->

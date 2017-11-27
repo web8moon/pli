@@ -775,6 +775,15 @@ function controler($conf, $lang)
 
 }
 
+function getStockParts($stock, $start = 0, $end = 20) {
+    $ok = false;
+    if ($stock > 0){
+        $select = 'SELECT count(`StockID`) FROM `pli_usersparts` WHERE `StockID`='.$stock;
+        $select = 'SELECT `pli_usersparts`.`PartID`, `brands`.`BRA_BRAND`, `pli_usersparts`.`Code`, `pli_usersparts`.`Name`, `pli_usersparts`.`IsUsed`, `pli_usersparts`.`Quantity`, `pli_usersparts`.`Price`, `pli_usersparts`.`Photo`, `pli_usersparts`.`Active` FROM `pli_usersparts` LEFT JOIN `brands` ON `pli_usersparts`.`Brand`=`brands`.`BRA_ID` WHERE `pli_usersparts`.`StockID`=' . $stock . ' LIMIT ' . $start . ',' . $end;
+    }
+}
+
+
 function TDcrossSearchList($N, $conf)
 {
     $select = 'SELECT DISTINCT
@@ -799,8 +808,7 @@ WHERE
          (2, 1), (2, 2), (2, 3),
 		 (3, 1), (3, 2), (3, 3),
 		 (4, 1))
-ORDER BY
-	BRAND, NUMBER';
+ORDER BY BRAND, NUMBER';
     $link = dbConnector($conf);
     if ($link) {
         if ($result = mysqli_query($link, $select)) {

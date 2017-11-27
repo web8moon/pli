@@ -248,16 +248,15 @@ function addPhoneN() {
 
 function delPhoneN(eid) {
 
-	alert("1" + eid);
-
 	if ( eid.indexOf("del-phone-number") !=-1 ) {
         var uri1 = document.getElementById("uri1").value;
         var uri2 = document.getElementById("uri2").value;
         var stock = document.getElementById("stn").value;
-	    var img1 = $(this).children("img:first");
-        var img1src = img1.attr("src");
-        img1.attr("src", "../views/preloader.gif");
-		
+        var img1 = document.getElementById(eid).getElementsByTagName("img")[0];
+        var img1src = img1.getAttribute("src");
+
+       img1.src = "../views/preloader.gif";
+
         if (stock > 0) {
             if (uri1 == "stocks") {
 
@@ -269,13 +268,15 @@ function delPhoneN(eid) {
                     success: function (text) {
                         if (text == "success") {
                             //void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
-								void( setTimeout(location.reload(), 500) );
+                            img1.src = img1src;
+                            void( setTimeout(location.reload(), 500) );
                         } else {
-								img1.attr("src", img1src);
+                            img1.src = img1src;
                             alert(text);
                         }
                     }
                 });
+
             }
         }
 	}

@@ -54,6 +54,7 @@ return [
     'profileUpdateErr' => 'Данные не изменены',
     'profileAccountMenu' => 'Профиль',
     'profileStocksMenu' => 'Склады',
+    'profilePartsMenu' => 'Запчасти',
     'profileAccountDetail' => 'Детали учетной записи',
     'profileAccountParams' => 'Параметры учетной записи',
     'profileAccountPlan' => 'Условия пользования',
@@ -78,4 +79,5 @@ return [
     'stockShipmentInfo' => 'Информация об отгрузке',
     'stockPhoneViberChk' => 'Отметте, если на этом тел есть Viber',
     'stockPhoneWhatsappChk' => 'Отметте, если на этом тел есть Whatsapp',
+    'stockPartsQsearch' => 'Быстрый поиск по номеру в текущем складе',
 ];
