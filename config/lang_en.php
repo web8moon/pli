@@ -80,4 +80,5 @@ return [
     'stockPhoneViberChk' => 'Check if this phone has Viber',
     'stockPhoneWhatsappChk' => 'Check if this phone has Whatsapp',
     'stockPartsQsearch' => 'Quick search by Number in the current warehouse',
+	'stockPartsEmptyStock' => 'Your warehouse is empty yet',
 ];

@@ -80,4 +80,5 @@ return [
     'stockPhoneViberChk' => 'Отметте, если на этом тел есть Viber',
     'stockPhoneWhatsappChk' => 'Отметте, если на этом тел есть Whatsapp',
     'stockPartsQsearch' => 'Быстрый поиск по номеру в текущем складе',
+	'stockPartsEmptyStock' => 'Ваш склад, пока, пустой',
 ];
