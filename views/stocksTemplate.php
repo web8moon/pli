@@ -2,6 +2,7 @@
 
 if (!isset($content)) {
     ob_start();
+    $errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
     ?>
     <br>
     <div class="card text-center">
@@ -26,6 +27,7 @@ if (!isset($content)) {
             <h1> <?php echo isset($siteTabWarehouse) ? $siteTabWarehouse : 'Stocks'; ?></h1>
             <br>
             <?php
+            if (checkUserSession('start')) {
             $userParams = array();
             $userParams = getUserParams();
 
@@ -57,55 +59,53 @@ if (!isset($content)) {
                 <?php
             }
 
+            if ($countries = getTableList('pli_countries') and $userParams and $currency = getTableList('pli_currencies')) {
+                $errMsg = '';
+                ?>
+                <!--  FIRST CARD -->
 
-            $errMsg = isset($profileConnErr) ? $profileConnErr : 'Error';
-            if (checkUserSession('start') and $countries = getTableList('pli_countries') and $userParams and $currency = getTableList('pli_currencies')) {
-            $errMsg = '';
-            ?>
-            <!--  FIRST CARD -->
-
-            <div class="card">
-                <div class="card-body">
-                    <!-- <h6 class="card-subtitle mb-2 text-muted"><?php //echo isset($pr) ? $pr : 'СКлад'; ?></h6> -->
-                    <div class="form-group row">
-                        <label for="user-stock-name"
-                               class="col-sm-2 col-form-label"><?php echo isset($stockName) ? $stockName : 'Name'; ?></label>
-                        <div class="col col-3">
-                            <input class="form-control" type="text"
-                                   value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockName']; ?>"
-                                   id="user-stock-name">
-                        </div>
-
-
-                        <div class="col">
-                            <div class="input-group">
-
-                                <label for="user-stock-currency"
-                                       class="col-sm-8 col-form-label"><?php echo isset($stockCurrency) ? $stockCurrency : 'Currency'; ?></label>
-
-                                <select id="user-stock-currency" class="form-control col-4">
-
-
-                                    <?php
-
-                                    foreach ($currency as $c) {
-                                        echo '<option value="' . $c['ID'] . '"';
-                                        if ($userParams['Stock'][$userParams['stokNumbers']]['Currency'] == $c['ID'])
-                                            echo ' selected';
-                                        echo '>' . $c['Name'] . '</option>';
-                                    }
-
-
-                                    ?>
-                                </select>
-
-
+                <div class="card">
+                    <div class="card-body">
+                        <!-- <h6 class="card-subtitle mb-2 text-muted"><?php //echo isset($pr) ? $pr : 'СКлад'; ?></h6> -->
+                        <div class="form-group row">
+                            <label for="user-stock-name"
+                                   class="col-sm-2 col-form-label"><?php echo isset($stockName) ? $stockName : 'Name'; ?></label>
+                            <div class="col col-3">
+                                <input class="form-control" type="text"
+                                       value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockName']; ?>"
+                                       id="user-stock-name">
                             </div>
-                        </div>
 
 
-                        <div class="col-3">
-                            <div class="input-group">
+                            <div class="col">
+                                <div class="input-group">
+
+                                    <label for="user-stock-currency"
+                                           class="col-sm-8 col-form-label"><?php echo isset($stockCurrency) ? $stockCurrency : 'Currency'; ?></label>
+
+                                    <select id="user-stock-currency" class="form-control col-4">
+
+
+                                        <?php
+
+                                        foreach ($currency as $c) {
+                                            echo '<option value="' . $c['ID'] . '"';
+                                            if ($userParams['Stock'][$userParams['stokNumbers']]['Currency'] == $c['ID'])
+                                                echo ' selected';
+                                            echo '>' . $c['Name'] . '</option>';
+                                        }
+
+
+                                        ?>
+                                    </select>
+
+
+                                </div>
+                            </div>
+
+
+                            <div class="col-3">
+                                <div class="input-group">
 							<span class="input-group-addon"> <input
                                     <?php echo ($userParams['Stock'][$userParams['stokNumbers']]['Active'] >= 1) ? 'checked' : ''; ?>
                                         type="checkbox" aria-label="Check to activate your stock"
@@ -115,173 +115,185 @@ if (!isset($content)) {
                                            type="text" id="stock-active-lbl"
                                            aria-label="Check to activate your stock"
                                            class="form-control <?php echo ($userParams['Stock'][$userParams['stokNumbers']]['Active'] < 1) ? 'btn-danger' : ''; ?> ">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <!--  /FIRST CARD -->
+                <br>
+
+                <!--  SECOND CARD -->
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($stockLocation) ? $stockLocation : 'Location'; ?></h6>
+                        <div class="form-group row">
+
+                            <div class="col">
+                                <div class="input-group">
+
+                                    <label for="user-stock-country"
+                                           class="col-sm-4 col-form-label"><?php echo isset($stockCountry) ? $stockCountry : 'Country'; ?></label>
+
+                                    <select class="form-control" id="user-stock-country">
+                                        <?php
+
+                                        foreach ($countries as $c) {
+                                            echo '<option value="' . $c['ID'] . '"';
+                                            if ($userParams['Stock'][$userParams['stokNumbers']]['StockCountry'] == $c['ID'])
+                                                echo ' selected';
+                                            echo '>' . $c['Name'] . '</option>';
+                                        }
+
+
+                                        ?>
+
+                                    </select>
+
+
+                                </div>
+                            </div>
+
+                            <label for="user-stock-city"
+                                   class="col-sm-2 col-form-label"><?php echo isset($stockCity) ? $stockCity : 'City'; ?></label>
+                            <div class="col col-4">
+                                <input class="form-control" type="text"
+                                       value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockCity']; ?>"
+                                       id="user-stock-city">
+                            </div>
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="user-stock-adress"
+                                   class="col-sm-2 col-form-label"><?php echo isset($stockAdress) ? $stockAdress : 'Adress'; ?></label>
+                            <div class="col">
+                                <input class="form-control" type="text"
+                                       value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockAdress']; ?>"
+                                       id="user-stock-adress">
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!--  /SECOND CARD -->
+                <br>
+                <!--  THIRD CARD -->
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($stockConacts) ? $stockConacts : 'Contacts'; ?></h6>
+                        <div class="form-group row">
+
+                            <label for="user-stock-mail"
+                                   class="col-sm-4 col-form-label"><?php echo isset($stockOrdersEmail) ? $stockOrdersEmail : 'E-mail'; ?></label>
+                            <div class="col col-5">
+                                <input class="form-control" type="email"
+                                       value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockEmail']; ?>"
+                                       id="user-stock-mail">
                             </div>
                         </div>
 
+                        <div id="three">
+                            <?php
 
-                    </div>
-                </div>
-            </div>
-            <!--  /FIRST CARD -->
-            <br>
-
-            <!--  SECOND CARD -->
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($stockLocation) ? $stockLocation : 'Location'; ?></h6>
-                    <div class="form-group row">
-
-                        <div class="col">
-                            <div class="input-group">
-
-                                <label for="user-stock-country"
-                                       class="col-sm-4 col-form-label"><?php echo isset($stockCountry) ? $stockCountry : 'Country'; ?></label>
-
-                                <select class="form-control" id="user-stock-country">
-                                    <?php
-
-                                    foreach ($countries as $c) {
-                                        echo '<option value="' . $c['ID'] . '"';
-                                        if ($userParams['Stock'][$userParams['stokNumbers']]['StockCountry'] == $c['ID'])
-                                            echo ' selected';
-                                        echo '>' . $c['Name'] . '</option>';
-                                    }
-
-
+                            for ($i = 0; $i < count($userParams['Phone']); $i++) {
+                                if ($userParams['Stock'][$userParams['stokNumbers']]['ID'] == $userParams['Phone'][$i]['StockID']) {
                                     ?>
 
-                                </select>
+                                    <div class="form-group row">
 
+                                        <label for="user-stock-phone" class="col-sm-3 col-form-label"
+                                               id="phLbl"><?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
+                                        <div class="col col-1">
+                                            <input class="form-control" type="text"
+                                                   value="<?php echo $userParams['Phone'][$i]['CountryCode']; ?>"
+                                                   id="user-phone-country-code-<?php echo $userParams['Phone'][$i]['ID']; ?>"
+                                                   data-toggle="tooltip" data-placement="bottom"
+                                                   title="<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
+                                        </div>
 
-                            </div>
+                                        <div class="col col-3">
+                                            <input class="form-control" type="tel"
+                                                   value="<?php echo $userParams['Phone'][$i]['Phone']; ?>"
+                                                   id="user-stock-phone-<?php echo $userParams['Phone'][$i]['ID']; ?>">
+                                        </div>
+
+                                        <div class="form-check">
+                                            <label class="form-check-label"> <input type="checkbox"
+                                                                                    class="form-check-input"
+                                                                                    id="has-viber-<?php echo $userParams['Phone'][$i]['ID']; ?>"
+                                                                                    data-toggle="tooltip" <?php echo $userParams['Phone'][$i]['IsViber'] == 1 ? 'checked' : ''; ?>
+                                                                                    data-placement="bottom"
+                                                                                    title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
+                                                <img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
+                                            </label>
+                                        </div>
+                                        &nbsp;
+                                        <div class="form-check">
+                                            <label class="form-check-label"> <input type="checkbox"
+                                                                                    class="form-check-input"
+                                                                                    id="has-whatsapp-<?php echo $userParams['Phone'][$i]['ID']; ?>"
+                                                                                    data-toggle="tooltip"
+                                                                                    data-placement="bottom" <?php echo $userParams['Phone'][$i]['IsWatsapp'] == 1 ? 'checked' : ''; ?>
+                                                                                    title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
+                                                <img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24"
+                                                     height="24">
+                                            </label>
+                                        </div>
+                                        <?php if (count($userParams['Phone']) > 1) { ?>
+                                            &nbsp;
+                                            <div class="form-check">
+                                                <label onclick="delPhoneN('del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>')"
+                                                       class="form-check-label del-phone-number"
+                                                       id="del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>">
+                                                    <img src="../views/del.bmp" alt="Del" width="22" height="22">
+                                                </label>
+                                            </div>
+                                        <?php } ?>
+                                    </div>
+                                    <?php
+                                }
+                            }
+                            ?>
+
                         </div>
-
-                        <label for="user-stock-city"
-                               class="col-sm-2 col-form-label"><?php echo isset($stockCity) ? $stockCity : 'City'; ?></label>
-                        <div class="col col-4">
-                            <input class="form-control" type="text"
-                                   value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockCity']; ?>"
-                                   id="user-stock-city">
-                        </div>
-
+                        <button type="button" class="btn btn-outline-primary"
+                                id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
+                            <span style="display:none;" class="badge badge-warning"
+                                  id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
+                        </button>
                     </div>
+
                     <div class="form-group row">
-                        <label for="user-stock-adress"
-                               class="col-sm-2 col-form-label"><?php echo isset($stockAdress) ? $stockAdress : 'Adress'; ?></label>
+                        <label for="user-stock-ships"
+                               class="col-sm-3 col-form-label"><?php echo isset($stockShipmentInfo) ? $stockShipmentInfo : 'ShipsInfo'; ?></label>
                         <div class="col">
                             <input class="form-control" type="text"
-                                   value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockAdress']; ?>"
-                                   id="user-stock-adress">
+                                   value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['ShipsInfo']; ?>"
+                                   id="user-stock-ships">
                         </div>
 
                     </div>
                 </div>
-            </div>
-            <!--  /SECOND CARD -->
-            <br>
-            <!--  THIRD CARD -->
-            <div class="card">
-                <div class="card-body">
-                    <h6 class="card-subtitle mb-2 text-muted"><?php echo isset($stockConacts) ? $stockConacts : 'Contacts'; ?></h6>
-                    <div class="form-group row">
+                <!--  /THIRD CARD -->
 
-                        <label for="user-stock-mail"
-                               class="col-sm-4 col-form-label"><?php echo isset($stockOrdersEmail) ? $stockOrdersEmail : 'E-mail'; ?></label>
-                        <div class="col col-5">
-                            <input class="form-control" type="email"
-                                   value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['StockEmail']; ?>"
-                                   id="user-stock-mail">
-                        </div>
-                    </div>
 
-                    <div id="three">
-                        <?php
-
-                        for ($i = 0; $i < count($userParams['Phone']); $i++) {
-                            if ($userParams['Stock'][$userParams['stokNumbers']]['ID'] == $userParams['Phone'][$i]['StockID']) {
-                                ?>
-
-                                <div class="form-group row">
-
-                                    <label for="user-stock-phone" class="col-sm-3 col-form-label"
-                                           id="phLbl"><?php echo isset($stockPhone) ? $stockPhone : 'Phone'; ?></label>
-                                    <div class="col col-1">
-                                        <input class="form-control" type="text"
-                                               value="<?php echo $userParams['Phone'][$i]['CountryCode']; ?>"
-                                               id="user-phone-country-code-<?php echo $userParams['Phone'][$i]['ID']; ?>"
-                                               data-toggle="tooltip" data-placement="bottom"
-                                               title="<?php echo isset($stockCountryCode) ? $stockCountryCode : 'CountryCode'; ?>">
-                                    </div>
-
-                                    <div class="col col-3">
-                                        <input class="form-control" type="tel"
-                                               value="<?php echo $userParams['Phone'][$i]['Phone']; ?>"
-                                               id="user-stock-phone-<?php echo $userParams['Phone'][$i]['ID']; ?>">
-                                    </div>
-
-                                    <div class="form-check">
-                                        <label class="form-check-label"> <input type="checkbox"
-                                                                                class="form-check-input" id="has-viber-<?php echo $userParams['Phone'][$i]['ID']; ?>"
-                                                                                data-toggle="tooltip" <?php echo $userParams['Phone'][$i]['IsViber'] == 1 ? 'checked' : ''; ?>
-                                                                                data-placement="bottom"
-                                                                                title="<?php echo isset($stockPhoneViberChk) ? $stockPhoneViberChk : 'HasViber'; ?>">
-                                            <img src="../views/icon_viber.png" alt="Viber" width="22" height="22">
-                                        </label>
-                                    </div>
-									&nbsp;
-                                    <div class="form-check">
-                                        <label class="form-check-label"> <input type="checkbox"
-                                                                                class="form-check-input"
-                                                                                id="has-whatsapp-<?php echo $userParams['Phone'][$i]['ID']; ?>" data-toggle="tooltip"
-                                                                                data-placement="bottom" <?php echo $userParams['Phone'][$i]['IsWatsapp'] == 1 ? 'checked' : ''; ?>
-                                                                                title="<?php echo isset($stockPhoneWhatsappChk) ? $stockPhoneWhatsappChk : 'HasWhatsapp'; ?>">
-                                            <img src="../views/icon_whatsapp.png" alt="Whatsapp" width="24" height="24">
-                                        </label>
-                                    </div>
-<?php if (count($userParams['Phone']) > 1) { ?>
-                                    &nbsp;                                     <div class="form-check">
-<label onclick="delPhoneN('del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>')" class="form-check-label del-phone-number" id="del-phone-number-<?php echo $userParams['Phone'][$i]['ID']; ?>">
-       <img src="../views/del.bmp" alt="Del" width="22" height="22">
-</label>
-	   </div>
-<?php } ?>
-                                </div>
-                                <?php
-                            }
-                        }
-                        ?>
-
-                    </div>
-                    <button type="button" class="btn btn-outline-primary"
-                            id="add-phone-number"><?php echo isset($stockPhoneAdd) ? $stockPhoneAdd : 'Add'; ?>
-                        <span style="display:none;" class="badge badge-warning"
-                              id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?></span>
-                    </button>
+                <br>
+                <div class="container">
+                    <a href="" data-toggle="modal" class="btn btn-primary"
+                       id="save-stock"><?php echo isset($siteSave) ? $siteSave : 'Save'; ?></a>
                 </div>
+                <br>
 
-                <div class="form-group row">
-                    <label for="user-stock-ships"
-                           class="col-sm-3 col-form-label"><?php echo isset($stockShipmentInfo) ? $stockShipmentInfo : 'ShipsInfo'; ?></label>
-                    <div class="col">
-                        <input class="form-control" type="text"
-                               value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['ShipsInfo']; ?>"
-                               id="user-stock-ships">
-                    </div>
-
-                </div>
-            </div>
+                <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
+                <input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
+                <input type="hidden" id="stn"
+                       value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['ID']; ?>">
+                <?php
+            }
+            ?>
         </div>
-        <!--  /THIRD CARD -->
-        <br>
-        <div class="container">
-            <a href="" data-toggle="modal" class="btn btn-primary"
-               id="save-stock"><?php echo isset($siteSave) ? $siteSave : 'Save'; ?></a>
-        </div>
-        <br>
-
-        <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
-        <input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
-        <input type="hidden" id="stn" value="<?php echo $userParams['Stock'][$userParams['stokNumbers']]['ID']; ?>">
         <?php
         }
 
@@ -299,7 +311,7 @@ if (!isset($content)) {
         ?>
 
     </div>
-    </div>
+  <!--  </div> -->
 
     <!-- PASWWORD CONFIRM -->
     <div id="SconfirmModal" class="modal fade">

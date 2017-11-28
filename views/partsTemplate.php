@@ -2,154 +2,167 @@
     ob_start();
 
     $userID = checkUserSession('start');
+
     $userParams = getUserParams();
     $queqryUrl = parseQueryUrl(str_replace("q=", "", trim($_SERVER['QUERY_STRING'])));
-	if (isset($queqryUrl[2]) && $queqryUrl[2] > 0) {
-		
-	} else {
-		$parts = getStockParts($userParams['Stock'][0]['ID']);
-	}
+    if (isset($queqryUrl[2]) && $queqryUrl[2] > 0) {
+
+    } else {
+        $parts = getStockParts($userParams['Stock'][0]['ID']);
+    }
 
     ?>
 
-<br>
-<div class="card text-center">
+    <br>
+    <div class="card text-center">
 
-    <!-- UPPER TABS -->
-    <div class="card-header">
-        <ul class="nav nav-tabs card-header-tabs">
-            <li class="nav-item">
-                <a class="nav-link" href="/<?php echo isset($pageLinks['profile']) ? $pageLinks['profile'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileAccountMenu) ? $profileAccountMenu : 'Account'; ?></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/<?php echo isset($pageLinks['stocks']) ? $pageLinks['stocks'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileStocksMenu) ? $profileStocksMenu : 'Stocks'; ?></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link active" href="/<?php echo isset($pageLinks['parts']) ? $pageLinks['parts'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profilePartsMenu) ? $profilePartsMenu : 'Parts'; ?></a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="card-body">
-		<?php
-	if (!isset($parts['NumbersOfRowsInSelect'])) {
-	?>	
-	
-	
-        <div class="container">
-        <div class="form-group row justify-content-center">
-		<?php
-	if ($parts['NumbersOfRowsInSelect'] > 0) {
-	?>	
-        <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Update'; ?>
-            <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
-        </button>
-				<?php
-	}
-	?>
-
-        <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Add'; ?>
-            <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
-        </button>
-        <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Import'; ?>
-            <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
-        </button>
-<?php
-	if ($parts['NumbersOfRowsInSelect'] > 0) {
-	?>
-        <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Export'; ?>
-            <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
-        </button>
-        <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Erase'; ?>
-            <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
-        </button>
-		<?php
-	}
-	?>
-		
+        <!-- UPPER TABS -->
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="/<?php echo isset($pageLinks['profile']) ? $pageLinks['profile'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileAccountMenu) ? $profileAccountMenu : 'Account'; ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link"
+                       href="/<?php echo isset($pageLinks['stocks']) ? $pageLinks['stocks'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profileStocksMenu) ? $profileStocksMenu : 'Stocks'; ?></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active"
+                       href="/<?php echo isset($pageLinks['parts']) ? $pageLinks['parts'] : 'welcome'; ?>/<?php echo isset($currentLang) ? $currentLang : '/'; ?>"><?php echo isset($profilePartsMenu) ? $profilePartsMenu : 'Parts'; ?></a>
+                </li>
+            </ul>
         </div>
-<?php
-	if ($parts['NumbersOfRowsInSelect'] > 0) {
-	?>	
-        <div class="input-group">
-            <input type="text" class="form-control" id="qsearch" placeholder="<?php echo isset($stockPartsQsearch) ? $stockPartsQsearch : 'Quick Search'; ?>">
-            <span class="input-group-btn">
-        <button class="btn btn-outline-primary" id="go" type="submit" >Go</button>
+
+        <div class="card-body">
+            <?php
+            if (isset($parts['NumbersOfRowsInSelect'])) {
+                ?>
+
+
+                <div class="container">
+                    <div class="form-group row justify-content-center">
+                        <?php
+                        if ($parts['NumbersOfRowsInSelect'] > 0) {
+                            ?>
+                            <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Update'; ?>
+                                <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+                                </span>
+                            </button>
+                            <?php
+                        }
+                        ?>
+
+                        <button type="button" class="btn btn-outline-primary"
+                                id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Add'; ?>
+                            <span style="display:none;" class="badge badge-warning"
+                                  id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+            </span>
+                        </button>
+                        <button type="button" class="btn btn-outline-primary"
+                                id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Import'; ?>
+                            <span style="display:none;" class="badge badge-warning"
+                                  id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+            </span>
+                        </button>
+                        <?php
+                        if ($parts['NumbersOfRowsInSelect'] > 0) {
+                            ?>
+                            <button type="button" class="btn btn-outline-primary"
+                                    id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Export'; ?>
+                                <span style="display:none;" class="badge badge-warning"
+                                      id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+            </span>
+                            </button>
+                            <button type="button" class="btn btn-outline-primary"
+                                    id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Erase'; ?>
+                                <span style="display:none;" class="badge badge-warning"
+                                      id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+            </span>
+                            </button>
+                            <?php
+                        }
+                        ?>
+
+                    </div>
+                    <?php
+                    if ($parts['NumbersOfRowsInSelect'] > 0) {
+                        ?>
+                        <div class="input-group">
+                            <input type="text" class="form-control" id="qsearch"
+                                   placeholder="<?php echo isset($stockPartsQsearch) ? $stockPartsQsearch : 'Quick Search'; ?>">
+                            <span class="input-group-btn">
+        <button class="btn btn-outline-primary" id="go" type="submit">Go</button>
       </span>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+
+
+                <?php
+                if ($parts['NumbersOfRowsInSelect'] > 0) {
+                    ?>
+                    <table class="table table-responsive table-hover">
+                        <thead>
+                        <tr>
+                            <th>Active</th>
+                            <th>Brand</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Quan</th>
+                            <th>Price</th>
+                            <th>Used</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <?php
+                        echo count($parts) - 1;
+
+                        ?>
+                        </tbody>
+                    </table>
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-end">
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" tabindex="-1">&laquo;</a>
+                            </li>
+                            <li class="page-item"><a class="page-link" href="#">1</a></li>
+                            <li class="page-item"><a class="page-link" href="#">2</a></li>
+                            <li class="page-item"><a class="page-link" href="#">3</a></li>
+                            <li class="page-item">
+                                <a class="page-link" href="#">&raquo;</a>
+                            </li>
+                        </ul>
+                    </nav>
+                    <?php
+                } else {
+                    ?>
+                    <br>
+                    <div class="container">
+                        <div class="alert alert-warning" role="alert">
+                            <?php echo isset($stockPartsEmptyStock) ? $stockPartsEmptyStock : 'Empty'; ?>
+                        </div>
+                    </div>
+                    <br>
+                    <?php
+                }
+
+            } else {
+                ?>
+                <br>
+                <div class="container">
+                    <div class="alert alert-danger" role="alert">
+                        <?php echo isset($siteRegisterWrongErr) ? $siteRegisterWrongErr : 'Error'; ?>
+                    </div>
+                </div>
+                <br>
+                <?php
+            }
+            ?>
         </div>
-		<?php
-	}
-	?>
     </div>
-    
-
-	<?php
-	if ($parts['NumbersOfRowsInSelect'] > 0) {
-	?>	
-    <table class="table table-responsive table-hover">
-        <thead>
-        <tr>
-            <th>Active</th>
-            <th>Brand</th>
-            <th>Code</th>
-            <th>Name</th>
-            <th>Quan</th>
-            <th>Price</th>
-            <th>Used</th>
-        </tr>
-        </thead>
-		<tbody>
-		<?php
-		echo count($parts)-1;
-		
-		?>
-		</tbody>
-    </table>
-	    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-end">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1">&laquo;</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">&raquo;</a>
-            </li>
-        </ul>
-    </nav>
-	<?php
-	} else {
-	?>
-	<br>
-    <div class="container">
-       <div class="alert alert-warning" role="alert">
-           <?php echo isset($stockPartsEmptyStock) ? $stockPartsEmptyStock : 'Empty'; ?>
-       </div>
-    </div>
-    <br>
-		<?php
-	}
-
-	} else {
-	?>
-	<br>
-    <div class="container">
-       <div class="alert alert-danger" role="alert">
-           <?php echo isset($siteRegisterWrongErr) ? $siteRegisterWrongErr : 'Error'; ?>
-       </div>
-    </div>
-    <br>
-		<?php
-	}
-	?>
-</div>
-</div>
 
 
     <?php $content = ob_get_clean();
