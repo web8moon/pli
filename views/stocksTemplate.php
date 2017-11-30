@@ -295,6 +295,8 @@ if (!isset($content)) {
             ?>
         </div>
         <?php
+        } else {
+            session_destroy();
         }
 
         if ($errMsg != '') {
@@ -314,56 +316,58 @@ if (!isset($content)) {
   <!--  </div> -->
 
     <!-- PASWWORD CONFIRM -->
-    <div id="SconfirmModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <!-- Заголовок модального окна -->
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal"
-                            aria-hidden="true">×
-                    </button>
-                    <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
-                </div>
-                <!-- Основное содержимое модального окна -->
-                <div class="modal-body">
+    <?php if (isset($_SESSION['start'])) {
+        ?>
+        <div id="SconfirmModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Заголовок модального окна -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
+                    </div>
+                    <!-- Основное содержимое модального окна -->
+                    <div class="modal-body">
 
 
-                    <form role="form" id="SconfirmForm" data-toggle="validator"
-                          class="shake">
-                        <div class="row">
-                            <div class="form-group">
-                                <label for="password"
-                                       class="h4"><?php echo isset($profileConfirmLbl) ? $profileConfirmLbl : ''; ?></label>
-                                <input type="password" class="form-control" id="conf-password"
-                                       placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>"
-                                       required
-                                       data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
-                                <div class="help-block with-errors"></div>
+                        <form role="form" id="SconfirmForm" data-toggle="validator"
+                              class="shake">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="password"
+                                           class="h4"><?php echo isset($profileConfirmLbl) ? $profileConfirmLbl : ''; ?></label>
+                                    <input type="password" class="form-control" id="conf-password"
+                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
+                                    <div class="help-block with-errors"></div>
+                                </div>
                             </div>
-                        </div>
-                        <input type="hidden" id="uri1"
-                               value="<?php echo $currentAction; ?>"> <input type="hidden"
-                                                                             id="uri2"
-                                                                             value="<?php echo $currentLang; ?>">
-                        <button type="submit" id="conf-form-submit"
-                                class="btn btn-success btn-lg pull-right "><?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?></button>
-                        <div id="msgSubmit" class="h3 text-center hidden"></div>
-                        <div class="clearfix"></div>
-                    </form>
+                            <input type="hidden" id="uri1"
+                                   value="<?php echo $currentAction; ?>"> <input type="hidden"
+                                                                                 id="uri2"
+                                                                                 value="<?php echo $currentLang; ?>">
+                            <button type="submit" id="conf-form-submit"
+                                    class="btn btn-success btn-lg pull-right "><?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?></button>
+                            <div id="msgSubmit" class="h3 text-center hidden"></div>
+                            <div class="clearfix"></div>
+                        </form>
 
-                </div>
-                <!-- Футер модального окна -->
-                <div class="modal-footer">
-                    <button type="button" class="btn"
-                            data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
+                    </div>
+                    <!-- Футер модального окна -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn"
+                                data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    <?php
-
+        <?php
+    }
     $content = ob_get_clean();
 }
 ?>

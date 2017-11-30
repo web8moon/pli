@@ -196,7 +196,7 @@
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-end">
                             <li class="page-item <?php echo $disabled0; ?>">
-                                <a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang; ?>" tabindex="-1">&laquo;</a>
+                                <a class="page-link" title=" 1 " href="/<?php echo $currentAction . '/' . $currentLang; ?>">&laquo;</a>
                             </li>
                             <li class="page-item <?php echo $disabled1; ?>">
 									<a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page1; ?>"><?php echo $page1; ?></a>
@@ -208,7 +208,7 @@
 									<a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page3; ?>"><?php echo $page3; ?></a>
 								</li>
                             <li class="page-item <?php echo $disabled4; ?>">
-                                <a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang . '/' . $maxPage; ?>">&raquo;</a>
+                                <a class="page-link" title=" <?php echo $maxPage; ?> " href="/<?php echo $currentAction . '/' . $currentLang . '/' . $maxPage; ?>">&raquo;</a>
                             </li>
                         </ul>
                     </nav>

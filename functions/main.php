@@ -781,18 +781,17 @@ function getStockParts($stock, $start = 0, $end = 20) {
         if ($link) {
 			$select = 'SELECT SQL_CALC_FOUND_ROWS `pli_usersparts`.`PartID`, `brands`.`BRA_BRAND`, `pli_usersparts`.`Code`, `pli_usersparts`.`Name`, `pli_usersparts`.`IsUsed`, `pli_usersparts`.`Quantity`, `pli_usersparts`.`Price`, `pli_usersparts`.`Photo`, `pli_usersparts`.`Active` FROM `pli_usersparts` LEFT JOIN `brands` ON `pli_usersparts`.`Brand`=`brands`.`BRA_ID` WHERE `pli_usersparts`.`StockID`=' . $stock . ' LIMIT ' . $start . ',' . $end;
 			if ($result = mysqli_query($link, $select)) {
+                $result1 = mysqli_query($link, 'SELECT FOUND_ROWS()');
+                $row = mysqli_fetch_assoc($result1);
+                $M['NumbersOfRowsInSelect'] = $row['FOUND_ROWS()'];
+                unset($row, $select);
 				if (mysqli_num_rows($result) > 0) {
 					while ($row = mysqli_fetch_assoc($result)) {
 						$M[] = $row;
 					}
-					$result = mysqli_query($link, 'SELECT FOUND_ROWS()');
-					$row = mysqli_fetch_assoc($result);
-					$M['NumbersOfRowsInSelect'] = $row['FOUND_ROWS()'];
-					unset($row, $select);
-				} else {
-					$M['NumbersOfRowsInSelect'] = 0;
 				}
 				mysqli_free_result($result);
+                mysqli_free_result($result1);
 			}
 			mysqli_close($link);
 		}
