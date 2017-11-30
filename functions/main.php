@@ -776,7 +776,6 @@ function controler($conf, $lang)
 }
 
 function getStockParts($stock, $start = 0, $end = 20) {
-
     if ($stock > 0){
 		$link = dbConnector($GLOBALS['Conf']);
         if ($link) {
@@ -798,7 +797,6 @@ function getStockParts($stock, $start = 0, $end = 20) {
 			mysqli_close($link);
 		}
     }
-	
 	if (isset($M['NumbersOfRowsInSelect']))
 		return $M;
 	else
