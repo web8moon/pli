@@ -729,7 +729,8 @@ function controler($conf, $lang)
     if ($conf['currentAction'] == $conf['serviceLinks']['add-phone']) {
         $errorMSG = "Error";
         if (isset($_SESSION['start']) and !empty($_POST)) {
-            if (!empty($_POST["st"]) and is_numeric($_POST["st"]) and $_POST["st"] > 0) {
+            $userParams = getUserParams();
+            if (!empty($_POST['st']) and is_numeric($_POST['st']) and $_POST['st'] > 0 and $userParams['Stock'][0]['ID'] == $_POST['st']) {
                 $link = dbConnector($conf);
                 if ($link) {
                     $select = 'INSERT INTO `pli_stockphones` SET `StockID`=\'' . $_POST["st"] . '\', `CountryCode`=\'00\'';
@@ -744,6 +745,7 @@ function controler($conf, $lang)
                     mysqli_close($link);
                 }
             }
+            unset ($userParams);
         }
         echo $errorMSG;
     }
@@ -775,11 +777,15 @@ function controler($conf, $lang)
 
 }
 
-function getStockParts($stock, $start = 0, $end = 20) {
+function getStockParts($stock, $start = 0, $end = 20, $clause = '') {
     if ($stock > 0){
 		$link = dbConnector($GLOBALS['Conf']);
         if ($link) {
-			$select = 'SELECT SQL_CALC_FOUND_ROWS `pli_usersparts`.`PartID`, `brands`.`BRA_BRAND`, `pli_usersparts`.`Code`, `pli_usersparts`.`Name`, `pli_usersparts`.`IsUsed`, `pli_usersparts`.`Quantity`, `pli_usersparts`.`Price`, `pli_usersparts`.`Photo`, `pli_usersparts`.`Active` FROM `pli_usersparts` LEFT JOIN `brands` ON `pli_usersparts`.`Brand`=`brands`.`BRA_ID` WHERE `pli_usersparts`.`StockID`=' . $stock . ' LIMIT ' . $start . ',' . $end;
+			if ($clause != '') {
+			    $clause = CheckUs($clause);
+                $clause = ' AND `pli_usersparts`.`Code` LIKE \'' . $clause . '%\' ';
+            }
+            $select = 'SELECT SQL_CALC_FOUND_ROWS `pli_usersparts`.`PartID`, `brands`.`BRA_BRAND`, `pli_usersparts`.`Code`, `pli_usersparts`.`Name`, `pli_usersparts`.`IsUsed`, `pli_usersparts`.`Quantity`, `pli_usersparts`.`Price`, `pli_usersparts`.`Photo`, `pli_usersparts`.`Active` FROM `pli_usersparts` LEFT JOIN `brands` ON `pli_usersparts`.`Brand`=`brands`.`BRA_ID` WHERE `pli_usersparts`.`StockID`=' . $stock . $clause . ' LIMIT ' . $start . ',' . $end;
 			if ($result = mysqli_query($link, $select)) {
                 $result1 = mysqli_query($link, 'SELECT FOUND_ROWS()');
                 $row = mysqli_fetch_assoc($result1);

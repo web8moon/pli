@@ -16,12 +16,23 @@
 		$startPos = 0;
 	else 
 		$startPos = ($queqryUrl[2] - 1) * $defItemsPerPage;
-
-	$parts = getStockParts($userParams['Stock'][0]['ID'], $startPos, $defItemsPerPage);
+	if (isset($_POST['dismiss'])) {
+	    unset($_POST['qsearch'], $_SESSION['qsearch']);
+    }
+    if (isset($_POST['qsearch']) && isset($_POST['go'])) {
+        $_SESSION['qsearch'] = $_POST['qsearch'];
+        $startPos = 0;
+        // $parts = getStockParts($userParams['Stock'][0]['ID'], $startPos, $defItemsPerPage, $_POST['qsearch']);
+    } else {
+        $clause = '';
+    }
+    if (isset($_SESSION['qsearch']))
+        $clause = $_SESSION['qsearch'];
+    $parts = getStockParts($userParams['Stock'][0]['ID'], $startPos, $defItemsPerPage, $clause);
 // @TODO Check for $parts['NumbersOfRowsInSelect']
 
-	$maxPage = ceil($parts['NumbersOfRowsInSelect']/$defItemsPerPage);
-	
+	$maxPage = ceil($parts['NumbersOfRowsInSelect'] / $defItemsPerPage);
+
 	switch ($queqryUrl[2]) {
 		case 0:
 		case 1:
@@ -65,6 +76,16 @@
 			$page3 = $queqryUrl[2] + 1;
 			break;		
 	}
+    if ($parts['NumbersOfRowsInSelect'] <= $defItemsPerPage) {
+        $disabled0 = 'disabled';
+        $disabled1 = 'disabled';
+        $disabled2 = 'disabled';
+        $disabled3 = 'disabled';
+        $disabled4 = 'disabled';
+        $page1 = 1;
+        $page2 = 2;
+        $page3 = 3;
+    }
 
     ?>
 
@@ -131,9 +152,9 @@
                             </button>
                             <button type="button" class="btn btn-outline-primary"
                                     id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Erase'; ?>
-                                <span style="display:none;" class="badge badge-warning"
-                                      id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
+                                <span class="badge badge-warning">
+                                      <?php echo $parts['NumbersOfRowsInSelect']; ?>
+                                </span>
                             </button>
                             <?php
                         }
@@ -143,13 +164,32 @@
                     <?php
                     if ($parts['NumbersOfRowsInSelect'] > 0) {
                         ?>
+                    <form method="POST" action="<?php echo '/' . $pageLinks['parts'] . '/' . $currentLang; ?>">
                         <div class="input-group">
-                            <input type="text" class="form-control" id="qsearch"
-                                   placeholder="<?php echo isset($stockPartsQsearch) ? $stockPartsQsearch : 'Quick Search'; ?>">
+                            <?php
+                            if (isset($_POST['qsearch']) || isset($_SESSION['qsearch'])) {
+                            ?>
+                            <button type="submit" class="close" name="dismiss">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                            <?php } ?>
+                            <input type="text" class="form-control" name="qsearch" maxlength="17"
+                                   placeholder="<?php
+                                   if (isset($_POST['qsearch']) || isset($_SESSION['qsearch']))
+                                       echo $_SESSION['qsearch'];
+                                   else
+                                       echo isset($stockPartsQsearch) ? $stockPartsQsearch : 'Quick Search';
+                                   ?>">
                             <span class="input-group-btn">
-        <button class="btn btn-outline-primary" id="go" type="submit">Go</button>
-      </span>
+                                <button class="btn btn-outline-primary" name="go" type="submit">Go
+                                <?php if (isset($_POST['qsearch']) || isset($_SESSION['qsearch'])) { ?>
+                                    <span class="badge badge-info">
+                                      <?php echo $parts['NumbersOfRowsInSelect']; ?></span>
+                                    <?php } ?>
+                                </button>
+                            </span>
                         </div>
+                    </form>
                         <?php
                     }
                     ?>
@@ -163,13 +203,13 @@
                         <thead>
                         <tr>
                             <th>Active</th>
-								<th>Used</th>
+                            <th>Used</th>
                             <th>Brand</th>
                             <th>Code</th>
                             <th>Name</th>
                             <th>Quan</th>
                             <th>Price</th>
-								<th>Photo</th>
+                            <th>Photo</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -193,26 +233,35 @@
                         ?>
                         </tbody>
                     </table>
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-end">
-                            <li class="page-item <?php echo $disabled0; ?>">
-                                <a class="page-link" title=" 1 " href="/<?php echo $currentAction . '/' . $currentLang; ?>">&laquo;</a>
-                            </li>
-                            <li class="page-item <?php echo $disabled1; ?>">
-									<a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page1; ?>"><?php echo $page1; ?></a>
-								</li>
-                            <li class="page-item <?php echo $disabled2; ?>">
-									<a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page2; ?>"><?php echo $page2; ?></a>
-								</li>
-                            <li class="page-item <?php echo $disabled3; ?>">
-									<a class="page-link" href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page3; ?>"><?php echo $page3; ?></a>
-								</li>
-                            <li class="page-item <?php echo $disabled4; ?>">
-                                <a class="page-link" title=" <?php echo $maxPage; ?> " href="/<?php echo $currentAction . '/' . $currentLang . '/' . $maxPage; ?>">&raquo;</a>
-                            </li>
-                        </ul>
-                    </nav>
                     <?php
+                    if ($parts['NumbersOfRowsInSelect'] >= $defItemsPerPage) {
+                        ?>
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-end">
+                                <li class="page-item <?php echo $disabled0; ?>">
+                                    <a class="page-link" title=" 1 "
+                                       href="/<?php echo $currentAction . '/' . $currentLang; ?>">&laquo;</a>
+                                </li>
+                                <li class="page-item <?php echo $disabled1; ?>">
+                                    <a class="page-link"
+                                       href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page1; ?>"><?php echo $page1; ?></a>
+                                </li>
+                                <li class="page-item <?php echo $disabled2; ?>">
+                                    <a class="page-link"
+                                       href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page2; ?>"><?php echo $page2; ?></a>
+                                </li>
+                                <li class="page-item <?php echo $disabled3; ?>">
+                                    <a class="page-link"
+                                       href="/<?php echo $currentAction . '/' . $currentLang . '/' . $page3; ?>"><?php echo $page3; ?></a>
+                                </li>
+                                <li class="page-item <?php echo $disabled4; ?>">
+                                    <a class="page-link" title=" <?php echo $maxPage; ?> "
+                                       href="/<?php echo $currentAction . '/' . $currentLang . '/' . $maxPage; ?>">&raquo;</a>
+                                </li>
+                            </ul>
+                        </nav>
+                        <?php
+                    }
                 } else {
                     ?>
                     <br>
