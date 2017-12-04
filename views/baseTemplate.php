@@ -7,7 +7,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
-        <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
+        <script type="text/javascript" src="../functions/jquery-3.2.1.min.js"></script>
         <?php if ($currentAction == $pageLinks['stocks']) { ?>
             <script type="text/javascript" src="../functions/stocks-script.js"></script>
         <?php 	} 
