@@ -1,12 +1,20 @@
 #Options +FollowSymLinks
-#IndexIgnore */*
+IndexIgnore */*
 
 RewriteEngine on
 
-RewriteBase /
+RewriteBase "/"
 
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteCond %{REQUEST_FILENAME} !-l
+RewriteCond %{REQUEST_FILENAME} !^.*\.css$
+RewriteCond %{REQUEST_FILENAME} !^.*\.js$
+RewriteCond %{REQUEST_FILENAME} !^.*\.php$
+RewriteCond "%{REQUEST_FILENAME}" "!^favicon\.ico"
+RewriteCond "%{REQUEST_FILENAME}" "!-f"
+#RewriteCond "%{REQUEST_FILENAME}" "!-d"
+#RewriteCond "%{REQUEST_FILENAME}" "!-l"
 
-RewriteRule ^(.*) index.php?q=$1 [L]
+RewriteRule "^(.*)$" "index.php?q=$1" [L]
+
+# из примера:
+#RewriteCond "%{REQUEST_URI}" "!=/index.php"
+#RewriteRule "^(.*)" "index.php?q=$1" [L,PT]

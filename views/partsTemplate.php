@@ -4,14 +4,14 @@
     
 	$userID = checkUserSession('start');
     $userParams = getUserParams();
-    $queqryUrl = parseQueryUrl(str_replace("q=", "", trim($_SERVER['QUERY_STRING'])));
+    $queqryUrl = $GLOBALS['QueqryUrl'];
+	$defItemsPerPage = 20;
 
     if (isset($queqryUrl[2]) && $queqryUrl[2] > 0) {
 		if ($queqryUrl[2] == 1) $queqryUrl[2] = 0;
     } else {
 		$queqryUrl[2] = 0;
     }
-	$defItemsPerPage = 20;
 	if ($queqryUrl[2] == 0 || $queqryUrl[2] == 1) 
 		$startPos = 0;
 	else 
@@ -22,22 +22,20 @@
     if (isset($_POST['qsearch']) && isset($_POST['go'])) {
         $_SESSION['qsearch'] = $_POST['qsearch'];
         $startPos = 0;
-        // $parts = getStockParts($userParams['Stock'][0]['ID'], $startPos, $defItemsPerPage, $_POST['qsearch']);
     } else {
         $clause = '';
     }
     if (isset($_SESSION['qsearch']))
         $clause = $_SESSION['qsearch'];
+	
     $parts = getStockParts($userParams['Stock'][0]['ID'], $startPos, $defItemsPerPage, $clause);
-// @TODO Check for $parts['NumbersOfRowsInSelect']
-
 	$maxPage = ceil($parts['NumbersOfRowsInSelect'] / $defItemsPerPage);
 
 	switch ($queqryUrl[2]) {
 		case 0:
 		case 1:
-			$disabled0 = 'disabled';
-			$disabled1 = 'disabled';
+			$disabled0 = ' disabled';
+			$disabled1 = ' disabled';
 			$disabled2 = '';
 			$disabled3 = '';
 			$disabled4 = '';
@@ -49,18 +47,18 @@
 			$disabled0 = '';
 			$disabled1 = '';
 			$disabled2 = '';
-			$disabled3 = 'disabled';
-			$disabled4 = 'disabled';
+			$disabled3 = ' disabled';
+			$disabled4 = ' disabled';
 			$page1 = $maxPage - 2;
 			$page2 = $maxPage - 1;
 			$page3 = $maxPage;
 			break;
-		case ($maxPage  <= 1):
-			$disabled0 = 'disabled';
-			$disabled1 = 'disabled';
-			$disabled2 = 'disabled';
-			$disabled3 = 'disabled';
-			$disabled4 = 'disabled';
+		case ($maxPage <= 1):
+			$disabled0 = ' disabled';
+			$disabled1 = ' disabled';
+			$disabled2 = ' disabled';
+			$disabled3 = ' disabled';
+			$disabled4 = ' disabled';
 			$page1 = 1;
 			$page2 = 2;
 			$page3 = 3;
@@ -68,7 +66,7 @@
 		default:
 			$disabled0 = '';
 			$disabled1 = '';
-			$disabled2 = 'disabled';
+			$disabled2 = ' disabled';
 			$disabled3 = '';
 			$disabled4 = '';
 			$page1 = $queqryUrl[2] - 1;
@@ -77,11 +75,11 @@
 			break;		
 	}
     if ($parts['NumbersOfRowsInSelect'] <= $defItemsPerPage) {
-        $disabled0 = 'disabled';
-        $disabled1 = 'disabled';
-        $disabled2 = 'disabled';
-        $disabled3 = 'disabled';
-        $disabled4 = 'disabled';
+        $disabled0 = ' disabled';
+        $disabled1 = ' disabled';
+        $disabled2 = ' disabled';
+        $disabled3 = ' disabled';
+        $disabled4 = ' disabled';
         $page1 = 1;
         $page2 = 2;
         $page3 = 3;
@@ -121,42 +119,45 @@
                         <?php
                         if ($parts['NumbersOfRowsInSelect'] > 0) {
                             ?>
-                            <button type="button" class="btn btn-outline-primary" id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Update'; ?>
-                                <span style="display:none;" class="badge badge-warning" id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+                            <button type="button" class="btn btn-outline-primary" id="add-phone-number">
+									<?php echo isset($qq) ? $stockPhoneAdd : 'Update'; ?>
+                                <span style="display:none;" class="badge badge-warning" id="add-phone-number-error">
+										<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
                                 </span>
                             </button>
                             <?php
                         }
                         ?>
 
-                        <button type="button" class="btn btn-outline-primary"
-                                id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Add'; ?>
-                            <span style="display:none;" class="badge badge-warning"
-                                  id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
+                        <button type="button" class="btn btn-outline-primary" id="add-phone-number">
+								<?php echo isset($qq) ? $stockPhoneAdd : 'Add'; ?>
+                            <span style="display:none;" class="badge badge-warning">
+									<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+								</span>
                         </button>
-                        <button type="button" class="btn btn-outline-primary"
-                                id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Import'; ?>
-                            <span style="display:none;" class="badge badge-warning"
-                                  id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
+                        <button type="button" class="btn btn-outline-primary" id="add-phone-number">
+                                <?php echo isset($qq) ? $stockPhoneAdd : 'Import'; ?>
+                            <span style="display:none;" class="badge badge-warning">
+									<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+								</span>
                         </button>
                         <?php
                         if ($parts['NumbersOfRowsInSelect'] > 0) {
                             ?>
-                            <button type="button" class="btn btn-outline-primary"
-                                    id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Export'; ?>
-                                <span style="display:none;" class="badge badge-warning"
-                                      id="add-phone-number-error"><?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
-            </span>
+                            <button type="button" class="btn btn-outline-primary" id="add-phone-number">
+                                    <?php echo isset($qq) ? $stockPhoneAdd : 'Export'; ?>
+									<span style="display:none;" class="badge badge-warning">
+										<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
+									</span>
                             </button>
-                            <button type="button" class="btn btn-outline-primary"
-                                    id="add-phone-number"><?php echo isset($qq) ? $stockPhoneAdd : 'Erase'; ?>
+                            <button type="button" class="btn btn-outline-primary" id="eraseparts">
+                                <?php echo isset($qq) ? $stockPhoneAdd : 'Erase'; ?>
                                 <span class="badge badge-warning">
                                       <?php echo $parts['NumbersOfRowsInSelect']; ?>
                                 </span>
                             </button>
-                            <?php
+							<input type="hidden" id="qsearchclause" value="<?php echo $clause; ?>">
+                         <?php
                         }
                         ?>
 
@@ -167,15 +168,15 @@
                     <form method="POST" action="<?php echo '/' . $pageLinks['parts'] . '/' . $currentLang; ?>">
                         <div class="input-group">
                             <?php
-                            if (isset($_POST['qsearch']) || isset($_SESSION['qsearch'])) {
+                            if (isset($_SESSION['qsearch'])) {
                             ?>
                             <button type="submit" class="close" name="dismiss">
                                 <span aria-hidden="true">&times;</span>
                             </button>
-                            <?php } ?>
+                         <?php } ?>
                             <input type="text" class="form-control" name="qsearch" maxlength="17"
                                    placeholder="<?php
-                                   if (isset($_POST['qsearch']) || isset($_SESSION['qsearch']))
+                                   if (isset($_SESSION['qsearch']))
                                        echo $_SESSION['qsearch'];
                                    else
                                        echo isset($stockPartsQsearch) ? $stockPartsQsearch : 'Quick Search';
@@ -198,7 +199,7 @@
 
                 <?php
                 if ($parts['NumbersOfRowsInSelect'] > 0) {
-	                    ?>
+	                 ?>
                     <table class="table table-responsive table-hover">
                         <thead>
                         <tr>
@@ -240,7 +241,7 @@
                             <ul class="pagination justify-content-end">
                                 <li class="page-item <?php echo $disabled0; ?>">
                                     <a class="page-link" title=" 1 "
-                                       href="/<?php echo $currentAction . '/' . $currentLang; ?>">&laquo;</a>
+											href="/<?php echo $currentAction . '/' . $currentLang; ?>">&laquo;</a>
                                 </li>
                                 <li class="page-item <?php echo $disabled1; ?>">
                                     <a class="page-link"
@@ -260,7 +261,7 @@
                                 </li>
                             </ul>
                         </nav>
-                        <?php
+                     <?php
                     }
                 } else {
                     ?>
@@ -289,8 +290,59 @@
         </div>
     </div>
 
+	<!-- PASWWORD CONFIRM -->
+    <?php if (isset($_SESSION['start'])) {
+        ?>
+        <div id="SconfirmModal" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Заголовок модального окна -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"
+                                aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
+                    </div>
+                    <!-- Основное содержимое модального окна -->
+                    <div class="modal-body">
 
-    <?php $content = ob_get_clean();
-} ?>
 
-<?php require 'baseTemplate.php'; ?>
+                        <form role="form" id="SconfirmForm" data-toggle="validator"
+                              class="shake">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="password"
+                                           class="h4"><?php echo isset($profileConfirmLbl) ? $profileConfirmLbl : ''; ?></label>
+                                    <input type="password" class="form-control" id="conf-password"
+                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>"
+                                           required
+                                           data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
+                                    <div class="help-block with-errors"></div>
+                                </div>
+                            </div>
+                            <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>"> 
+								<input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
+                            <button type="submit" id="conf-form-submit"
+                                    class="btn btn-success btn-lg pull-right "><?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?></button>
+                            <div id="msgSubmit" class="h3 text-center hidden"></div>
+                            <div class="clearfix"></div>
+                        </form>
+
+                    </div>
+                    <!-- Футер модального окна -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn"
+                                data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php
+    }
+	
+
+    $content = ob_get_clean();
+} 
+
+require 'baseTemplate.php';
+?>

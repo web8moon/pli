@@ -364,12 +364,11 @@ if (!isset($content)) {
                 </div>
             </div>
         </div>
-
-
         <?php
     }
+	
     $content = ob_get_clean();
 }
-?>
 
-<?php require 'baseTemplate.php'; ?>
+require 'baseTemplate.php'; ?>
+

@@ -2,15 +2,16 @@
 //if (isset($_REQUEST[session_name()])) session_start();
 if (isset($allowLanguages) and is_array($allowLanguages)) {
     ?>
-    <!DOCTYPE HTML>
+    <!DOCTYPE html>
     <html>
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
         <script type="text/javascript" src="../functions/jquery-1.11.2.min.js"></script>
-        <?php if ( $currentAction == $pageLinks['stocks'] ) {?>
+        <?php if ($currentAction == $pageLinks['stocks']) { ?>
             <script type="text/javascript" src="../functions/stocks-script.js"></script>
-        <?php 	} ?>
+        <?php 	} 
+		?>
 
         <link rel="stylesheet" href="/views/bootstrap4b.min.css">
 
@@ -41,10 +42,11 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
 
 
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-toggle="dropdown"
-                               href="#"><?php echo isset($siteMenuUser) ? $siteMenuUser : 'User'; ?> </a>
+                            <a class="nav-link dropdown-toggle" data-toggle="dropdown" id="navbarDropdownMenuLink" href="#">
+                               <?php echo isset($siteMenuUser) ? $siteMenuUser : 'User'; ?> 
+							   </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                <?php
+                             <?php
                                 echo '<a class="dropdown-item" href="/' . $pageLinks['profile'] . '/' . $currentLang . '"> ' . $siteTabProfile . ' </a>';
                                 ?>
                                 <a class="dropdown-item"
@@ -253,16 +255,21 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <script type="text/javascript" src="../functions/popper4a.min.js"></script>
     <script type="text/javascript" src="../functions/bootstrap4b.min.js"></script>
     <script type="text/javascript" src="../functions/validator.min.js"></script>
-    <script type="text/javascript" src="../functions/search-script.js"></script>
+    <?php if ( $currentAction != $pageLinks['stocks'] && $currentAction != $pageLinks['parts'] && $currentAction != $pageLinks['profile']) { ?>
+		<script type="text/javascript" src="../functions/search-script.js"></script>
     <?php
+	}
     if (!isset($_SESSION['start'])) { ?>
         <script type="text/javascript" src="../functions/form-scripts.js"></script>
     <?php } else {
-    if ( $currentAction == $pageLinks['profile'] ) {?>
+    if ($currentAction == $pageLinks['profile']) {?>
         <script type="text/javascript" src="../functions/profile-script.js"></script>
         <?php
     }
-
+	if ($currentAction == $pageLinks['parts']) {?>
+        <script type="text/javascript" src="../functions/parts-script.js"></script>
+		<?php
+    }
 
 
     } ?>
@@ -271,3 +278,4 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     </html>
     <?php
 }
+?>
