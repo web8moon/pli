@@ -774,6 +774,20 @@ function controler($conf, $lang)
         }
         echo $errorMSG;
     }
+	
+	// erase-parts
+	if ($conf['currentAction'] == $conf['serviceLinks']['erase-parts']) {
+		$userID = checkUserSession('start');
+		$userParams = getUserParams();
+		
+		$select = 'SELECT * FROM pli_usersparts
+			RIGHT JOIN pli_userstoks ON pli_userstoks.ID=11
+			RIGHT JOIN pli_users u1 ON u1.UserID=23
+			RIGHT JOIN pli_users u2 ON u2.UserID=pli_userstoks.UserID
+			WHERE pli_usersparts.`StockID`=11';
+		echo $_POST['stn'] . ', ' . $_POST['pn'] . ', ' . $_POST['clause'];
+		
+	}
 
 }
 

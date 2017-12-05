@@ -7,9 +7,9 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     <head>
         <title><?php echo isset($siteTitle) ? $siteTitle : ''; ?></title>
         <meta charset="UTF-8">
-        <script type="text/javascript" src="../functions/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="/functions/jquery-3.2.1.min.js"></script>
         <?php if ($currentAction == $pageLinks['stocks']) { ?>
-            <script type="text/javascript" src="../functions/stocks-script.js"></script>
+            <script type="text/javascript" src="/functions/stocks-script.js"></script>
         <?php 	} 
 		?>
 
@@ -110,7 +110,7 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
             <nav class="navbar navbar-dark bg-dark">
                 <div class="navbar-header">
 				<span class="navbar-text">
-				Made with<img src="../views/heart.gif" width="22" height="22" alt="love" style="margin-left:5px; margin-right:5px;">to our users!
+				Made with<img src="/views/heart.gif" width="22" height="22" alt="love" style="margin-left:5px; margin-right:5px;">to our users!
 				</span>
 
                     <?php
@@ -252,22 +252,22 @@ if (isset($allowLanguages) and is_array($allowLanguages)) {
     </body>
 
 
-    <script type="text/javascript" src="../functions/popper4a.min.js"></script>
-    <script type="text/javascript" src="../functions/bootstrap4b.min.js"></script>
-    <script type="text/javascript" src="../functions/validator.min.js"></script>
+    <script type="text/javascript" src="/functions/popper4a.min.js"></script>
+    <script type="text/javascript" src="/functions/bootstrap4b.min.js"></script>
+    <script type="text/javascript" src="/functions/validator.min.js"></script>
     <?php if ( $currentAction != $pageLinks['stocks'] && $currentAction != $pageLinks['parts'] && $currentAction != $pageLinks['profile']) { ?>
-		<script type="text/javascript" src="../functions/search-script.js"></script>
+		<script type="text/javascript" src="/functions/search-script.js"></script>
     <?php
 	}
     if (!isset($_SESSION['start'])) { ?>
-        <script type="text/javascript" src="../functions/form-scripts.js"></script>
+        <script type="text/javascript" src="/functions/form-scripts.js"></script>
     <?php } else {
     if ($currentAction == $pageLinks['profile']) {?>
-        <script type="text/javascript" src="../functions/profile-script.js"></script>
+        <script type="text/javascript" src="/functions/profile-script.js"></script>
         <?php
     }
 	if ($currentAction == $pageLinks['parts']) {?>
-        <script type="text/javascript" src="../functions/parts-script.js"></script>
+        <script type="text/javascript" src="/functions/parts-script.js"></script>
 		<?php
     }
 

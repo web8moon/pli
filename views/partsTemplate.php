@@ -157,13 +157,14 @@
                                 </span>
                             </button>
 							<input type="hidden" id="qsearchclause" value="<?php echo $clause; ?>">
+							<input type="hidden" id="stn" value="<?php echo $userParams['Stock'][0]['ID']; ?>">
                          <?php
                         }
                         ?>
 
                     </div>
                     <?php
-                    if ($parts['NumbersOfRowsInSelect'] > 0) {
+                    if ($parts['NumbersOfRowsInSelect'] > 0 || isset($_SESSION['qsearch'])) {
                         ?>
                     <form method="POST" action="<?php echo '/' . $pageLinks['parts'] . '/' . $currentLang; ?>">
                         <div class="input-group">
