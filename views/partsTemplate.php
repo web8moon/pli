@@ -19,7 +19,7 @@
 	if (isset($_POST['dismiss'])) {
 	    unset($_POST['qsearch'], $_SESSION['qsearch']);
     }
-    if (isset($_POST['qsearch']) && isset($_POST['go'])) {
+    if (isset($_POST['qsearch']) && strlen(trim($_POST['qsearch'])) > 0 && isset($_POST['go'])) {
         $_SESSION['qsearch'] = $_POST['qsearch'];
         $startPos = 0;
     } else {
@@ -158,6 +158,7 @@
                             </button>
 							<input type="hidden" id="qsearchclause" value="<?php echo $clause; ?>">
 							<input type="hidden" id="stn" value="<?php echo $userParams['Stock'][0]['ID']; ?>">
+							<input type="hidden" id="stockPartsConfirmErase" value="<?php echo $stockPartsConfirmErase; ?>">
                          <?php
                         }
                         ?>
@@ -294,22 +295,19 @@
 	<!-- PASWWORD CONFIRM -->
     <?php if (isset($_SESSION['start'])) {
         ?>
-        <div id="SconfirmModal" class="modal fade">
+        <div id="PconfirmModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <!-- Заголовок модального окна -->
                     <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal"
-                                aria-hidden="true">×
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                         </button>
                         <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
                     </div>
                     <!-- Основное содержимое модального окна -->
                     <div class="modal-body">
 
-
-                        <form role="form" id="SconfirmForm" data-toggle="validator"
-                              class="shake">
+                        <form role="form" id="PconfirmForm" data-toggle="validator" class="shake">
                             <div class="row">
                                 <div class="form-group">
                                     <label for="password"
@@ -321,8 +319,6 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>"> 
-								<input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
                             <button type="submit" id="conf-form-submit"
                                     class="btn btn-success btn-lg pull-right "><?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?></button>
                             <div id="msgSubmit" class="h3 text-center hidden"></div>
@@ -332,8 +328,9 @@
                     </div>
                     <!-- Футер модального окна -->
                     <div class="modal-footer">
-                        <button type="button" class="btn"
-                                data-dismiss="modal"><?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?></button>
+                        <button type="button" class="btn" data-dismiss="modal">
+								<?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?>
+							</button>
                     </div>
                 </div>
             </div>

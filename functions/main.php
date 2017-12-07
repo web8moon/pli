@@ -775,17 +775,54 @@ function controler($conf, $lang)
         echo $errorMSG;
     }
 	
-	// erase-parts
+	// ERASE-PARTS
 	if ($conf['currentAction'] == $conf['serviceLinks']['erase-parts']) {
 		$userID = checkUserSession('start');
-		$userParams = getUserParams();
+		if (isset($select)) 
+			unset($select);
+
+		if (isset($_POST['pn'])) {
+			if ($_POST['pn'] < 1)
+				$userID = false;
+		} else {
+			$userID = false;
+		}
+
+		if ($userID && isset($_POST['stn'])) {
+			$userParams = getUserParams();
+			if ($_POST['stn'] != $userParams['Stock'][0]['ID'])
+				$userID = false;
+		} else {
+			$userID = false;
+		}
 		
-		$select = 'SELECT * FROM pli_usersparts
-			RIGHT JOIN pli_userstoks ON pli_userstoks.ID=11
-			RIGHT JOIN pli_users u1 ON u1.UserID=23
-			RIGHT JOIN pli_users u2 ON u2.UserID=pli_userstoks.UserID
-			WHERE pli_usersparts.`StockID`=11';
-		echo $_POST['stn'] . ', ' . $_POST['pn'] . ', ' . $_POST['clause'];
+		if ($userID && isset($_POST['pwd'])
+			$stocksID = checkPassword (md5($_POST['pwd']);
+		else
+			$userID = false;
+$userID = false;
+		if ($userID) {
+			if (trim($_POST['clause']) != '') {
+				$clause = CheckUs($_POST['clause']);
+				$clause = ' AND p.Code LIKE \'' . $clause . '%\' ';
+			} else {
+				$clause = '';
+			}
+			$select = 'DELETE p.* FROM pli_usersparts p	RIGHT JOIN pli_userstoks ON pli_userstoks.ID=' . $userParams['Stock'][0]['ID'] . ' RIGHT JOIN pli_users u1 ON u1.UserID=' . $userID . ' RIGHT JOIN pli_users u2 ON u2.UserID=pli_userstoks.UserID WHERE p.`StockID`=' . $userParams['Stock'][0]['ID'] . ' ' . $clause ;
+			unset ($userParams, $clause, $_POST['clause'], $_POST['stn']);
+			$link = dbConnector($conf);
+            if ($link) {
+				if (mysqli_query($link, $select)) {
+					$select = 'successzz';
+				}
+				mysqli_close($link);
+			}
+		}
+		
+		if (isset($select) && $select == 'successzz')
+			echo $select;
+		else
+			echo $lang['siteRegisterConnErr'];
 		
 	}
 
@@ -795,7 +832,7 @@ function getStockParts($stock, $start = 0, $end = 20, $clause = '') {
     if ($stock > 0){
 		$link = dbConnector($GLOBALS['Conf']);
         if ($link) {
-			if ($clause != '') {
+			if (trim($clause) != '') {
 			    $clause = CheckUs($clause);
                 $clause = ' AND `pli_usersparts`.`Code` LIKE \'' . $clause . '%\' ';
             }
@@ -950,4 +987,31 @@ function CheckUs($N)
     $N = str_ireplace("к", "K", $N);
     $N = str_ireplace("К", "K", $N);
     return $N;
+}
+
+function checkPassword ($pwd, $id='', $mail='') {
+	
+	if ($id == '')
+		$id = checkUserSession('start');
+	if ($id)
+		$id = ' AND `pli_users`.`UserID`=' . $id . ' ';
+	if ($mail != '')
+		$mail =  ' AND `pli_users`.`UserEmail` LIKE ' . $mail . ' ';
+	$select = 'SELECT `pli_userstoks`.`ID` FROM `pli_userstoks`,`pli_users` WHERE `pli_users`.`UserPsw` LIKE \'' . $pwd . '\' ' . $id . ' ' . $mail . ' ORDER BY `pli_userstoks`.`ID` ASC';
+
+	$link = dbConnector($GLOBALS['Conf']);
+    if ($id && $link) {
+        if ($result = mysqli_query($link, $select)) {
+			if (mysqli_num_rows($result) > 0) {
+                while ($Mas = mysqli_fetch_assoc($result)) {
+					$stocksID[] = $Mas;
+				}
+			}
+		}
+	}
+
+	if (isset($stocksID))
+		return $stocksID;
+	else
+		return false;
 }

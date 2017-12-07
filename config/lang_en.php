@@ -81,4 +81,5 @@ return [
     'stockPhoneWhatsappChk' => 'Check if this phone has Whatsapp',
     'stockPartsQsearch' => 'Quick search by Number in the current warehouse',
 	'stockPartsEmptyStock' => 'Your warehouse is empty yet',
+	'stockPartsConfirmErase' => 'Confirming, you will delete from your Warehouse parts: ',
 ];
