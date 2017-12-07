@@ -147,10 +147,10 @@ function getUserParams()
                 if (mysqli_num_rows($result) > 0) {
                     while ($Mas = mysqli_fetch_assoc($result)) {
                         $userParams[$userParams['stokNumbers']] = $Mas;
-						$userParams['stokNumbers']++;
+                        $userParams['stokNumbers']++;
                     }
                     unset ($Mas);
-$userParams['stokNumbers']--;
+                    $userParams['stokNumbers']--;
 
                     $userParams['User']['UserName'] = $userParams[$userParams['stokNumbers']]['U_Name'];
                     $userParams['User']['UserPsw'] = $userParams[$userParams['stokNumbers']]['U_Pwd'];
@@ -774,89 +774,98 @@ function controler($conf, $lang)
         }
         echo $errorMSG;
     }
-	
-	// ERASE-PARTS
-	if ($conf['currentAction'] == $conf['serviceLinks']['erase-parts']) {
-		$userID = checkUserSession('start');
-		if (isset($select)) 
-			unset($select);
 
-		if (isset($_POST['pn'])) {
-			if ($_POST['pn'] < 1)
-				$userID = false;
-		} else {
-			$userID = false;
-		}
+    // ERASE-PARTS
+    if ($conf['currentAction'] == $conf['serviceLinks']['erase-parts']) {
 
-		if ($userID && isset($_POST['stn'])) {
-			$userParams = getUserParams();
-			if ($_POST['stn'] != $userParams['Stock'][0]['ID'])
-				$userID = false;
-		} else {
-			$userID = false;
-		}
-		
-		if ($userID && isset($_POST['pwd'])
-			$stocksID = checkPassword (md5($_POST['pwd']);
-		else
-			$userID = false;
-$userID = false;
-		if ($userID) {
-			if (trim($_POST['clause']) != '') {
-				$clause = CheckUs($_POST['clause']);
-				$clause = ' AND p.Code LIKE \'' . $clause . '%\' ';
-			} else {
-				$clause = '';
-			}
-			$select = 'DELETE p.* FROM pli_usersparts p	RIGHT JOIN pli_userstoks ON pli_userstoks.ID=' . $userParams['Stock'][0]['ID'] . ' RIGHT JOIN pli_users u1 ON u1.UserID=' . $userID . ' RIGHT JOIN pli_users u2 ON u2.UserID=pli_userstoks.UserID WHERE p.`StockID`=' . $userParams['Stock'][0]['ID'] . ' ' . $clause ;
-			unset ($userParams, $clause, $_POST['clause'], $_POST['stn']);
-			$link = dbConnector($conf);
-            if ($link) {
-				if (mysqli_query($link, $select)) {
-					$select = 'successzz';
-				}
-				mysqli_close($link);
-			}
-		}
-		
-		if (isset($select) && $select == 'successzz')
-			echo $select;
-		else
-			echo $lang['siteRegisterConnErr'];
-		
-	}
+        if (isset($_POST['uri1']) && $_POST['uri1'] == $conf['pageLinks']['parts']) {
+
+            $userID = checkUserSession('start');
+
+            if (isset($select))
+                unset($select);
+
+            if (isset($_POST['pn'])) {
+                if ($_POST['pn'] < 1)
+                    $userID = false;
+            } else {
+                $userID = false;
+            }
+
+            if ($userID && isset($_POST['stn'])) {
+                $userParams = getUserParams();
+                if ($_POST['stn'] != $userParams['Stock'][0]['ID'])
+                    $userID = false;
+            } else {
+                $userID = false;
+            }
+
+            if ($userID && isset($_POST['pwd'])) {
+                $stocksID = checkPassword(md5($_POST['pwd']));
+            } else {
+                $userID = false;
+            }
+            if ($userID && $stocksID[0] == $_POST['stn']) {
+                if (trim($_POST['clause']) != '') {
+                    $clause = CheckUs($_POST['clause']);
+                    $clause = ' AND p.Code LIKE \'' . $clause . '%\' ';
+                } else {
+                    $clause = '';
+                }
+                $select = 'DELETE p.* FROM pli_usersparts p	RIGHT JOIN pli_userstoks ON pli_userstoks.ID=' . $userParams['Stock'][0]['ID'] . ' RIGHT JOIN pli_users u1 ON u1.UserID=' . $userID . ' RIGHT JOIN pli_users u2 ON u2.UserID=pli_userstoks.UserID WHERE p.`StockID`=' . $userParams['Stock'][0]['ID'] . ' ' . $clause;
+                unset ($userParams, $clause, $_POST['clause'], $_POST['stn']);
+                $link = dbConnector($conf);
+                if ($link) {
+                    if (mysqli_query($link, $select)) {
+                        $select = 'successzz';
+                    }
+                    mysqli_close($link);
+                }
+            }
+        }
+
+        if (isset($select) && $select == 'successzz') {
+            echo $select;
+        } else {
+            if (isset($stocksID) && !$stocksID)
+                echo $lang['siteLoginPasswErr'];
+            else
+                echo $lang['siteRegisterConnErr'];
+        }
+    }
 
 }
 
-function getStockParts($stock, $start = 0, $end = 20, $clause = '') {
-    if ($stock > 0){
-		$link = dbConnector($GLOBALS['Conf']);
+function getStockParts($stock, $start = 0, $end = 20, $clause = '')
+{
+    if ($stock > 0) {
+        $link = dbConnector($GLOBALS['Conf']);
         if ($link) {
-			if (trim($clause) != '') {
-			    $clause = CheckUs($clause);
+            if (trim($clause) != '') {
+                $clause = CheckUs($clause);
                 $clause = ' AND `pli_usersparts`.`Code` LIKE \'' . $clause . '%\' ';
             }
             $select = 'SELECT SQL_CALC_FOUND_ROWS `pli_usersparts`.`PartID`, `brands`.`BRA_BRAND`, `pli_usersparts`.`Code`, `pli_usersparts`.`Name`, `pli_usersparts`.`IsUsed`, `pli_usersparts`.`Quantity`, `pli_usersparts`.`Price`, `pli_usersparts`.`Photo`, `pli_usersparts`.`Active` FROM `pli_usersparts` LEFT JOIN `brands` ON `pli_usersparts`.`Brand`=`brands`.`BRA_ID` WHERE `pli_usersparts`.`StockID`=' . $stock . $clause . ' LIMIT ' . $start . ',' . $end;
-			if ($result = mysqli_query($link, $select)) {
+            if ($result = mysqli_query($link, $select)) {
                 $result1 = mysqli_query($link, 'SELECT FOUND_ROWS()');
                 $row = mysqli_fetch_assoc($result1);
                 $M['NumbersOfRowsInSelect'] = $row['FOUND_ROWS()'];
                 unset($row, $select);
-				if (mysqli_num_rows($result) > 0) {
-					while ($row = mysqli_fetch_assoc($result)) {
-						$M[] = $row;
-					}
-				}
-				mysqli_free_result($result);
+                if (mysqli_num_rows($result) > 0) {
+                    while ($row = mysqli_fetch_assoc($result)) {
+                        $M[] = $row;
+                    }
+                }
+                mysqli_free_result($result);
                 mysqli_free_result($result1);
-			}
-			mysqli_close($link);
-		}
+            }
+            mysqli_close($link);
+        }
     }
-	if (isset($M['NumbersOfRowsInSelect']))
-		return $M;
-	else
-		return false;
+    if (isset($M['NumbersOfRowsInSelect']))
+        return $M;
+    else
+        return false;
 }
 
 
@@ -989,29 +998,37 @@ function CheckUs($N)
     return $N;
 }
 
-function checkPassword ($pwd, $id='', $mail='') {
-	
-	if ($id == '')
-		$id = checkUserSession('start');
-	if ($id)
-		$id = ' AND `pli_users`.`UserID`=' . $id . ' ';
-	if ($mail != '')
-		$mail =  ' AND `pli_users`.`UserEmail` LIKE ' . $mail . ' ';
-	$select = 'SELECT `pli_userstoks`.`ID` FROM `pli_userstoks`,`pli_users` WHERE `pli_users`.`UserPsw` LIKE \'' . $pwd . '\' ' . $id . ' ' . $mail . ' ORDER BY `pli_userstoks`.`ID` ASC';
+/**
+ * @param md5($pwd)
+ * @param int $id
+ * @param string $mail
+ * @return array|bool
+ *
+ */
+function checkPassword($pwd, $id = '', $mail = '')
+{
 
-	$link = dbConnector($GLOBALS['Conf']);
+    if ($id == '')
+        $id = checkUserSession('start');
+    if ($id)
+        $id = ' AND `pli_users`.`UserID`=' . $id . ' ';
+    if ($mail != '')
+        $mail = ' AND `pli_users`.`UserEmail` LIKE ' . $mail . ' ';
+    $select = 'SELECT `pli_userstoks`.`ID` FROM `pli_userstoks`,`pli_users` WHERE `pli_users`.`UserPsw` LIKE \'' . $pwd . '\' ' . $id . ' ' . $mail . ' ORDER BY `pli_userstoks`.`ID` ASC';
+
+    $link = dbConnector($GLOBALS['Conf']);
     if ($id && $link) {
         if ($result = mysqli_query($link, $select)) {
-			if (mysqli_num_rows($result) > 0) {
+            if (mysqli_num_rows($result) > 0) {
                 while ($Mas = mysqli_fetch_assoc($result)) {
-					$stocksID[] = $Mas;
-				}
-			}
-		}
-	}
+                    $stocksID[] = $Mas;
+                }
+            }
+        }
+    }
 
-	if (isset($stocksID))
-		return $stocksID;
-	else
-		return false;
+    if (isset($stocksID))
+        return $stocksID;
+    else
+        return false;
 }

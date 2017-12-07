@@ -319,8 +319,11 @@
                                     <div class="help-block with-errors"></div>
                                 </div>
                             </div>
-                            <button type="submit" id="conf-form-submit"
-                                    class="btn btn-success btn-lg pull-right "><?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?></button>
+                            <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
+                            <input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
+                            <button type="submit" id="conf-form-submit" class="btn btn-success btn-lg pull-right ">
+                                <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
+                            </button>
                             <div id="msgSubmit" class="h3 text-center hidden"></div>
                             <div class="clearfix"></div>
                         </form>
