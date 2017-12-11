@@ -2,6 +2,7 @@
 return [
 	'siteTitle' => 'Parts-Link информация о наличии на складах',
 	'siteLogo' => 'ЛОГО',
+	'DataFormat' => 'j.m.Y',
     'siteSave' => 'Сохранить',
     'siteSearchingLbl' => 'Поиск на складах по каталожному номеру детали',
     'searchLengthErr' => 'Длины введенного номера не достаточно для поиска',
@@ -82,4 +83,7 @@ return [
     'stockPartsQsearch' => 'Быстрый поиск по номеру в текущем складе',
 	'stockPartsEmptyStock' => 'Ваш склад, пока, пустой',
 	'stockPartsConfirmErase' => 'Подтверждая, Вы удалите из Вашего склада запчастей: ',
+	'lastUpdatedLbl' => 'Последнее обновление: ',
+	'Erase' => 'Удалить',
+	'stockUpdateData' => 'Обновить дату',
 ];

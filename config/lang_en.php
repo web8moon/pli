@@ -2,6 +2,7 @@
 return [
 	'siteTitle' => 'Parts-Link - Stocks warehouses info',
 	'siteLogo' => 'LOGO',
+	'DataFormat' => 'd-M-Y',
     'siteSave' => 'Save',
     'siteSearchingLbl' => 'Search through warehouses by part number',
     'searchLengthErr' => 'Length of entered number is not sufficient for searching',
@@ -82,4 +83,7 @@ return [
     'stockPartsQsearch' => 'Quick search by Number in the current warehouse',
 	'stockPartsEmptyStock' => 'Your warehouse is empty yet',
 	'stockPartsConfirmErase' => 'Confirming, you will delete from your Warehouse parts: ',
+	'lastUpdatedLbl' => 'Last updated: ',
+	'Erase' => 'Erase',
+	'stockUpdateData' => 'Update the date',
 ];

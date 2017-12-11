@@ -1,33 +1,70 @@
 $(document).ready( function () {
 
 	$("#eraseparts").click( function () {
-        var stockPartsConfirmErase = document.getElementById("stockPartsConfirmErase").value;
+       var stockPartsConfirmErase = document.getElementById("stockPartsConfirmErase").value;
 		var btnhtml = document.getElementById("eraseparts").innerHTML;
 
 		if ( btnhtml.indexOf("<span ") != -1 ) {
 			var btnspan = btnhtml.substring( btnhtml.indexOf("<span ") ).trim();
 			var pn = btnspan.substring( btnspan.indexOf(">",2)+1, btnspan.indexOf("</") ).trim();
 			if ( confirm(stockPartsConfirmErase + pn) ) {
-				
 
 				$("#PconfirmForm")[0].reset();
 				$("#msgSubmit").text('');
 				$("#PconfirmModal").modal("show");
 				
-
 		}
 	}
-		
 	});
 	
+	$("#update-stock-date").click( function () {
+		var uri1 = document.getElementById("uri1").value;
+		var uri2 = document.getElementById("uri2").value;
+		var stock = document.getElementById("stn").value;
+
+		$("#updateDat")
+			.stop()
+			.css( "opacity", 1 )
+			//.text( lbl + " " + text.substring(9) )
+			.fadeIn( 30 )
+			.fadeOut( 1000 );
+		
+		$.ajax({
+		type: "POST",
+		url: "/update-stock-date/" + uri2,
+		data: "stn=" + stock + "&uri1=" + uri1,
+		success: function (text) {
+			text = JSON.parse(text);
+			if (text[0] == "successzz") {
+				document.getElementById("updateDat").innerHTML = text[2] + text[1];
+				$("#updateDat")
+					.stop()
+					.css( "opacity", 1 )
+					//.text( lbl + " " + text.substring(9) )
+					.fadeOut( 1000 )
+					.fadeIn( 30 );
+					
+			} else {
+				lbl = document.getElementById("updateDat").innerHTML;
+				document.getElementById("updateDat").innerHTML = text[0];
+				$("#updateDat")
+					.stop()
+					.css( "opacity", 1 )
+					//.text( lbl + " " + text.substring(9) )
+					.fadeOut( 1000 )
+					.fadeIn( 30 );
+           }
+			
+		}
+		});
 	
+	});
 	
 	$("#PconfirmForm").validator().on("submit", function (event) {
-
         if (event.isDefaultPrevented()) {
             // handle the invalid form...
             var errmsg = "Did you fill in the form properly?";
-            //formError();
+            formError();
             if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
             submitMSG(false, errmsg);
         } else {
@@ -35,11 +72,12 @@ $(document).ready( function () {
             event.preventDefault();
             submitConfirmForm();
         }
-
     });
 
 });
 
+
+// ERASE Functions
 
 function submitConfirmForm() {
 	
@@ -68,7 +106,8 @@ function submitConfirmForm() {
 			data: "stn=" + stock + "&pn=" + pn + "&clause=" + clause + "&pwd=" + pwd + "&uri1=" + uri1,
 		success: function (text) {
 			if (text == "successzz") {
-					void( setTimeout(location.reload(), 500) );
+					confirmFormSuccess();
+					void(setTimeout('window.location.replace ("/' + uri1 + '/' + uri2 + '");', 1000));
 			} else {
                 formError();
                 submitMSG(false,text);
@@ -91,7 +130,6 @@ function submitConfirmForm() {
 }
 
 function formError(){
-
     $("#PconfirmForm").removeClass().addClass('shake animated').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function(){
         $(this).removeClass();
     });
@@ -105,3 +143,11 @@ function submitMSG(valid, msg){
     }
     $("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
 }
+
+function confirmFormSuccess() {
+    $("#conf-password").removeClass().addClass("form-control is-valid");
+    $("#PconfirmForm")[0].reset();
+    submitMSG(true, "Ok!");
+}
+
+// /ERASE Functions

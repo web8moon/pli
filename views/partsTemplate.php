@@ -119,12 +119,13 @@
                         <?php
                         if ($parts['NumbersOfRowsInSelect'] > 0) {
                             ?>
-                            <button type="button" class="btn btn-outline-primary" id="add-phone-number">
-									<?php echo isset($qq) ? $stockPhoneAdd : 'Update'; ?>
+                            <button type="button" class="btn btn-outline-primary" id="update-stock-date">
+									<?php echo isset($stockUpdateData) ? $stockUpdateData : 'Update'; ?>
                                 <span style="display:none;" class="badge badge-warning" id="add-phone-number-error">
 										<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
                                 </span>
                             </button>
+								&nbsp;
                             <?php
                         }
                         ?>
@@ -135,6 +136,7 @@
 									<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
 								</span>
                         </button>
+						&nbsp;
                         <button type="button" class="btn btn-outline-primary" id="add-phone-number">
                                 <?php echo isset($qq) ? $stockPhoneAdd : 'Import'; ?>
                             <span style="display:none;" class="badge badge-warning">
@@ -144,14 +146,16 @@
                         <?php
                         if ($parts['NumbersOfRowsInSelect'] > 0) {
                             ?>
+								&nbsp;
                             <button type="button" class="btn btn-outline-primary" id="add-phone-number">
                                     <?php echo isset($qq) ? $stockPhoneAdd : 'Export'; ?>
 									<span style="display:none;" class="badge badge-warning">
 										<?php echo isset($siteErrorLbl) ? $siteErrorLbl : 'Error'; ?>
 									</span>
                             </button>
+								&nbsp;
                             <button type="button" class="btn btn-outline-primary" id="eraseparts">
-                                <?php echo isset($qq) ? $stockPhoneAdd : 'Erase'; ?>
+                                <?php echo isset($Erase) ? $Erase : 'Erase'; ?>
                                 <span class="badge badge-warning">
                                       <?php echo $parts['NumbersOfRowsInSelect']; ?>
                                 </span>
@@ -197,8 +201,11 @@
                     }
                     ?>
                 </div>
-<br>
-
+<p class="card-text"><small class="text-muted" id="updateDat">
+	<?php echo isset($lastUpdatedLbl) ? $lastUpdatedLbl : ''; 
+		echo ' ' . date($DataFormat, strtotime($userParams['Stock'][0]['DateModify']));
+	?>
+</small></p>
                 <?php
                 if ($parts['NumbersOfRowsInSelect'] > 0) {
 	                 ?>

@@ -129,6 +129,7 @@ function getUserParams()
 						pli_userstoks.StockAdress S_Adr,
 						pli_userstoks.StockEmail S_mail,
 						pli_userstoks.ShipsInfo S_Shi,
+						pli_userstoks.DateModify S_Dat,
 						pli_userstoks.Currency S_Cur,
 						pli_userstoks.Active S_Act,
 						
@@ -167,6 +168,7 @@ function getUserParams()
                         $userParams['Stock'][$i]['StockAdress'] = $userParams[$i]['S_Adr'];
                         $userParams['Stock'][$i]['StockEmail'] = $userParams[$i]['S_mail'];
                         $userParams['Stock'][$i]['ShipsInfo'] = $userParams[$i]['S_Shi'];
+						$userParams['Stock'][$i]['DateModify'] = $userParams[$i]['S_Dat'];
                         $userParams['Stock'][$i]['Currency'] = $userParams[$i]['S_Cur'];
                         $userParams['Stock'][$i]['Active'] = $userParams[$i]['S_Act'];
 
@@ -801,11 +803,11 @@ function controler($conf, $lang)
             }
 
             if ($userID && isset($_POST['pwd'])) {
-                $stocksID = checkPassword(md5($_POST['pwd']));
+                $stocksID = checkPassword(md5($_POST['pwd']), $userID);
             } else {
                 $userID = false;
             }
-            if ($userID && $stocksID[0] == $_POST['stn']) {
+            if ($userID && $stocksID[0]['ID'] == $_POST['stn']) {
                 if (trim($_POST['clause']) != '') {
                     $clause = CheckUs($_POST['clause']);
                     $clause = ' AND p.Code LIKE \'' . $clause . '%\' ';
@@ -813,14 +815,16 @@ function controler($conf, $lang)
                     $clause = '';
                 }
                 $select = 'DELETE p.* FROM pli_usersparts p	RIGHT JOIN pli_userstoks ON pli_userstoks.ID=' . $userParams['Stock'][0]['ID'] . ' RIGHT JOIN pli_users u1 ON u1.UserID=' . $userID . ' RIGHT JOIN pli_users u2 ON u2.UserID=pli_userstoks.UserID WHERE p.`StockID`=' . $userParams['Stock'][0]['ID'] . ' ' . $clause;
-                unset ($userParams, $clause, $_POST['clause'], $_POST['stn']);
+                unset ($clause, $_POST['clause'], $_POST['stn']);
                 $link = dbConnector($conf);
                 if ($link) {
                     if (mysqli_query($link, $select)) {
+						$select = setgetDate($userParams['Stock'][0]['ID'], 'set');
                         $select = 'successzz';
                     }
                     mysqli_close($link);
                 }
+				unset ($userParams);
             }
         }
 
@@ -833,6 +837,22 @@ function controler($conf, $lang)
                 echo $lang['siteRegisterConnErr'];
         }
     }
+	
+	// UPDATE-STOCK-DATE
+    if ($conf['currentAction'] == $conf['serviceLinks']['update-stock-date']) {
+		if (isset($_POST['uri1']) && $_POST['uri1'] == $conf['pageLinks']['parts']) {
+			if (isset($_POST['stn']) && $_POST['stn'] > 0) {
+				$D = setgetDate ($_POST['stn'], 'set'); 
+			}
+		}
+		if (isset($D) && $D) {
+			$D = array("successzz", date($lang['DataFormat'], strtotime($D)), $lang['lastUpdatedLbl']);
+			//echo 'successzz' . date($lang['DataFormat'], strtotime($D));
+		} else {
+			$D = array($lang['siteErrorLbl']);
+		}
+		echo json_encode($D);
+	}
 
 }
 
@@ -1003,7 +1023,7 @@ function CheckUs($N)
  * @param int $id
  * @param string $mail
  * @return array|bool
- *
+ * // returns array of stockID's for current user
  */
 function checkPassword($pwd, $id = '', $mail = '')
 {
@@ -1024,11 +1044,59 @@ function checkPassword($pwd, $id = '', $mail = '')
                     $stocksID[] = $Mas;
                 }
             }
-        }
+			mysqli_free_result($result);
+		}
+		mysqli_close($link);
     }
 
     if (isset($stocksID))
         return $stocksID;
     else
         return false;
+}
+
+/**
+* @param int $stockID
+* @param string $action
+*  default Action is GET
+* @return $D (string date|false)
+*
+*/
+function setgetDate ($stockID, $action='')
+{
+	if ($stockID > 0) {
+		
+		$ok = false;
+		$link = dbConnector($GLOBALS['Conf']);
+		if ($link) {
+		
+			if ($action == 'set') {
+				$D = date("Y-m-d H:i:s");
+				$select = 'UPDATE `pli_userstoks` SET `DateModify`=\'' . $D . '\' WHERE `ID`=' . $stockID . ' LIMIT 1';
+				if ($result = mysqli_query($link, $select)) {
+					if (mysqli_affected_rows($link) > 0)
+						$ok = true;
+				}
+			}
+		
+			if (!$ok && ($action =='' || $action == 'get')) {
+				$select = 'SELECT `DateModify` FROM `pli_userstoks` WHERE `ID`=' . $stockID . ' LIMIT 1';
+				if ($result = mysqli_query($link, $select)) {
+					if (mysqli_num_rows($result) > 0) {
+						$D = mysqli_fetch_assoc($result);
+						$D = $D['DateModify'];
+						$ok = true;
+					}
+					mysqli_free_result($result);
+				}
+			}
+			mysqli_close($link);
+		}
+		
+		if ($ok)
+			return $D;
+		else
+			return false;
+	
+	}
 }
