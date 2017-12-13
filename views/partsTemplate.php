@@ -226,9 +226,14 @@
                         <?php
 								for ($i = 0; $i < $defItemsPerPage; $i++) {
 									if (isset($parts[$i]['PartID'])) {
+										$active = $used = '';
+										if ($parts[$i]['Active'] == 1)
+											$active = 'checked';
+										if ($parts[$i]['IsUsed'] == 1)
+											$used = 'checked';
 										echo '<tr>';
-										echo '<td>' . $parts[$i]['Active'] . '</td>';
-										echo '<td>' . $parts[$i]['IsUsed'] . '</td>';
+										echo '<td><input type="checkbox" class="form-check-input" descr="active" nr="' . $parts[$i]['Code'] . '" ' . $active . ' id="' . $parts[$i]['PartID'] . '"></td>';
+										echo '<td><input type="checkbox" class="form-check-input" descr="used" nr="' . $parts[$i]['Code'] . '" ' . $used .  ' id="' . $parts[$i]['PartID'] . '"></td>';
 										echo '<td>' . $parts[$i]['BRA_BRAND'] . '</td>';
 										echo '<td>' . $parts[$i]['Code'] . '</td>';
 										echo '<td>' . $parts[$i]['Name'] . '</td>';
@@ -285,6 +290,8 @@
                 }
 
             } else {
+				$_SESSION = array();
+				session_destroy();
                 ?>
                 <br>
                 <div class="container">

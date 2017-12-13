@@ -854,6 +854,44 @@ function controler($conf, $lang)
 		echo json_encode($D);
 	}
 
+	// CHECK BOX on PARTS page
+	if ($conf['currentAction'] == $conf['serviceLinks']['check-action-part']) {
+		
+		if (isset($_POST['descr'])) {
+			if ($_POST['descr'] == 'active')
+				$descr = 'Active';
+			if ($_POST['descr'] == 'used')
+				$descr = 'IsUsed';
+		}
+		// parts id in StockParts
+		if (isset($_POST['id']))
+			$id = $_POST['id'];
+		else
+			unset($descr);
+		// partnumber
+		if (isset($_POST['nr']))
+			$nr = $_POST['nr'];
+		else
+			unset($descr);
+		if (isset($_POST['uri1'])) {
+			if ($_POST['uri1'] != $conf['serviceLinks']['parts'])
+				unset($descr);
+		} else {
+			unset($descr);
+		}
+		if (isset($_POST['stn'])) {
+			if ($_POST['stn'] != $conf['currentStockID'])
+				unset($descr);
+		} else {
+			unset($descr);
+		}
+		
+		$select = 'UPDATE `pli_usersparts` SET `' . $descr . '`=';
+		
+		echo $_POST['status'];
+	
+	}
+	
 }
 
 function getStockParts($stock, $start = 0, $end = 20, $clause = '')

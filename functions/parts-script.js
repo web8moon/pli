@@ -17,6 +17,16 @@ $(document).ready( function () {
 	}
 	});
 	
+	$(".form-check-input").click( function (event) {
+		var descr = this.getAttribute("descr");
+		var id = this.getAttribute("id");
+		var nr = this.getAttribute("nr");
+		var status = id.is(":checked");
+		event.preventDefault();
+		checkaction(descr, id, nr, status);
+		
+	});
+	
 	$("#update-stock-date").click( function () {
 		var uri1 = document.getElementById("uri1").value;
 		var uri2 = document.getElementById("uri2").value;
@@ -76,6 +86,29 @@ $(document).ready( function () {
 
 });
 
+
+function checkaction(descr, id, nr, status) {
+		var uri1 = document.getElementById("uri1").value;
+		var uri2 = document.getElementById("uri2").value;
+		var stock = document.getElementById("stn").value;
+		
+		$.ajax({
+		type: "POST",
+		url: "/check-action-parts/",
+			data: "descr=" + descr + "&id=" + id + "&nr=" + nr + "&uri1=" + uri1 + "&stn=" + stock + "&status=" + status,
+			success: function (text) {
+				
+				alert(text);
+				
+				if (text == "successzz") {
+
+				} else {
+
+				}
+			
+		}
+	});
+}
 
 // ERASE Functions
 

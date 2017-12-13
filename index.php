@@ -12,6 +12,16 @@ $Conf = [];
 $fileConfig = 'config' . DIRECTORY_SEPARATOR . 'main.php';
 $Conf = loadConfig($fileConfig);
 
+$id = checkUserSession('start');
+if ($id) {
+	$Conf['currentUserID'] = $id;
+	$userParams = getUserParams();
+	$Conf['currentStockID'] = $userParams['Stock'][0]['ID'];
+	unset($userParams);
+}
+unset($id);
+
+
 $Lang = [];
 if (!isset($QueqryUrl[1])) $QueqryUrl[1] = $Conf['defaultLang'];
 $Conf['currentLang'] = setLang($Conf['currentLang'], $QueqryUrl[1], $Conf['allowLanguages']);
