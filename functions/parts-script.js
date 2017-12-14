@@ -18,11 +18,12 @@ $(document).ready( function () {
 	});
 	
 	$(".form-check-input").click( function (event) {
-		var descr = this.getAttribute("descr");
-		var id = this.getAttribute("id");
-		var nr = this.getAttribute("nr");
-		var status = id.is(":checked");
 		event.preventDefault();
+		var descr = this.getAttribute("descr");
+		var nr = this.getAttribute("nr");
+		var id = this.getAttribute("id").substring(descr.length);
+		var status = $("#" + descr + id).is(":checked");
+		
 		checkaction(descr, id, nr, status);
 		
 	});
@@ -94,7 +95,7 @@ function checkaction(descr, id, nr, status) {
 		
 		$.ajax({
 		type: "POST",
-		url: "/check-action-parts/",
+		url: "/check-action-part/",
 			data: "descr=" + descr + "&id=" + id + "&nr=" + nr + "&uri1=" + uri1 + "&stn=" + stock + "&status=" + status,
 			success: function (text) {
 				

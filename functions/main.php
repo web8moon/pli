@@ -874,7 +874,7 @@ function controler($conf, $lang)
 		else
 			unset($descr);
 		if (isset($_POST['uri1'])) {
-			if ($_POST['uri1'] != $conf['serviceLinks']['parts'])
+			if ($_POST['uri1'] != $conf['pageLinks']['parts'])
 				unset($descr);
 		} else {
 			unset($descr);
