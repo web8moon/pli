@@ -885,10 +885,36 @@ function controler($conf, $lang)
 		} else {
 			unset($descr);
 		}
+		if (isset($_POST['status'])) {
+			if ($_POST['status'] == 'true')
+				$status = 1;
+			else
+				$status = 0;
+		} else {
+			unset($descr);
+		}
+
+		if (isset($descr) && isset($status)) {
+
+			$link = dbConnector($conf);
+			if ($link) {
+				$id = mysqli_real_escape_string($link, $_POST['id']);
+				$nr = mysqli_real_escape_string($link, $_POST['nr']);
+				$select = 'UPDATE `pli_usersparts`, `pli_userstoks` SET `pli_usersparts`.`' . $descr . '`=' . $status . ' WHERE `pli_usersparts`.`Code` LIKE \'' . $nr . '\' AND `pli_usersparts`.`PartID`=' . $id . ' AND `pli_usersparts`.`StockID`=' . $conf['currentStockID'] . ' AND `pli_usersparts`.`StockID`=`pli_userstoks`.`ID` AND `pli_userstoks`.`UserID`=' . $conf['currentUserID'];
+				$descr = false;
+				if (mysqli_query($link, $select))
+					$descr = true;
+				mysqli_close($link);
+			} else {
+				unset($descr);
+			}
+
+		}
 		
-		$select = 'UPDATE `pli_usersparts` SET `' . $descr . '`=';
-		
-		echo $_POST['status'];
+		if (isset($descr) && $descr)
+			echo 'successzz';
+		else
+			echo 'false';
 	
 	}
 	

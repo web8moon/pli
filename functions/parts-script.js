@@ -71,6 +71,13 @@ $(document).ready( function () {
 	
 	});
 	
+	
+	$("#import").click( function () {
+		
+		$("#LoadModal").modal("show");
+		
+	});
+	
 	$("#PconfirmForm").validator().on("submit", function (event) {
         if (event.isDefaultPrevented()) {
             // handle the invalid form...
@@ -89,24 +96,24 @@ $(document).ready( function () {
 
 
 function checkaction(descr, id, nr, status) {
-		var uri1 = document.getElementById("uri1").value;
-		var uri2 = document.getElementById("uri2").value;
-		var stock = document.getElementById("stn").value;
+	var uri1 = document.getElementById("uri1").value;
+	var uri2 = document.getElementById("uri2").value;
+	var stock = document.getElementById("stn").value;
+	
+	$.ajax({
+	type: "POST",
+	url: "/check-action-part/",
+		data: "descr=" + descr + "&id=" + id + "&nr=" + nr + "&uri1=" + uri1 + "&stn=" + stock + "&status=" + status,
+		success: function (text) {
+			if (text == "successzz") {
+				if (status)
+					document.getElementById(descr + id).checked = true;
+				else
+					document.getElementById(descr + id).checked = false;
+			} else {
+
+			}
 		
-		$.ajax({
-		type: "POST",
-		url: "/check-action-part/",
-			data: "descr=" + descr + "&id=" + id + "&nr=" + nr + "&uri1=" + uri1 + "&stn=" + stock + "&status=" + status,
-			success: function (text) {
-				
-				alert(text);
-				
-				if (text == "successzz") {
-
-				} else {
-
-				}
-			
 		}
 	});
 }
