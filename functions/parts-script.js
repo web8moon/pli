@@ -1,4 +1,58 @@
 $(document).ready( function () {
+	
+	
+	$('input[type=file]').change(function(event){
+		var files;
+		files = this.files;
+		
+		alert("hu1");
+		
+ event.stopPropagation(); // Остановка происходящего
+    event.preventDefault();  // Полная остановка происходящего
+ 
+    // Создадим данные формы и добавим в них данные файлов из files
+ 
+    var data = new FormData();
+    $.each( files, function( key, value ){
+        data.append( key, value );
+    });
+ 
+    // Отправляем запрос
+ 
+    $.ajax({
+        url: '/price-upload/',
+        type: 'POST',
+        data: data,
+        cache: false,
+        dataType: 'json',
+        processData: false, // Не обрабатываем файлы (Don't process the files)
+        contentType: false, // Так jQuery скажет серверу что это строковой запрос
+        success: function( respond, textStatus, jqXHR ){
+ 
+            // Если все ОК
+ 
+            if( typeof respond.error === 'undefined' ){
+                // Файлы успешно загружены, делаем что нибудь здесь
+ 
+                // выведем пути к загруженным файлам в блок
+ 
+                var files_path = respond.files;
+                var html = '';
+                $.each( files_path, function( key, val ){ html += val +'<br>'; } )
+                $('#msgSubmit').html( html );
+            }
+            else{
+                console.log('ОШИБКИ ОТВЕТА сервера: ' + respond.error );
+            }
+        },
+        error: function( jqXHR, textStatus, errorThrown ){
+            console.log('ОШИБКИ AJAX запроса: ' + textStatus );
+        }
+    });
+		
+		
+		
+	});
 
 	$("#eraseparts").click( function () {
        var stockPartsConfirmErase = document.getElementById("stockPartsConfirmErase").value;
@@ -77,6 +131,26 @@ $(document).ready( function () {
 		$("#LoadModal").modal("show");
 		
 	});
+	
+	$("#LoadForm").validator().on("submit", function (event) {
+		event.preventDefault();
+alert("ras");
+        if (event.isDefaultPrevented()) {
+alert("dva");
+		// handle the invalid form...
+            var errmsg = "Did you fill in the form properly?";
+            formError();
+            if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
+            submitMSG(false, errmsg);
+        } else {
+alert("tri");
+            // everything looks good!
+            event.preventDefault();
+            submitUploadForm();
+        }
+
+    });
+	
 	
 	$("#PconfirmForm").validator().on("submit", function (event) {
         if (event.isDefaultPrevented()) {
@@ -168,6 +242,12 @@ function submitConfirmForm() {
     */
 	
 
+}
+
+
+
+function submitUploadForm() {
+	
 }
 
 function formError(){

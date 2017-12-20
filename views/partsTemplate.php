@@ -372,39 +372,24 @@
 					
 					
 					
-					<form enctype="multipart/form-data" method="POST">
+<form id="LoadForm" enctype="multipart/form-data" method="POST">
   <div class="form-group">
     <label for="fileUpload">Example file input</label>
     <input type="file" class="form-control-file" id="fileUpload">
 	<button type="submit" id="LoadConfirm" class="btn btn-primary btn-lg pull-right ">
-                                <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
-                            </button>
+       <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
+    </button>
+  <div class="help-block with-errors"></div>
   </div>
+<input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
+<input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
+  <div id="msgSubmit" class="h3 text-center hidden"></div>
+  <div class="clearfix"></div>
 </form>
 					
 					
 					
 					
-                        <form role="form" id="LoadForm" data-toggle="validator" class="shake">
-                            <div class="row">
-                                <div class="form-group">
-                                    <label for="password"
-                                           class="h4"><?php echo isset($profileConfirmLbl) ? $profileConfirmLbl : ''; ?></label>
-                                    <input type="password" class="form-control" id="conf-password"
-                                           placeholder="<?php echo isset($siteRegisterPasswPlace) ? $siteRegisterPasswPlace : ''; ?>"
-                                           required
-                                           data-error="<?php echo isset($siteRegisterPasswErr) ? $siteRegisterPasswErr : ''; ?>">
-                                    <div class="help-block with-errors"></div>
-                                </div>
-                            </div>
-                            <input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
-                            <input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
-                            <button type="submit" id="conf-form-submit" class="btn btn-success btn-lg pull-right ">
-                                <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
-                            </button>
-                            <div id="msgSubmit" class="h3 text-center hidden"></div>
-                            <div class="clearfix"></div>
-                        </form>
 
                     </div>
                     <!-- Футер модального окна -->

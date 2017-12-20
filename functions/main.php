@@ -918,6 +918,35 @@ function controler($conf, $lang)
 	
 	}
 	
+	// UPLOAD PRICE LIST
+	if ($conf['currentAction'] == $conf['serviceLinks']['price-upload']) {
+		$data = array();
+ 
+
+    $error = false;
+    $files = array();
+ 
+    $uploaddir = './tmp/';
+ 
+    // Создадим папку если её нет
+     if( ! is_dir( $uploaddir ) ) mkdir( $uploaddir, 0777 );
+ 
+    // переместим файлы из временной директории в указанную
+    foreach( $_FILES as $file ){
+        if( move_uploaded_file( $file['tmp_name'], $uploaddir . basename($file['name']) ) ){
+            $files[] = realpath( $uploaddir . $file['name'] );
+        }
+        else{
+            $error = true;
+        }
+    }
+ 
+    $data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files );
+ 
+    echo json_encode( $data );
+
+	}
+
 }
 
 function getStockParts($stock, $start = 0, $end = 20, $clause = '')

@@ -10,7 +10,7 @@ return [
 	'dbname' => 'pli',
 	'dbuser' => 'root',
 	'dbpass' => '',
-	'serviceLinks' => ['login' => 'login', 'register' => 'register', 'save-profile' => 'save-profile', 'save-stock' => 'save-stock', 'logout' => 'logout', 'add-phone' => 'add-phone', 'del-phone' => 'del-phone', 'erase-parts' => 'erase-parts', 'update-stock-date' => 'update-stock-date', 'check-action-part' => 'check-action-part' ],
+	'serviceLinks' => ['login' => 'login', 'register' => 'register', 'save-profile' => 'save-profile', 'save-stock' => 'save-stock', 'logout' => 'logout', 'add-phone' => 'add-phone', 'del-phone' => 'del-phone', 'erase-parts' => 'erase-parts', 'update-stock-date' => 'update-stock-date', 'check-action-part' => 'check-action-part', 'price-upload' => 'price-upload' ],
 	'pageLinks' => ['about' => 'about', 'profile' => 'profile', 'stocks' => 'stocks', 'parts' => 'parts'],
 	'currentTemplate' => 'welcome',
 	'currentUserID' => '',

@@ -63,7 +63,7 @@ $(document).ready(function () {
 
 
     $("#save-stock").click(function () {
-         fields = {};
+        fields = {};
         fields.phone = [];
         gatherFields(fields);
 
@@ -76,11 +76,11 @@ $(document).ready(function () {
 
 
     $("#add-phone-number").click(function () {
-	    var uri1 = document.getElementById("uri1").value;
-        var stock = document.getElementById("stn").value;
+	   var uri1 = document.getElementById("uri1").value;
+       var stock = document.getElementById("stn").value;
 
-        if (stock > 0) {
-            if (uri1 == "stocks") {
+       if (stock > 0) {
+           if (uri1 == "stocks") {
 				addPhoneN();
 			}
 		}
