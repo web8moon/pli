@@ -5,10 +5,9 @@ $(document).ready( function () {
 		var files;
 		files = this.files;
 		
-		alert("hu1");
-		
- event.stopPropagation(); // Остановка происходящего
-    event.preventDefault();  // Полная остановка происходящего
+	
+		event.stopPropagation(); // Остановка происходящего
+		event.preventDefault();  // Полная остановка происходящего
  
     // Создадим данные формы и добавим в них данные файлов из files
  
@@ -32,14 +31,16 @@ $(document).ready( function () {
             // Если все ОК
  
             if( typeof respond.error === 'undefined' ){
+				alert (respond.files.ext);
                 // Файлы успешно загружены, делаем что нибудь здесь
  
                 // выведем пути к загруженным файлам в блок
  
                 var files_path = respond.files;
                 var html = '';
-                $.each( files_path, function( key, val ){ html += val +'<br>'; } )
-                $('#msgSubmit').html( html );
+                $.each( files_path, function( key, val ){ html += val +'<br>'; } );
+                // $('#msgSubmit').html( html );
+				submitMSG(false, html);
             }
             else{
                 console.log('ОШИБКИ ОТВЕТА сервера: ' + respond.error );
