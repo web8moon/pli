@@ -27,7 +27,8 @@ if (!isset($QueqryUrl[1])) $QueqryUrl[1] = $Conf['defaultLang'];
 $Conf['currentLang'] = setLang($Conf['currentLang'], $QueqryUrl[1], $Conf['allowLanguages']);
 $Lang = loadLang($Conf);
 
-if (isset($QueqryUrl[0]) and (strlen($QueqryUrl[0]) > 1 and strlen($QueqryUrl[0]) < 30)) $Conf['currentAction'] = $QueqryUrl[0];
+if (isset($QueqryUrl[0]) and (strlen($QueqryUrl[0]) > 1 and strlen($QueqryUrl[0]) < 30)) 
+	$Conf['currentAction'] = $QueqryUrl[0];
 
 controler($Conf, $Lang);
 
@@ -46,7 +47,8 @@ if ($Conf['currentAction'] == 'profile' and isset($_SESSION['start'])){
 
 if (in_array($Conf['currentAction'], $Conf['pageLinks'])){
 	$template = checkTemplateExist($Conf['pageLinks'][$Conf['currentAction']]);
-	if ($template) print render($template, ($Conf+$Lang));
+	if ($template) 
+		print render($template, ($Conf+$Lang));
 }
 
 if (!in_array($Conf['currentAction'], $Conf['serviceLinks']) && !in_array($Conf['currentAction'], $Conf['pageLinks'])){

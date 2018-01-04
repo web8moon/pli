@@ -31,7 +31,7 @@ $(document).ready( function () {
             // Если все ОК
  
             if( typeof respond.error === 'undefined' ){
-				alert (respond.files.ext);
+				//alert (respond.file.nme);
                 // Файлы успешно загружены, делаем что нибудь здесь
  
                 // выведем пути к загруженным файлам в блок
@@ -68,8 +68,8 @@ $(document).ready( function () {
 				$("#msgSubmit").text('');
 				$("#PconfirmModal").modal("show");
 				
+			}
 		}
-	}
 	});
 	
 	$(".form-check-input").click( function (event) {

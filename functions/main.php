@@ -923,30 +923,29 @@ function controler($conf, $lang)
 		$data = array();
  
 
-    $error = false;
-    $files = array();
+		$error = false;
+		$files = array();
  
-    $uploaddir = './tmp/';
+		$uploaddir = './tmp/';
  
-    // Создадим папку если её нет
-     if( ! is_dir( $uploaddir ) ) mkdir( $uploaddir, 0777 );
+		// Создадим папку если её нет
+		if(!is_dir($uploaddir))
+			mkdir($uploaddir, 0777);
  
-    // переместим файлы из временной директории в указанную
-    foreach( $_FILES as $file ) {
-		//substr(basename($file['name']), strrpos(basename($file['name']), '.'));
-        if( move_uploaded_file( $file['tmp_name'], $uploaddir . basename($file['name']) ) ) {
-			$files['ext'] = substr(basename($file['name']), strrpos(basename($file['name']), '.'));
-			$files['ext'] = substr(basename($file['name']), strrpos(basename($file['name']), '.'));
-            $files[] = realpath( $uploaddir . $file['name'] );
-        }
-        else {
-            $error = true;
-        }
-    }
+		// переместим файлы из временной директории в указанную
+		foreach( $_FILES as $file ) {
+			$file['ext'] = substr(basename($file['name']), strrpos(basename($file['name']), '.'));
+			$file['nme'] = $conf['currentUserID'] . '_' . $conf['currentStockID'] . '_' . time(). '_' . substr(basename($file['name']), 0, strrpos(basename($file['name']), '.'));
+			if( move_uploaded_file( $file['tmp_name'], $uploaddir . $file['nme'] . $file['ext'] ) ) {
+				$files[] = realpath($uploaddir . $file['nme'] . $file['ext']);
+			} else {
+				$error = true;
+			}
+		}
  
-    $data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files );
+		$data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files );
  
-    echo json_encode( $data );
+		echo json_encode( $data );
 
 	}
 
@@ -1068,6 +1067,8 @@ function CheckUs($N)
     $N = str_ireplace("SELECT", "", $N);
     $N = str_ireplace("UPDATE", "", $N);
     $N = str_ireplace("DELETE", "", $N);
+	$N = str_ireplace("script", "", $N);
+	$N = str_ireplace("SCRIPT", "", $N);
     $N = str_ireplace("-", "", $N);
     $N = str_ireplace("%", "", $N);
     $N = str_ireplace(" ", "", $N);
