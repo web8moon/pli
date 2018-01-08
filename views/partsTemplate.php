@@ -317,6 +317,7 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                         </button>
                         <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
+
                     </div>
                     <!-- Основное содержимое модального окна -->
                     <div class="modal-body">
@@ -338,9 +339,11 @@
                             <button type="submit" id="conf-form-submit" class="btn btn-success btn-lg pull-right ">
                                 <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
                             </button>
-                            <div id="msgSubmit" class="h3 text-center hidden"></div>
+                            </form>
+
+                            <!-- <div id="msgSubmit" class="h3 text-center hidden"></div> -->
                             <div class="clearfix"></div>
-                        </form>
+                        
 
                     </div>
                     <!-- Футер модального окна -->
@@ -365,7 +368,13 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
                         </button>
                         <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
+
                     </div>
+					<div class="modal-header">
+						<button type="button" class="btn btn-info btn-sm">1. <small>Select file</small></button>
+						<button type="button" class="btn btn-outline-secondary btn-sm">2. <small>Point the cells</small></button>
+						<button type="button" class="btn btn-outline-secondary btn-sm">Upload price</button>
+					</div>					
                     <!-- Основное содержимое модального окна -->
                     <div class="modal-body">
 

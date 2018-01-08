@@ -920,12 +920,11 @@ function controler($conf, $lang)
 	
 	// UPLOAD PRICE LIST
 	if ($conf['currentAction'] == $conf['serviceLinks']['price-upload']) {
+        if (isset($_POST)){
 		$data = array();
- 
-
 		$error = false;
 		$files = array();
- 
+        
 		$uploaddir = './tmp/';
  
 		// Создадим папку если её нет
@@ -942,11 +941,22 @@ function controler($conf, $lang)
 				$error = true;
 			}
 		}
- 
+		if (!$error) {
+			
+			require_once './functions/PHPExcel-1.8/Classes/PHPExcel.php';
+			$excel = PHPExcel_IOFactory::load($uploaddir . $file['nme'] . $file['ext']);
+			$files['fn'] = $uploaddir . $file['nme'] . $file['ext'];
+			$files['sh'] = $excel->getSheetCount();
+			/*
+			foreach($excel ->getWorksheetIterator() as $worksheet) {
+				$lists[] = $worksheet->toArray();
+			}
+			*/
+		}
 		$data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files );
  
 		echo json_encode( $data );
-
+    }
 	}
 
 }
