@@ -18,3 +18,6 @@ RewriteRule "^(.*)$" "index.php?q=$1" [L]
 # из примера:
 #RewriteCond "%{REQUEST_URI}" "!=/index.php"
 #RewriteRule "^(.*)" "index.php?q=$1" [L,PT]
+
+php_value upload_max_filesize 5M
+php_value post_max_size 5M

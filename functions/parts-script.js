@@ -31,19 +31,21 @@ $(document).ready(function () {
 				// Если все ОК
 
 				if (typeof respond.error === 'undefined') {
-					alert (respond.files.fn+ ', ' + respond.files.sh);
+//					alert (respond.files.fn+ ', ' + respond.files.sh);
 					// Файлы успешно загружены, делаем что нибудь здесь
 
 					// выведем пути к загруженным файлам в блок
 
 					var files_path = respond.files;
-					var html = 'god';
+					var html = 'Ok: ';
 					$.each(files_path, function (key, val) { html += val + '<br>'; });
 					// $('#msgSubmit').html( html );
+					$('#LoadConfirm').removeAttr("disabled");
 					submitMSG(true, html);
 				}
 				else {
 					console.log('ОШИБКИ ОТВЕТА сервера: ' + respond.error);
+					submitMSG(false, 'ОШИБКИ ОТВЕТА сервера: ' + respond.error);
 				}
 			},
 			error: function (jqXHR, textStatus, errorThrown) {
@@ -265,6 +267,8 @@ function submitMSG(valid, msg) {
 		var msgClasses = "h3 text-center text-danger";
 	}
 	$("#msgSubmit").removeClass().addClass(msgClasses).text(msg);
+	$("#LFmsgSubmit1").removeClass().addClass(msgClasses).text(msg);
+	$("#LFmsgSubmit2").removeClass().addClass(msgClasses).text(msg);
 }
 
 function confirmFormSuccess() {

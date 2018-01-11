@@ -341,7 +341,7 @@
                             </button>
                             </form>
 
-                            <!-- <div id="msgSubmit" class="h3 text-center hidden"></div> -->
+                            <div id="msgSubmit" class="h3 text-center hidden"></div>
                             <div class="clearfix"></div>
                         
 
@@ -359,7 +359,7 @@
 		
 		
 		
-		<!-- EXCEL Load Modal -->
+		<!-- EXCEL Load Modal 1 -->
         <div id="LoadModal" class="modal fade">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -372,8 +372,61 @@
                     </div>
 					<div class="modal-header">
 						<button type="button" class="btn btn-info btn-sm">1. <small>Select file</small></button>
-						<button type="button" class="btn btn-outline-secondary btn-sm">2. <small>Point the cells</small></button>
-						<button type="button" class="btn btn-outline-secondary btn-sm">Upload price</button>
+						<button type="button" disabled class="btn btn-outline-secondary btn-sm">2. <small>Point the cells</small></button>
+						<button type="button" disabled class="btn btn-outline-secondary btn-sm">Upload price</button>
+					</div>					
+                    <!-- Основное содержимое модального окна -->
+                    <div class="modal-body">
+
+					
+					
+					
+<form id="LoadForm" enctype="multipart/form-data" method="POST">
+  <div class="form-group">
+	<input type="hidden" name="MAX_FILE_SIZE" value="5242880">
+    <label for="fileUpload">Example file input</label>
+    <input type="file" class="form-control-file" id="fileUpload">
+	<button type="submit" disabled id="LoadConfirm" class="btn btn-primary btn-lg pull-right ">
+       <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
+    </button>
+  <div class="help-block with-errors"></div>
+  </div>
+<input type="hidden" id="uri1" value="<?php echo $currentAction; ?>">
+<input type="hidden" id="uri2" value="<?php echo $currentLang; ?>">
+  <div id="LFmsgSubmit1" class="h3 text-center hidden"></div>
+  <div class="clearfix"></div>
+</form>
+					
+					
+					
+					
+
+                    </div>
+                    <!-- Футер модального окна -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-dismiss="modal">
+								<?php echo isset($siteLoginCloseBtn) ? $siteLoginCloseBtn : 'Close'; ?>
+							</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- // EXCEL Load Modal 1 -->
+		<!-- EXCEL Load Modal 2 -->
+        <div id="LoadModal2" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Заголовок модального окна -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×
+                        </button>
+                        <h4 class="modal-title"><?php echo isset($siteLoginTitle) ? $siteLoginTitle : ''; ?></h4>
+
+                    </div>
+					<div class="modal-header">
+						<button type="button" class="btn btn-info btn-sm">1. <small>Select file</small></button>
+						<button type="button" disabled class="btn btn-outline-secondary btn-sm">2. <small>Point the cells</small></button>
+						<button type="button" disabled class="btn btn-outline-secondary btn-sm">Upload price</button>
 					</div>					
                     <!-- Основное содержимое модального окна -->
                     <div class="modal-body">
@@ -385,7 +438,7 @@
   <div class="form-group">
     <label for="fileUpload">Example file input</label>
     <input type="file" class="form-control-file" id="fileUpload">
-	<button type="submit" id="LoadConfirm" class="btn btn-primary btn-lg pull-right ">
+	<button type="submit" disabled id="LoadConfirm" class="btn btn-primary btn-lg pull-right ">
        <?php echo isset($profileConfirmBtn) ? $profileConfirmBtn : 'Confirm'; ?>
     </button>
   <div class="help-block with-errors"></div>
@@ -410,6 +463,7 @@
                 </div>
             </div>
         </div>
+		<!-- // EXCEL Load Modal 2 -->
         <?php
 
 		

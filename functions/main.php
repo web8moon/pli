@@ -923,6 +923,7 @@ function controler($conf, $lang)
         if (isset($_POST)){
 		$data = array();
 		$error = false;
+		$errorMSG = 'Ошибка загрузки файлов. ';
 		$files = array();
         
 		$uploaddir = './tmp/';
@@ -939,11 +940,14 @@ function controler($conf, $lang)
 				$files[] = realpath($uploaddir . $file['nme'] . $file['ext']);
 			} else {
 				$error = true;
+				$errorMSG .= '02';
 			}
 		}
 		if (!$error) {
 			
 			require_once './functions/PHPExcel-1.8/Classes/PHPExcel.php';
+			$files['fn'] = $uploaddir . $file['nme'] . $file['ext'];
+			/*
 			$excel = PHPExcel_IOFactory::load($uploaddir . $file['nme'] . $file['ext']);
 			$files['fn'] = $uploaddir . $file['nme'] . $file['ext'];
 			$files['sh'] = $excel->getSheetCount();
@@ -952,8 +956,24 @@ function controler($conf, $lang)
 				$lists[] = $worksheet->toArray();
 			}
 			*/
+			
+			$valid = false;
+			$types = array('Excel2007', 'Excel5');
+			foreach ($types as $type) { 
+				$reader = PHPExcel_IOFactory::createReader($type);
+				if ($reader->canRead($files['fn'])) {
+					$valid = true;
+					break; 
+				} 
+			} 
+			
+			if (!$valid) {
+				$error = true;
+				$errorMSG .= '01';
+			}
+			
 		}
-		$data = $error ? array('error' => 'Ошибка загрузки файлов.') : array('files' => $files );
+		$data = $error ? array('error' => $errorMSG) : array('files' => $files );
  
 		echo json_encode( $data );
     }
