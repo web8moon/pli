@@ -138,14 +138,10 @@ $(document).ready(function () {
 
 	$("#LoadForm").validator().on("submit", function (event) {
 		event.preventDefault();
-		alert("ras");
 		if (event.isDefaultPrevented()) {
-			alert("dva");
-			// handle the invalid form...
-			var errmsg = "Did you fill in the form properly?";
-			formError();
-			if ($("#uri2").val() == 'ru') errmsg = "Проверьте правильность ввода";
-			submitMSG(false, errmsg);
+            $("#LoadForm")[0].reset();
+            $("#LoadModal").modal("hide");
+            $("#LoadModal2").modal("show");
 		} else {
 			alert("tri");
 			// everything looks good!
