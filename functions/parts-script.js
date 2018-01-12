@@ -31,17 +31,16 @@ $(document).ready(function () {
 				// Если все ОК
 
 				if (typeof respond.error === 'undefined') {
-//					alert (respond.files.fn+ ', ' + respond.files.sh);
+
 					// Файлы успешно загружены, делаем что нибудь здесь
 
 					// выведем пути к загруженным файлам в блок
-
 					var files_path = respond.files;
 					var html = 'Ok: ';
 					$.each(files_path, function (key, val) { html += val + '<br>'; });
 					// $('#msgSubmit').html( html );
 					$('#LoadConfirm').removeAttr("disabled");
-					submitMSG(true, html);
+					submitMSG(true, respond.files.ufname + " - " + respond.files.ufsize + "Kb");
 				}
 				else {
 					console.log('ОШИБКИ ОТВЕТА сервера: ' + respond.error);

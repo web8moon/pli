@@ -932,12 +932,14 @@ function controler($conf, $lang)
 		if(!is_dir($uploaddir))
 			mkdir($uploaddir, 0777);
  
-		// переместим файлы из временной директории в указанную
+		// переместим файлЫ из временной директории в указанную
 		foreach( $_FILES as $file ) {
 			$file['ext'] = substr(basename($file['name']), strrpos(basename($file['name']), '.'));
 			$file['nme'] = $conf['currentUserID'] . '_' . $conf['currentStockID'] . '_' . time(). '_' . substr(basename($file['name']), 0, strrpos(basename($file['name']), '.'));
 			if( move_uploaded_file( $file['tmp_name'], $uploaddir . $file['nme'] . $file['ext'] ) ) {
 				$files[] = realpath($uploaddir . $file['nme'] . $file['ext']);
+				$files['ufname'] = $file['name'];
+				$files['ufsize'] = number_format($file['size'] / 1024, 1, '.', '');
 			} else {
 				$error = true;
 				$errorMSG .= '02';
